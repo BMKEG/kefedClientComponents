@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: DiagramMappings.mxml 1524 2011-01-04 01:05:27Z tom $ 
+     $Date: 2011-01-03 17:05:27 -0800 (Mon, 03 Jan 2011) $
+     $Revision: 1524 $ -->
+<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+    <!-- An mxml file that holds the diagramMappings XML object.  This is implemented
+         as an mxml file so that we can use the compile time inclusion of files
+         which does not happen with pure ActionScript.
+         
+         Holds common initialization and configuration information
+	     for the Kapit graphical modeling system.  This provides a common
+	     location for the icons and setups that are used by all of the Kapit
+	     components in the project.
+	   
+	     This has an initialization that should be called by any application
+	     that uses Kapit components.  It also has the mapping information 
+	     used to create a new diagram mapping.
+	 -->
+         
+    <mx:XML xmlns="" id="svglib" source="kefed.svg"/>
+	<mx:XML xmlns="" id="diagramMappings">
+		<mappings>
+			<sprite id="Entity" proxyclass="edu.isi.bmkeg.kefed.diagram.view.kapit.FlareNodeProxy" />
+			<sprite id="Parameter" proxyclass="edu.isi.bmkeg.kefed.diagram.view.kapit.FlareNodeProxy" />
+			<sprite id="Constant" proxyclass="edu.isi.bmkeg.kefed.diagram.view.kapit.FlareNodeProxy" />
+			<sprite id="Measurement" proxyclass="edu.isi.bmkeg.kefed.diagram.view.kapit.FlareNodeProxy" />
+			<sprite id="Process" proxyclass="edu.isi.bmkeg.kefed.diagram.view.kapit.FlareNodeProxy" />
+			<sprite id="Branch" proxyclass="edu.isi.bmkeg.kefed.diagram.view.kapit.FlareNodeProxy" />
+			<sprite id="Fork" proxyclass="edu.isi.bmkeg.kefed.diagram.view.kapit.FlareNodeProxy" />
+			<lane proxyclass="" />
+			<panel proxyclass="" />
+			<lanelink proxyclass="edu.isi.bmkeg.kefed.diagram.view.kapit.FlareLinkProxy" />
+			<panellink proxyclass="edu.isi.bmkeg.kefed.diagram.view.kapit.FlareLinkProxy" />
+			<viewlink proxyclass="edu.isi.bmkeg.kefed.diagram.view.kapit.FlareLinkProxy" />
+		</mappings>
+	</mx:XML>
+	 
+    <mx:Script>
+    	<![CDATA[
+    		import com.kapit.diagram.view.DiagramAnnotation;
+    		import com.kapit.diagram.library.SVGAssetLibrary;
+    		
+	    	public static const PARAMETER_SPRITE_ID:String   = "Parameter";
+			public static const CONSTANT_SPRITE_ID:String    = "Constant";
+			public static const MEASUREMENT_SPRITE_ID:String = "Measurement";
+			public static const ACTIVITY_SPRITE_ID:String    = "Process";
+			public static const ENTITY_SPRITE_ID:String      = "Entity";
+			public static const BRANCH_SPRITE_ID:String      = "Branch";
+			public static const FORK_SPRITE_ID:String        = "Fork";
+			public static const COMMENT_SPRITE_ID:String     = "comment";
+			
+			public static var initialized:Boolean = false;
+			// Need to do this to get a static reference to the XML items.
+			public static var self:DiagramMappings = new DiagramMappings();			
+			
+			/** Function to initialize kapit, creating the sprite
+			 *  library.  This should be called early in the initialization
+			 *  procedure for any application using Kapit diagrams.
+			 * 
+			 * @param svglib SVG representation of the library.
+			 */
+			public static function initializeMappings ():void {
+				if (!initialized) {
+					new SVGAssetLibrary(self.svglib);
+					initialized = true;
+				}			 
+			}
+			
+			/** Function to return the diagram mappings as a static
+			 *  accessor.
+			 */
+			public static function getDiagramMappings ():XML {
+				return self.diagramMappings;
+			}
+	    ]]>
+    </mx:Script>
+</mx:Box>

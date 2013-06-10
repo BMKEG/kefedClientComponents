@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: DesignerComponent.mxml 2500 2011-06-17 00:00:05Z tom $ 
+$Date: 2011-06-16 17:00:05 -0700 (Thu, 16 Jun 2011) $
+$Revision: 2500 $ -->
+<mx:Module height="100%" width="100%" 
+		   xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:ooevvView="edu.isi.bmkeg.ooevv.editor.view.*"
+		   implements="org.robotlegs.utilities.modular.core.IModule">
+	
+	<fx:Declarations>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			import edu.isi.bmkeg.ooevv.editor.modules.OoevvElementEditorContext;
+			
+			import mx.core.IVisualElementContainer;
+			
+			import mx.events.SliderEvent;
+			
+			import org.robotlegs.core.IContext;
+			import org.robotlegs.core.IInjector;
+			import org.robotlegs.utilities.modular.core.IModule;
+			import org.robotlegs.utilities.modular.core.IModuleContext;
+			
+			protected var context:IModuleContext;		
+			
+			/**
+			 * We need to initialize our context by setting the parent
+			 * injector for the module. This is actually injected by the
+			 * shell, so no need to worry about it!
+			 */
+			[Inject]
+			public function set parentInjector(value:IInjector):void
+			{
+				context = new OoevvElementEditorContext(this,value);
+			}
+			
+			public function dispose():void
+			{
+				if(parent && parent.contains(this))
+					IVisualElementContainer(parent).removeElement(this);
+				context.dispose();
+				context = null;    
+			}
+			
+		]]>
+		
+	</fx:Script>
+	
+	<ooevvView:OoevvElementEditor id="ooevvElementEditor" width="100%" height="100%"/>
+	
+</mx:Module>

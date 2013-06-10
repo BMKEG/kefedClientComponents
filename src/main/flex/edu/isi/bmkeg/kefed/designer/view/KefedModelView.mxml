@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009"
+		xmlns:s="library://ns.adobe.com/flex/spark"
+		xmlns:mx="library://ns.adobe.com/flex/mx" >	
+	<s:layout>
+		<s:VerticalLayout gap="10" paddingBottom="20" paddingLeft="5" paddingRight="5"
+						  paddingTop="20"/>
+	</s:layout>
+
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import edu.isi.bmkeg.kefed.model.design.*;
+			
+			import mx.collections.ArrayCollection;
+			
+			private var _kefedModel:KefedModel ;
+			
+			public function get loadedArticle():KefedModel 
+			{
+				return _kefedModel;
+			}
+			
+			[Bindable]
+			public var vpdmfLabel:String;
+
+			[Bindable]
+			public var exptId:String;
+
+			[Bindable]
+			public var date:String;
+
+			[Bindable]
+			public var notes:String;
+
+			[Bindable]
+			public var version:int;
+
+			
+			// API Methods
+			
+			public function clearFormFields():void
+			{
+				_kefedModel = null;				
+				this.vpdmfLabel = null;
+				this.date = null;
+				this.notes = null;
+				this.version = null;
+			}
+			
+			
+			public function loadKefedModel(m:KefedModel):void {
+				
+				_kefedModel = m;
+				
+				this.vpdmfLabel = m.vpdmfLabel;
+				this.exptId = m.exptId;
+				this.date = m.date;
+				this.notes = m.notes;
+				this.version = m.version;
+			
+			}
+			
+		]]>
+	</fx:Script>
+	<s:Group width="100%">
+		<s:Label id="label" left="0" right="0" top="0" fontSize="14" fontWeight="bold"
+				 text="{vpdmfLabel}"/>		
+	</s:Group>
+	<s:Group width="100%">
+		<s:Label id="abstractLabel" top="20" left="0" right="0" fontSize="14"
+				 text="{notes}"/>
+	</s:Group>
+</s:Group>

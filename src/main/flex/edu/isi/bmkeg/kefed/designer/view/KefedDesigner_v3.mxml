@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: DesignerComponent.mxml 2500 2011-06-17 00:00:05Z tom $ 
+     $Date: 2011-06-16 17:00:05 -0700 (Thu, 16 Jun 2011) $
+     $Revision: 2500 $ -->
+<mx:VBox height="100%" width="100%" 
+	preinitialize="preinit();"
+ 	xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:design="edu.isi.bmkeg.kefed.designer.view.*"
+	xmlns:diag="edu.isi.bmkeg.kefed.diagram.view.*">
+	<mx:Script>
+    <![CDATA[
+		
+		import mx.binding.utils.ChangeWatcher;
+		import mx.collections.ArrayCollection;
+		import mx.controls.Alert;
+		import mx.core.Application;
+		import mx.core.FlexGlobals;
+		import mx.events.DataGridEvent;
+		import mx.events.FlexEvent;
+		import mx.events.IndexChangedEvent;
+		import mx.events.ListEvent;
+		import mx.managers.CursorManager;
+		import mx.managers.PopUpManager;
+		import mx.rpc.events.FaultEvent;
+		import mx.rpc.events.ResultEvent;
+		import mx.utils.ColorUtil;
+		import mx.utils.StringUtil;
+		
+		import edu.isi.bmkeg.ooevv.ontology.*;
+		
+		/** Ontology search interface to be used for term lookup.
+		 *  Required for proper finding of ontology terms.
+		 */
+		[Bindable]
+		public var termLookupService:OntologySearchInterface;
+
+		private var newPanelIndex:int = 0;  // Accordion panel index to set.
+
+		public function preinit():void
+		{
+		/*	if(FlexGlobals.topLevelApplication.eventDispatcher != null ) {
+				FlexGlobals.topLevelApplication.eventDispatcher.
+					addEventListener(KefedAppEvent.EDIT_DESIGN, loadModelEventListener);
+				
+			}*/
+		}
+		
+		private function cancelSave(event:MouseEvent):void {
+//			if(FlexGlobals.topLevelApplication.eventDispatcher != null ) {
+//				FlexGlobals.topLevelApplication.eventDispatcher.
+//						dispatchBioScholarEvent(KefedAppEvent.CANCEL_DESIGN_EDIT);
+//			}
+		}
+		
+		private function doSave(event:MouseEvent, exit:Boolean):void {
+			//updateModel();
+			
+			/*  // Why are we doing this here?  Don't know, so commented out - tar
+			// Work around a bug with SVG generation in Kapit.  It only works
+			// correctly when the zoom level is set to 1.  So that's what we 
+			// do.  Fortunately, since we are exiting, we don't need to set
+			// it back.
+			if (diagram.childrenScaleX != 1 || diagram.childrenScaleY != 1) {
+				zoomControl.setZoom(1);
+			}			
+			var svg:XML = diagram.toSVG();
+			*/
+			
+//			graph.diagramXML = diagram.toXML();
+//			if(FlexGlobals.topLevelApplication.eventDispatcher != null ) {
+//			   FlexGlobals.topLevelApplication.eventDispatcher.
+//						dispatchBioScholarEvent(KefedAppEvent.SAVE_DESIGN_EDIT, graph);
+//			}
+//			if (exit) {
+//				currentState = "";
+//				FlexGlobals.topLevelApplication.currentState = "Dashboard_State";
+//			}
+		}
+		
+		private function handleObjectSelectedInGrid(event:ListEvent):void {
+
+//            var uid:String = myObjects.getItemAt(event.rowIndex).uid;
+//            var dob:DiagramObject = DiagramObject(diagram.getElementByDataObjectId(uid));
+//            diagram.deselectAll();
+//            diagram.selectObject(dob);
+
+        }
+        
+        private function handleObjectDoubleClickInGrid(event:MouseEvent):void {
+ //       	editpanel.selectedIndex = 1;
+        }
+        				
+        private function handleLinkSelectedInGrid(event:ListEvent):void {
+
+//            var uid:String = myLinks.getItemAt(event.rowIndex).uid;
+//            var dob:DiagramObject = DiagramObject(diagram.getElementByDataObjectId(uid));
+//            diagram.deselectAll();
+//            diagram.selectObject(dob);
+
+        }
+        
+        private function objectsGridCompleted(event:Event):void {
+        	// Make sure any selection is highlighted when this item
+        	// is built, since this can happen after some interactions with
+        	// the graphical tool.
+        	//handleDiagramSelectionChanged(null);
+        }
+        
+        private function traceEvent(event:Event):void {
+        	trace("Event ",event);
+        }
+ 
+ 
+    ]]>
+    
+</mx:Script>
+
+<mx:states>
+<!--	<mx:State name="ExperimentalObject_State">
+		<mx:AddChild relativeTo="{activeObjectForm}">
+			<design:NamedObjectTemplateTabs label="Experimental Object Details"
+				width="100%" height="100%"
+		    	diagram="{diagram}" myObject="{myObject}"
+		    	termLookupService="{termLookupService}"/>
+		</mx:AddChild>
+		<mx:RemoveChild target="{modelInfo}"/>
+	</mx:State>
+	<mx:State name="Activity_State">
+		<mx:AddChild relativeTo="{activeObjectForm}">
+			<design:NamedObjectTemplateTabs label="Activity Details"
+		    	width="100%" height="100%"
+		    	diagram="{diagram}" myObject="{myObject}"
+		    	termLookupService="{termLookupService}"/>
+		</mx:AddChild>
+		<mx:RemoveChild target="{modelInfo}"/>
+	</mx:State>
+	<mx:State name="ParameterSpecification_State">
+		<mx:AddChild relativeTo="{activeObjectForm}">
+		    <design:VariableTemplateTabs label="Parameter Specification Details"
+		    	monotonic="false" width="100%" height="100%"
+		    	diagram="{diagram}" myObject="{myObject}"
+		    	termLookupService="{termLookupService}"/>
+		</mx:AddChild>
+		<mx:RemoveChild target="{modelInfo}"/>
+	</mx:State>
+	<mx:State name="ConstantSpecification_State">
+		<mx:AddChild relativeTo="{activeObjectForm}">
+		    <design:VariableTemplateTabs label="Constant Specification Details"
+		    	monotonic="false" width="100%" height="100%"
+		    	diagram="{diagram}" myObject="{myObject}"
+		    	termLookupService="{termLookupService}"/>
+		</mx:AddChild>
+		<mx:RemoveChild target="{modelInfo}"/>
+	</mx:State>
+	<mx:State name="MeasurementSpecification_State">
+		<mx:AddChild relativeTo="{activeObjectForm}">
+		    <design:VariableTemplateTabs label="Measurement Specification Details"
+		    	monotonic="false"  width="100%" height="100%"
+		    	diagram="{diagram}" myObject="{myObject}"
+		    	termLookupService="{termLookupService}"/>
+		</mx:AddChild>
+		<mx:RemoveChild target="{modelInfo}"/>
+	</mx:State>
+	<mx:State name="Branch_State">
+		<mx:AddChild relativeTo="{activeObjectForm}">
+			<mx:Form width="100%">
+				<mx:FormHeading label="Branch Details"/>
+				<mx:FormItem label="" direction="horizontal" width="100%">
+					<mx:Label text="No additional information required"/>
+				</mx:FormItem>
+			</mx:Form>		
+		</mx:AddChild>
+		<mx:RemoveChild target="{modelInfo}"/>
+	</mx:State>
+	<mx:State name="Fork_State">
+		<mx:AddChild relativeTo="{activeObjectForm}">
+			<mx:Form width="100%">
+				<mx:FormHeading label="Fork Details"/>
+				<mx:FormItem label="" direction="horizontal" width="100%">
+					<mx:Label text="No additional information required"/>
+				</mx:FormItem>
+			</mx:Form>			
+		</mx:AddChild>
+		<mx:RemoveChild target="{modelInfo}"/>
+	</mx:State>-->
+</mx:states>
+
+<mx:HDividedBox width="100%" height="100%">
+
+<!--	<diag:KefedDiagramModule width="70%" height="100%"/>
+	
+	<mx:Panel id="modelDetails" width="30%" height="100%" 
+				title="{graph.modelName}"  
+				backgroundAlpha="{modelDetails.getStyle('borderAlpha')}" 
+				backgroundColor="{modelDetails.getStyle('borderColor')}">
+		<mx:Accordion id="editpanel" height="100%" width="100%" selectedIndex="1">
+			<mx:Panel id="elementGrid" label="Model Elements" height="100%" width="100%"
+				backgroundAlpha="{modelDetails.getStyle('borderAlpha')}" 
+				backgroundColor="{modelDetails.getStyle('borderColor')}">
+		 	    <mx:Label fontWeight="bold" text="All Elements:"/> 
+				<mx:DataGrid id="objectsGrid" 
+								dataProvider="{myObjects}" 
+								itemClick="handleObjectSelectedInGrid(event);"
+								doubleClickEnabled="true"
+								doubleClick="handleObjectDoubleClickInGrid(event);"
+								creationComplete="objectsGridCompleted(event);"
+								width="100%" 
+								height="100%" 
+								editable="true" >
+					<mx:columns>
+					<mx:DataGridColumn headerText="KEfED Type" dataField="spriteid" editable="false"/>
+					<mx:DataGridColumn headerText="Name" dataField="nameValue" editable="true"/>
+					</mx:columns>
+				</mx:DataGrid>
+			</mx:Panel>
+			
+			<mx:Panel label="Current Object" id="activeObjectForm" width="100%" height="100%"
+				backgroundAlpha="{modelDetails.getStyle('borderAlpha')}" 
+				backgroundColor="{modelDetails.getStyle('borderColor')}">
+				<mx:Form id="modelInfo" label="Model" height="40%" width="100%">
+		 	    	<mx:FormHeading label="Model Info"/>
+		 	    	<mx:FormItem label="Name" direction="horizontal" width="100%">
+						<mx:TextInput id="nameField" width="100%"
+							text="{graph.modelName}" valueCommit="{graph.modelName = nameField.text}"/>
+					</mx:FormItem>
+					<mx:FormItem label="Description" direction="horizontal" width="100%">
+						<mx:TextArea id="descriptionField" height="120" width="100%"
+							text="{graph.description}" valueCommit="{graph.description = descriptionField.text}"/>
+					</mx:FormItem>
+					<mx:FormItem label="Date/Time" direction="horizontal" width="100%">
+						<mx:Text text="{graph.dateTime}" width="100%"/> 
+					</mx:FormItem>
+					<mx:FormItem label="Source" direction="horizontal" width="100%">
+						<mx:TextInput id="sourceField" width="100%"
+							text="{graph.source}" valueCommit="{graph.source = sourceField.text}"/> 						
+					</mx:FormItem>
+					<mx:FormItem label="Citation Key" direction="horizontal" width="100%">
+						<mx:TextInput id="citationField" width="100%"
+							text="{graph.citeKey}" valueCommit="{graph.citeKey = citationField.text}"/> 					
+					</mx:FormItem>
+					<mx:FormItem label="Type" direction="horizontal" width="100%">
+						<mx:Text text="{graph.type}" width="100%"/> 
+					</mx:FormItem>
+				</mx:Form>
+			</mx:Panel>		
+		</mx:Accordion>			
+			<mx:ControlBar id="controlForm" label="Control Form">
+				<mx:Button label="Save Design" click="doSave(event, false)" enabled="{saveAllowed}" />
+				<mx:Button label="Save &amp; Exit" click="doSave(event, true)" enabled="{saveAllowed}" />
+				<mx:Button label="Cancel" click="cancelSave(event)"/>
+			</mx:ControlBar>
+	</mx:Panel>-->
+	
+</mx:HDividedBox>
+
+</mx:VBox>
