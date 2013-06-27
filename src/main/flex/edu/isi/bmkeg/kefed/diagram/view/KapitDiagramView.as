@@ -3,10 +3,13 @@ package edu.isi.bmkeg.kefed.diagram.view
 	import com.kapit.diagram.controls.SVGAssetLibraryGroupTile;
 	import com.kapit.diagram.controls.SVGIcon;
 	import com.kapit.diagram.view.DiagramView;
+	import com.kapit.diagram.view.DiagramObject;
+	import com.kapit.diagram.view.DiagramAnnotation;
 	
 	import edu.isi.bmkeg.kefed.designer.events.elementLevel.AddNewKefedElementEvent;
 	import edu.isi.bmkeg.kefed.diagram.controller.events.*;
 	import edu.isi.bmkeg.kefed.model.design.*;
+	
 	import edu.isi.bmkeg.ooevv.model.*;
 	import edu.isi.bmkeg.ooevv.rl.events.*;
 	
@@ -161,7 +164,7 @@ package edu.isi.bmkeg.kefed.diagram.view
 		private function closeVbType(e:Event):void {
 			mx.managers.PopUpManager.removePopUp(vbTypeDialog);
 		}
-	
+			
 	}
 
 }

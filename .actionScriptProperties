@@ -13,10 +13,9 @@
         </excludedEntries>
       </libraryPathEntry>
       <libraryPathEntry kind="1" linkType="1" path="libs"/>
+      <libraryPathEntry kind="3" linkType="1" path="/vpdmfFlex/bin/vpdmfFlex.swc" useDefaultLinkType="false"/>
     </libraryPath>
-    <sourceAttachmentPath>
-      <sourceAttachmentPathEntry kind="3" linkType="1" path="/Users/burns/Documents/workspace-sts/kefedClientComponents/libs/cytoscapeweb.swc" sourcepath="${DOCUMENTS}/cytoscapeweb/src" useDefaultLinkType="false"/>
-    </sourceAttachmentPath>
+    <sourceAttachmentPath/>
   </compiler>
   <applications>
     <application path="DigitalLibraryComponents.as"/>

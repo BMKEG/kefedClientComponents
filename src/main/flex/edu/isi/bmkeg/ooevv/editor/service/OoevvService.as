@@ -74,8 +74,6 @@ package edu.isi.bmkeg.ooevv.editor.service
 			var p:OoevvProcess = new OoevvProcess();
 			var e:OoevvEntity = new OoevvEntity();
 			
-
-			
 		}
 				
 		//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~		

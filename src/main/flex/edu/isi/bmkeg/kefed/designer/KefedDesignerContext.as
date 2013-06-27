@@ -28,9 +28,16 @@ package edu.isi.bmkeg.kefed.designer
 	import edu.isi.bmkeg.ooevv.rl.services.impl.OoevvServiceImpl;
 	import edu.isi.bmkeg.ooevv.rl.services.serverInteraction.IOoevvServer;
 	import edu.isi.bmkeg.ooevv.rl.services.serverInteraction.impl.OoevvServerImpl;
+	import edu.isi.bmkeg.ooevv.services.IExtendedOoevvService;
+	import edu.isi.bmkeg.ooevv.services.impl.ExtendedOoevvServiceImpl;
+	import edu.isi.bmkeg.ooevv.services.serverInteraction.IExtendedOoevvServer;
+	import edu.isi.bmkeg.ooevv.services.serverInteraction.impl.ExtendedOoevvServerImpl;
 	
 	import edu.isi.bmkeg.pagedList.model.*;
 	import edu.isi.bmkeg.pagedList.events.*;
+
+	import edu.isi.bmkeg.utils.dao.*;
+	import edu.isi.bmkeg.utils.updownload.*;
 	
 	public class KefedDesignerContext extends ModuleContext
 	{
@@ -40,7 +47,7 @@ package edu.isi.bmkeg.kefed.designer
 			injector.mapSingleton(KefedDesignerModel);
 			injector.mapSingletonOf(IKefedService, KefedService);
 			injector.mapSingleton(PagedListModel);
-
+			
 			// Events from KefedDiagram and translated to KefedDesigner events
 			moduleCommandMap.mapEvent(AddFlareNodeEvent.ADD_FLARE_NODE, TranslateAddFlareNodeCommand);
 			moduleCommandMap.mapEvent(AddFlareEdgeEvent.ADD_FLARE_EDGE, TranslateAddFlareEdgeCommand);
@@ -74,6 +81,8 @@ package edu.isi.bmkeg.kefed.designer
 			injector.mapSingleton(OoevvEditorModel);
 			injector.mapSingletonOf(IOoevvService, OoevvServiceImpl);
 			injector.mapSingletonOf(IOoevvServer, OoevvServerImpl);
+			injector.mapSingletonOf(IExtendedOoevvService, ExtendedOoevvServiceImpl);
+			injector.mapSingletonOf(IExtendedOoevvServer, ExtendedOoevvServerImpl);
 			
 			mediatorMap.mapView(OoevvElementSetControl, OoevvElementSetControlMediator);
 			mediatorMap.mapView(OoevvElementCatalog, OoevvElementCatalogMediator);
@@ -92,7 +101,16 @@ package edu.isi.bmkeg.kefed.designer
 					ListOoevvElementPagedCommand);
 			commandMap.mapEvent(ListOoevvElementPagedResultEvent.LIST_OOEVVELEMENT_PAGED_RESULT, 
 					ListOoevvElementPagedResultCommand);
-//			commandMap.mapEvent(SelectOoevvElementEvent.SELECT_OOEVV_ELEMENT, SelectOoevvElementCommand);
+			
+			// Upload Excel File
+			commandMap.mapEvent(UploadCompleteEvent.UPLOAD_COMPLETE, UploadOoevvFileCommand);
+			commandMap.mapEvent(UploadExcelFileResultEvent.UPLOAD_EXCEL_FILE_RESULT, UploadOoevvFileResultCommand);
+			
+			// Generate Excel File
+			commandMap.mapEvent(GenerateExcelFileEvent.GENERATE_EXCEL_FILE, GenerateExcelFileCommand);
+			//commandMap.mapEvent(GenerateExcelFileResultEvent.GENERATE_EXCEL_FILE_RESULT, GenerateExcelFileResultCommand);
+
+			//			commandMap.mapEvent(SelectOoevvElementEvent.SELECT_OOEVV_ELEMENT, SelectOoevvElementCommand);
 //			commandMap.mapEvent(SelectMeasurementScaleEvent.SELECT_MEASUREMENT_SCALE, SelectMeasurementScaleCommand);
 			
 //			commandMap.mapEvent(LoadOoevvElementSetResultEvent.LOAD_OOEVV_ELEMENT_SET_RESULT, LoadOoevvElementSetResultCommand);

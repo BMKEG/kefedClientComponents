@@ -3,6 +3,37 @@
   <includeClasses>
     <classEntry path="edu.isi.bmkeg.cosi.questionTree.view.QuestionTreeItemRenderer"/>
   </includeClasses>
-  <includeResources/>
+  <includeResources>
+    <resourceEntry destPath="assets/images/icons/arrow_l_666666.png" sourcePath="assets/images/icons/arrow_l_666666.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_r_666666.png" sourcePath="assets/images/icons/arrow_r_666666.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_u_glow.png" sourcePath="assets/images/icons/arrow_u_glow.png"/>
+    <resourceEntry destPath="assets/images/icons/closed_hand.png" sourcePath="assets/images/icons/closed_hand.png"/>
+    <resourceEntry destPath="assets/css/main.css" sourcePath="assets/css/main.css"/>
+    <resourceEntry destPath="assets/images/icons/zoom_fit_666666.png" sourcePath="assets/images/icons/zoom_fit_666666.png"/>
+    <resourceEntry destPath="assets/images/icons/pan_73d6ff.png" sourcePath="assets/images/icons/pan_73d6ff.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_d_666666.png" sourcePath="assets/images/icons/arrow_d_666666.png"/>
+    <resourceEntry destPath="edu/isi/bmkeg/questionTree/contactSheet.pdf" sourcePath="edu/isi/bmkeg/questionTree/contactSheet.pdf"/>
+    <resourceEntry destPath="assets/images/icons/pan_666666.png" sourcePath="assets/images/icons/pan_666666.png"/>
+    <resourceEntry destPath="assets/images/icons/pan_center.png" sourcePath="assets/images/icons/pan_center.png"/>
+    <resourceEntry destPath="assets/images/icons/zoom_in_666666.png" sourcePath="assets/images/icons/zoom_in_666666.png"/>
+    <resourceEntry destPath="assets/images/icons/opened_hand.png" sourcePath="assets/images/icons/opened_hand.png"/>
+    <resourceEntry destPath="assets/images/icons/zoom_in_glow.png" sourcePath="assets/images/icons/zoom_in_glow.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_r_73d6ff.png" sourcePath="assets/images/icons/arrow_r_73d6ff.png"/>
+    <resourceEntry destPath="assets/images/icons/zoom_out_666666.png" sourcePath="assets/images/icons/zoom_out_666666.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_r_glow.png" sourcePath="assets/images/icons/arrow_r_glow.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_u_666666.png" sourcePath="assets/images/icons/arrow_u_666666.png"/>
+    <resourceEntry destPath="assets/images/icons/zoom_in_73d6ff.png" sourcePath="assets/images/icons/zoom_in_73d6ff.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_l_glow.png" sourcePath="assets/images/icons/arrow_l_glow.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_d_glow.png" sourcePath="assets/images/icons/arrow_d_glow.png"/>
+    <resourceEntry destPath="assets/locale/en_US/bundle.properties" sourcePath="assets/locale/en_US/bundle.properties"/>
+    <resourceEntry destPath="assets/images/icons/zoom_out_73d6ff.png" sourcePath="assets/images/icons/zoom_out_73d6ff.png"/>
+    <resourceEntry destPath="assets/images/icons/zoom_fit_glow.png" sourcePath="assets/images/icons/zoom_fit_glow.png"/>
+    <resourceEntry destPath="assets/images/icons/zoom_out_glow.png" sourcePath="assets/images/icons/zoom_out_glow.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_u_73d6ff.png" sourcePath="assets/images/icons/arrow_u_73d6ff.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_d_73d6ff.png" sourcePath="assets/images/icons/arrow_d_73d6ff.png"/>
+    <resourceEntry destPath="assets/images/icons/pan_glow.png" sourcePath="assets/images/icons/pan_glow.png"/>
+    <resourceEntry destPath="assets/images/icons/zoom_fit_73d6ff.png" sourcePath="assets/images/icons/zoom_fit_73d6ff.png"/>
+    <resourceEntry destPath="assets/images/icons/arrow_l_73d6ff.png" sourcePath="assets/images/icons/arrow_l_73d6ff.png"/>
+  </includeResources>
   <namespaceManifests/>
 </flexLibProperties>

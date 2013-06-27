@@ -38,44 +38,78 @@ package edu.isi.bmkeg.kefed.diagram.controller
 			var dataid:String = event.k.uuid; // uuid
 			var dx:String = "NaN";
 			var dy:String = "NaN";
+			var x:Number = event.k.x;
+			var y:Number = event.k.y;
 			var w:Number = event.k.w;
 			var h:Number = event.k.h;
 			var spriteid:String = "";
+
+			var xLabel:Number = - (w/2.0);
+			var yLabel:Number = (h/2.0);
+			
+			var label:String = event.k.defn.termValue;
+			var nLines:int = Math.ceil(label.length / 12);
 			
 			if( event.k is ConstantInstance ) {
 				
 				spriteid = "Constant";
 				w = 25;
 				h = 28;
-			
+
+				xLabel = -120;
+				yLabel = 0;
+
+				
 			} else if( event.k is ParameterInstance ) {
 
 				spriteid = "Parameter";
 				w = 25;
 				h = 76;
-				
+
+				xLabel = -120;
+				yLabel = 0;
+
 			} else if( event.k is MeasurementInstance ) {
 			
 				spriteid = "Measurement";
 				w = 64;
 				h = 64;	
-				
+
+				xLabel = (w/2.0) - 60;
+				yLabel = h;
+
 			} else if( event.k is EntityInstance) {
 				
 				spriteid = "Entity";
-				w = 120;
-				h = 63;
+				
+				if( nLines > 2 ) {
+					h = 63 * (nLines+1)/3;
+					w = 140 * (nLines+1)/3;
+				} else {			
+					w = 140;
+					h = 63;
+				}
+
+				xLabel = (w/2.0) - 60;
+				yLabel = (h/2.0) - (10*nLines);
 				
 			} else if( event.k is ProcessInstance) {
 
 				spriteid = "Process";
-				w = 120;
-				h = 63;
-				
+				if( nLines > 2 ) {
+					h = 63 * (nLines+1)/3;
+					w = 140 * (nLines+1)/3;
+				} else {			
+					w = 140;
+					h = 63;
+				}
+
+				xLabel = (w/2.0) - 60;
+				yLabel = (h/2.0) - (10*nLines);
+
 			}
 			
-			var box:String = event.k.x + "," + event.k.y + 
-					"," + w + "," + h;
+			var box:String = x + "," + y + "," + w + "," + h;
 
 			var anchorid:String = UIDUtil.createUID();
 			var targetid:String = UIDUtil.createUID();
@@ -85,15 +119,13 @@ package edu.isi.bmkeg.kefed.diagram.controller
 					</sprite>;
 			
 			sprites.appendChild( newXML );
-			
+
 			var annotations:XML = xml.panels.panel.lane.annotations[0];
-			var dxVal:Number = - (w/2.0);
-			var dyVal:Number = (h/2.0);
-			box = event.k.x + "," + event.k.y + 
-				"," + 120 + "," + 30;
+
+			box = (x + xLabel) + "," + (y + yLabel) + "," + 120 + "," + (20 * nLines);
 			
-			var newAnnot:XML = <annotation id={targetid} master={anchorid} dx={dxVal} dy={dyVal} box={box} spriteid="annotation"/>;
-			newAnnot.appendChild(new XML("<![CDATA[" + event.k.defn.termValue + "]]>"));			
+			var newAnnot:XML = <annotation id={targetid} master={anchorid} dx={xLabel} dy={yLabel} box={box} spriteid="annotation"/>;
+			newAnnot.appendChild(new XML("<![CDATA[" + label + "]]>"));			
 			annotations.appendChild(newAnnot);
 			
 			var node:FlareNode = new FlareNode();

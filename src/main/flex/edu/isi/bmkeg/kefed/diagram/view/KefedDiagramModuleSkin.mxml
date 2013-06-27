@@ -6,7 +6,7 @@
 			 blendMode="normal">
 	
 	<fx:Metadata>
-		[HostComponent("edu.isi.bmkeg.ooevv.editor.view.OoevvElementCatalog")]
+		[HostComponent("spark.components.Panel")]
 	</fx:Metadata>
 	
 </skins:BmkegPanelSkin>		

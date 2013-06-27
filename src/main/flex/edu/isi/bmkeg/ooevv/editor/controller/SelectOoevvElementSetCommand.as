@@ -31,7 +31,10 @@ package edu.isi.bmkeg.ooevv.editor.controller
 			var oe:OoevvElement_qo = new OoevvElement_qo();
 			var oes:OoevvElementSet_qo = new OoevvElementSet_qo();
 			oe.sets.addItem(oes);
-			oes.vpdmfId = event.uid + "";
+			
+			if( !isNaN(event.uid) ) { 
+				oes.vpdmfId = event.uid + "";
+			}
 			
 			if( event.oeTypeCode == 1 ) {
 				oe.elementType = "OoevvProcess<vpdmf-or>OoevvEntity";				

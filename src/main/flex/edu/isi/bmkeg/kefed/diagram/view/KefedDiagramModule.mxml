@@ -14,10 +14,11 @@
 		   xmlns:diagview="com.kapit.diagram.view.*"                
 		   xmlns:TDF="fr.kapit.tourdeflex.*"
 		   xmlns:local="edu.isi.bmkeg.kefed.diagram.view.*"
-		   preinitialize="DiagramMappings.initializeMappings();">
+		   preinitialize="DiagramMappings.initializeMappings();"
+		   initialize="init();">
 	
 	<fx:Declarations>
-
+		<fx:Model id="license" source="licenses.xml"/>
 	</fx:Declarations>
 	
 	<fx:Script>
@@ -36,6 +37,7 @@
 		import edu.isi.bmkeg.kefed.diagram.controller.events.ChangeZoomEvent;
 		import edu.isi.bmkeg.kefed.diagram.controller.events.ShowKefedSvgEvent;
 		import edu.isi.bmkeg.kefed.diagram.model.vo.FlareGraph;
+		import edu.isi.bmkeg.kefed.diagram.utils.UiUtil;
 		import edu.isi.bmkeg.kefed.diagram.view.kapit.DiagramMappings;
 		import edu.isi.bmkeg.kefed.diagram.view.kapit.FlareLinkProxy;
 		import edu.isi.bmkeg.kefed.diagram.view.kapit.FlareNodeProxy;
@@ -55,8 +57,12 @@
         private var hackFix2:FlareLinkProxy;
 		
 		public var _proxy:DiagramProxy;
-				   
-        public function initDiagram():void
+		
+		private function init():void {
+			UiUtil.agreeToLicense(license.key, license.license);
+		}
+		
+		public function initDiagram():void
         {
              _proxy = new KDLProxy(diagram);
             diagram.multipanel=false;
@@ -142,41 +148,27 @@
     
 	</fx:Script>
 	
-	<mx:VBox width="100%" height="100%">
-
-		<mx:Panel id="flatPanel" width="100%" height="100%" 
-				backgroundAlpha="{flatPanel.getStyle('borderAlpha')}" 
-				backgroundColor="{flatPanel.getStyle('borderColor')}" >                
+	<s:Panel id="flatPanel" 
+			  width="100%" height="100%" 
+			  title="KEfED Model Editor" 
+			  skinClass="edu.isi.bmkeg.kefed.diagram.view.KefedDiagramModuleSkin">                
 			
-			<mx:HBox width="100%" height="30" verticalAlign="middle" >
-			
-				<!-- TODO: Decide how to handle backgroundColor in Flex 4
-				     backgroundColor="{ColorUtil.adjustBrightness2(flatPanel.getStyle('borderColor'),-50)}" -->
-				<!--<diagctl:SVGAssetLibraryGroupTile
-					id="svgAssetsLib" width="184" 
-						height="28" 
-						groupid="Basic" 
-						paddingLeft="8" 
-						paddingBottom="3" 
-						paddingTop="3" 
-						useHandCursor="true" /> -->
-				<mx:Label text="Zoom: "/>
-				<mx:HSlider id="zoomControl" minimum="0" maximum="1.7" 
-							 change="handleZoomControlChanged(event)"/>
-			    <mx:Button label="Reset Zoom" click="handleResetZoomClick(event)"/>
-			    <mx:Button label="SVG" click="showSVG(event)" enabled="{zoomControl.value == 1}"
-			    	toolTip="Show SVG code for diagram.  Zoom control must be at 1."/>
-			</mx:HBox>
-			<mx:HBox width="100%" height="100%" verticalAlign="middle" >
-				<local:KapitDiagramView width="100%" 
-										height="100%" 
-										id="diagram" 
-										creationComplete="initDiagram();">
-		        </local:KapitDiagramView>
-			</mx:HBox>
-		</mx:Panel>
-	    <mx:Text width="100%" text="Drag design elements into the diagram panel. Click on an element to show context menu. Edit labels in diagram, elements list or active element panel."/>
-
-	</mx:VBox>
+		<mx:HBox width="100%" height="30" verticalAlign="middle" >
+		
+			<mx:Label text=" Zoom: "/>
+			<mx:HSlider id="zoomControl" minimum="0" maximum="1.7" 
+						 change="handleZoomControlChanged(event)"/>
+		    <mx:Button label="Reset Zoom" click="handleResetZoomClick(event)"/>
+		    <mx:Button label="SVG" click="showSVG(event)" enabled="{zoomControl.value == 1}"
+		    	toolTip="Show SVG code for diagram.  Zoom control must be at 1."/>
+		</mx:HBox>
+		<mx:HBox width="100%" height="100%" verticalAlign="middle" >
+			<local:KapitDiagramView width="100%" 
+									height="100%" 
+									id="diagram" 
+									creationComplete="initDiagram();">
+	        </local:KapitDiagramView>
+		</mx:HBox>
+	</s:Panel>
 	
 </mx:Module>

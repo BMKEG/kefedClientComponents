@@ -13,6 +13,8 @@ package edu.isi.bmkeg.ooevv.editor
 	import edu.isi.bmkeg.ooevv.editor.service.*;
 	import edu.isi.bmkeg.ooevv.editor.view.*;
 
+	import edu.isi.bmkeg.utils.updownload.*;
+
 	public final class OoevvEditorContext extends Context
 	{
 
@@ -26,6 +28,7 @@ package edu.isi.bmkeg.ooevv.editor
 			injector.mapSingletonOf(IOoevvService, OoevvService);
 			
 			commandMap.mapEvent(ListOoevvElementSetEvent.LIST_OOEVVELEMENTSET, ListOoevvElementSetCommand);
+			commandMap.mapEvent(UploadCompleteEvent.UPLOAD_COMPLETE, UploadOoevvFileCommand);
 			//commandMap.mapEvent(SelectOoevvElementSetEvent.SELECT_OOEVV_ELEMENT_SET, SelectOoevvElementSetCommand);
 			//commandMap.mapEvent(SelectOoevvElementEvent.SELECT_OOEVV_ELEMENT, SelectOoevvElementCommand);
 			//commandMap.mapEvent(SelectMeasurementScaleEvent.SELECT_MEASUREMENT_SCALE, SelectMeasurementScaleCommand);

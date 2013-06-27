@@ -22,6 +22,9 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 
 	public class FlareNodeProxy implements ISpriteProxy
 	{
+			
+		public static var _graph:FlareGraph = null;
+		
 		public static var _kefedDiagramView:KefedDiagramModule = null;
 		
 		protected var _view:DiagramView;
@@ -81,17 +84,17 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 		
 		public function propertyModified(el:IDiagramElement, propname:String, propvalue:Object, shapeid:String):void
 		{
-			//var obj:FlareNode = _graph.getFlareNodeFromDiagramElement(el);
 			var s:DiagramSprite = null;
 			if (el is DiagramSprite)
 				s = el as DiagramSprite;
 
 			if ("text" == propname)  {
-				
-				_kefedDiagramView.dispatchEvent(
+						
+				// Disable system's ability to rename nodes.
+				/*_kefedDiagramView.dispatchEvent(
 					new RenameFlareNodeEvent(
 						el.dataobjectid, StringUtil.trim(propvalue.toString())
-					));
+					));*/
 				
 			}
 			if ("compositionmasterleave" == propname) {
@@ -99,10 +102,6 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 					s.spriteid = "rectangle";	
 					s.dragenabled = true;
 					s.selectable = true;
-					//if (obj) {
-					//	obj.spriteid = s.spriteid;			
-					//	obj.master="";
-					//}				
 				}
 			}			
 			if ("compositionmaster" == propname) {
@@ -110,22 +109,14 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 					s.spriteid = "rectangle-composed";	
 					s.dragenabled = true;
 					s.selectable = true;		
-					//if (obj) {				
-					//	obj.master=DiagramSprite(propvalue).did;
-					//	obj.spriteid = s.spriteid;
-					//}				
 				}
 			}
-			/*if ("compositionelement" == propname) {
-				if (obj) {				
-					obj.compositions=obj.compositions + 1;
-				}				
+			if ("compositionelement" == propname) {
+			
 			}			 
 			if ("compositionelementremove" == propname) {
-				if (obj) {			
-					obj.compositions=obj.compositions - 1;
-				}				
-			}*/
+
+			}
 		}
 		
 		public function preAcceptLinkSource(spriteid:String, sourcespriteid:String, el:IDiagramElement):Boolean
@@ -183,10 +174,8 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 				
 		public function acceptPropertyModification(el:IDiagramElement,propname:String,propvalue:Object,shapeid:String):Boolean
 		{
-/*			var obj:FlareNode =  _graph.getFlareNodeFromDiagramElement(el);
-
 			if ("text" == propname)	{
-				return true;				
+				return false;				
 			}
 			if ("compositionmasterleave" == propname) {
 				return true;
@@ -196,15 +185,11 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 					 || (el as DiagramSprite).masterobject == propvalue);
 			}
 			if ("compositionelement" == propname) {
-				// No more than one element in a composition
-				if (obj) {				
-					return ((obj.compositions<1) 
-						|| (obj.compositions == 1 && (propvalue as DiagramSprite).masterobject == el));						
-				}				
+				return true;		
 			}			 
 			if ("compositionelementremove" == propname)	{
 				return true;
-			}			*/		
+			}			
 			return true;
 		}
 		
