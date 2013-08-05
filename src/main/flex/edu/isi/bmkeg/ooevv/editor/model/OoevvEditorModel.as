@@ -5,6 +5,7 @@ package edu.isi.bmkeg.ooevv.editor.model
 	import edu.isi.bmkeg.ooevv.model.scale.*;
 	
 	import flash.utils.Dictionary;
+	import flash.utils.ByteArray;
 	
 	import mx.collections.ArrayCollection;
 	import mx.utils.UIDUtil;
@@ -22,7 +23,9 @@ package edu.isi.bmkeg.ooevv.editor.model
 		public var oeList:ArrayCollection = new ArrayCollection();
 		
 		public var el:OoevvElement;
-				
+
+		public var blankXls:ByteArray;
+		
 		public var state:String;
 
 		public var sync:Boolean;

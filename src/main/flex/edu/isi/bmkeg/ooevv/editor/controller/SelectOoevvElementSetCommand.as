@@ -19,7 +19,7 @@ package edu.isi.bmkeg.ooevv.editor.controller
 		public var event:SelectOoevvElementSetEvent;
 
 		[Inject]
-		public var model:PagedListModel;
+		public var model:OoevvElementPagedListModel;
 				
 		[Inject]
 		public var service:IOoevvService;
@@ -41,7 +41,8 @@ package edu.isi.bmkeg.ooevv.editor.controller
 			} else if( event.oeTypeCode == 2 ) {
 				oe.elementType = "ExperimentalVariable";
 			}
-			
+
+			dispatch( new FindOoevvElementSetByIdEvent(event.uid) );
 			dispatch( new ListOoevvElementPagedEvent(oe, 0, 200) );
 			
 		}

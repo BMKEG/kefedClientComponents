@@ -48,10 +48,14 @@
 			import mx.collections.ArrayCollection;
 			import mx.collections.IList;
 			import mx.collections.errors.ItemPendingError;
+			import mx.controls.Label;
+			import mx.containers.TitleWindow;
 			import mx.core.IVisualElementContainer;
 			import mx.events.DragEvent;
 			import mx.events.FlexEvent;
+			import mx.events.CloseEvent;
 			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
 			import mx.states.SetStyle;
 			import mx.states.State;
 			
@@ -89,7 +93,8 @@
 			
 			public function turnOnLoadingIndicator():void
 			{
-				viewMode = VIEW_MODE_LOADING;
+				viewMode = VIEW_MODE_NORMAL;
+//				viewMode = VIEW_MODE_LOADING;
 			}
 			
 			public function turnOffLoadingIndicator():void
@@ -104,7 +109,6 @@
 			}
 							
 			public function init():void {
-				updownButtons.downButton.addEventListener('click', downloadOoevvElementSet);
 			}
 			
 			//~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -157,7 +161,7 @@
 			 * Runs the selection event for the OoevvElementSet
 			 * by selecting the state from the current controls. 
 			 */
-			protected function selectOoevvElementSet():void
+			public function selectOoevvElementSet():void
 			{
 				var i:int = ooevvElementSetCombo.selectedIndex;
 				
@@ -176,6 +180,9 @@
 				}
 				
 				var filter:String = ooevvTypeFilter.text;
+				
+				this.updownButtons.fileName = "";
+				this.updownButtons.fileData = null;
 				
 				this.dispatchEvent( new SelectOoevvElementSetEvent(vpdmfId, oeTypeCode, ooevvTypeFilter.text) );
 				
@@ -235,11 +242,15 @@
 				
 			}
 			
-			//~~~~~~~~~~~~~~~~~~~~~~~~~
-			// Download button clicked.
-			//~~~~~~~~~~~~~~~~~~~~~~~~~
-			private function downloadOoevvElementSet(event:MouseEvent):void {
-				this.dispatchEvent( new GenerateExcelFileEvent(true, true) );
+			//~~~~~~~~~~~~~~~~~~~
+			// Generate new file.
+			//~~~~~~~~~~~~~~~~~~~
+			private function handleGenerateNewOoevvElementSet(event:MouseEvent):void {
+				this.dispatchEvent( new SaveNewFileEvent() );
+			}
+			
+			private function handleDeleteNewOoevvElementSet(event:MouseEvent):void {
+				//this.dispatchEvent(  );
 			}
 						
 		]]>
@@ -259,14 +270,14 @@
 		<s:ComboBox id="ooevvElementSetCombo"  width="100%"
 					change="handle_ooevvElementSetComboChange(event)"
 					labelFunction="myLabelFunc" />
-		<s:Button label="+" 
+		<s:Button id="newOoevvButton" label="+" enabled="false"
 				  toolTip="Generate an empty OoEVV Element Set Excel Spreadsheet" 
 				  width="30"
-				  click=""/>
+				  click="handleGenerateNewOoevvElementSet(event)"/>
 		<s:Button label="-" 
 				  toolTip="Delete this OoEVV Element Set" 
 				  width="30"
-				  click=""/>
+				  click="handleDeleteNewOoevvElementSet(event)"/>
 	</s:Group>
 	
 	<udb:UpDownLoadButtons id="updownButtons"

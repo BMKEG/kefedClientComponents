@@ -46,7 +46,7 @@ package edu.isi.bmkeg.kefed.designer
 		{
 			injector.mapSingleton(KefedDesignerModel);
 			injector.mapSingletonOf(IKefedService, KefedService);
-			injector.mapSingleton(PagedListModel);
+			injector.mapSingleton(OoevvElementPagedListModel);
 			
 			// Events from KefedDiagram and translated to KefedDesigner events
 			moduleCommandMap.mapEvent(AddFlareNodeEvent.ADD_FLARE_NODE, TranslateAddFlareNodeCommand);
@@ -93,7 +93,7 @@ package edu.isi.bmkeg.kefed.designer
 					ListOoevvElementSetCommand);
 			commandMap.mapEvent(ListOoevvElementSetResultEvent.LIST_OOEVVELEMENTSET_RESULT, 
 					ListOoevvElementSetResultCommand);
-			
+
 			// List the contents of an elements set 
 			commandMap.mapEvent(SelectOoevvElementSetEvent.SELECT_OOEVV_ELEMENT_SET, 
 					SelectOoevvElementSetCommand);
@@ -101,6 +101,12 @@ package edu.isi.bmkeg.kefed.designer
 					ListOoevvElementPagedCommand);
 			commandMap.mapEvent(ListOoevvElementPagedResultEvent.LIST_OOEVVELEMENT_PAGED_RESULT, 
 					ListOoevvElementPagedResultCommand);
+
+			// Retrieve the data for a specific ooevv element set
+			commandMap.mapEvent(FindOoevvElementSetByIdEvent.FIND_OOEVVELEMENTSET_BY_ID, 
+					FindOoevvElementSetByIdCommand);
+			commandMap.mapEvent(FindOoevvElementSetByIdResultEvent.FIND_OOEVVELEMENTSETBY_ID_RESULT, 
+					FindOoevvElementSetByIdResultCommand);
 			
 			// Upload Excel File
 			commandMap.mapEvent(UploadCompleteEvent.UPLOAD_COMPLETE, UploadOoevvFileCommand);
@@ -108,7 +114,7 @@ package edu.isi.bmkeg.kefed.designer
 			
 			// Generate Excel File
 			commandMap.mapEvent(GenerateExcelFileEvent.GENERATE_EXCEL_FILE, GenerateExcelFileCommand);
-			//commandMap.mapEvent(GenerateExcelFileResultEvent.GENERATE_EXCEL_FILE_RESULT, GenerateExcelFileResultCommand);
+			commandMap.mapEvent(GenerateExcelFileResultEvent.GENERATE_EXCEL_FILE_RESULT, GenerateExcelFileResultCommand);
 
 			//			commandMap.mapEvent(SelectOoevvElementEvent.SELECT_OOEVV_ELEMENT, SelectOoevvElementCommand);
 //			commandMap.mapEvent(SelectMeasurementScaleEvent.SELECT_MEASUREMENT_SCALE, SelectMeasurementScaleCommand);

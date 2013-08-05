@@ -95,7 +95,7 @@ Alert {
     vertical-gap: 4;
     horizontal-gap: 4;
 }
-.panButton {
+/*.panButton {
 	up-skin:   Embed(source='/assets/images/icons/pan_666666.png');
 	over-skin: Embed(source='/assets/images/icons/pan_glow.png');
 	down-skin: Embed(source='/assets/images/icons/pan_73d6ff.png');
@@ -137,7 +137,7 @@ Alert {
     up-skin: Embed(source='/assets/images/icons/zoom_fit_666666.png');
     over-skin: Embed(source='/assets/images/icons/zoom_fit_glow.png');
     down-skin: Embed(source='/assets/images/icons/zoom_fit_73d6ff.png');
-}
+}*/
 HSlider {
     padding-bottom: 0;
     padding-left: 0;

@@ -9,25 +9,25 @@ package edu.isi.bmkeg.ooevv.editor.controller
 
 	import edu.isi.bmkeg.utils.updownload.UploadCompleteEvent;
 	
-	import flash.events.Event;
+	import flash.events.*;
+	import flash.utils.ByteArray;
+	import flash.net.FileReference;
 	
-	public class GenerateExcelFileCommand extends ModuleCommand
+	public class GenerateExcelFileResultCommand extends ModuleCommand
 	{
 		
 		[Inject]
-		public var event:GenerateExcelFileEvent;
+		public var event:GenerateExcelFileResultEvent;
 		
 		[Inject]
 		public var model:OoevvEditorModel;
-		
-		[Inject]
-		public var service:IExtendedOoevvService;
-		
+				
 		override public function execute():void {	
 
-			service.generateExcelFile(event.name);
+			model.blankXls = event.data;
 		
 		}
+		
 		
 	}
 	

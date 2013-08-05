@@ -2,6 +2,8 @@ package edu.isi.bmkeg.ooevv.services.impl
 {
 
 	import flash.events.Event;
+	import flash.utils.ByteArray;
+	
 	import mx.collections.ArrayCollection;
 	import mx.collections.IList;
 	import mx.rpc.AbstractService;
@@ -69,7 +71,32 @@ package edu.isi.bmkeg.ooevv.services.impl
 			var oesVpdmfId:Number = Number(event.result);
 			dispatch(new UploadExcelFileResultEvent(oesVpdmfId));
 		}
+	
+		public function generateExcelFile(name:String):void {
+			server.generateExcelFile.cancel();
+			server.generateExcelFile.addEventListener(ResultEvent.RESULT, generateExcelFileResultHandler);
+			server.generateExcelFile.addEventListener(FaultEvent.FAULT, faultHandler);
+			server.generateExcelFile.send(name);
+		}
 		
+		private function generateExcelFileResultHandler(event:ResultEvent):void
+		{
+			var data:ByteArray = ByteArray(event.result);
+			dispatch( new GenerateExcelFileResultEvent(data) );
+		}
+		
+		public function deleteOoevvElementSet(vpdmfId:Number):void {
+			server.deleteOoevvElementSet.cancel();
+			server.deleteOoevvElementSet.addEventListener(ResultEvent.RESULT, deleteOoevvElementSetResultHandler);
+			server.deleteOoevvElementSet.addEventListener(FaultEvent.FAULT, faultHandler);
+			server.deleteOoevvElementSet.send(vpdmfId);
+		}
+		
+		private function deleteOoevvElementSetResultHandler(event:ResultEvent):void
+		{
+			var result:Boolean = Boolean(event.result);
+			dispatch( new DeleteOoevvElementSetResultEvent(result) );
+		}
 	}
 
 }

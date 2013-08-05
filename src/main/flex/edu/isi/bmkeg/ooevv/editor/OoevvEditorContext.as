@@ -10,7 +10,8 @@ package edu.isi.bmkeg.ooevv.editor
 	import edu.isi.bmkeg.ooevv.rl.events.*;
 	
 	import edu.isi.bmkeg.ooevv.editor.model.*;
-	import edu.isi.bmkeg.ooevv.editor.service.*;
+	import edu.isi.bmkeg.ooevv.rl.services.IOoevvService;
+	import edu.isi.bmkeg.ooevv.rl.services.impl.OoevvServiceImpl;
 	import edu.isi.bmkeg.ooevv.editor.view.*;
 
 	import edu.isi.bmkeg.utils.updownload.*;
@@ -25,7 +26,7 @@ package edu.isi.bmkeg.ooevv.editor
 			mediatorMap.mapView(OoevvElementEditor, OoevvElementEditorMediator);
 			
 			injector.mapSingleton(OoevvEditorModel);
-			injector.mapSingletonOf(IOoevvService, OoevvService);
+			injector.mapSingletonOf(IOoevvService, OoevvServiceImpl);
 			
 			commandMap.mapEvent(ListOoevvElementSetEvent.LIST_OOEVVELEMENTSET, ListOoevvElementSetCommand);
 			commandMap.mapEvent(UploadCompleteEvent.UPLOAD_COMPLETE, UploadOoevvFileCommand);

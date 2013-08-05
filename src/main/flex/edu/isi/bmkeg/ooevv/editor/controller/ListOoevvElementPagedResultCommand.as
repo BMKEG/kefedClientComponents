@@ -4,8 +4,8 @@ package edu.isi.bmkeg.ooevv.editor.controller
 	
 	import edu.isi.bmkeg.ooevv.rl.events.*;
 	
-	import edu.isi.bmkeg.pagedList.model.*;
-
+	import edu.isi.bmkeg.ooevv.editor.model.*;
+	
 	import edu.isi.bmkeg.vpdmf.model.instances.LightViewInstance;
 	
 	import flash.events.Event;
@@ -19,7 +19,7 @@ package edu.isi.bmkeg.ooevv.editor.controller
 		public var event:ListOoevvElementPagedResultEvent;
 
 		[Inject]
-		public var model:PagedListModel;
+		public var model:OoevvElementPagedListModel;
 				
 		override public function execute():void
 		{

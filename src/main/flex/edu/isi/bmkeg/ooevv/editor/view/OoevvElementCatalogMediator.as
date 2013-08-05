@@ -11,13 +11,14 @@ package edu.isi.bmkeg.ooevv.editor.view
 	import edu.isi.bmkeg.ooevv.rl.events.*;
 	import edu.isi.bmkeg.pagedList.events.*;
 	import edu.isi.bmkeg.pagedList.model.*;
-	import edu.isi.bmkeg.utils.updownload.UploadCompleteEvent;
+	import edu.isi.bmkeg.utils.updownload.*;
 	
-	import flash.events.Event;
-	
-	import mx.controls.Alert;
+	import flash.events.*;
+	import flash.net.FileReference;
+	import flash.utils.ByteArray;
 	
 	import mx.collections.ArrayCollection;
+	import mx.controls.Alert;
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 	
@@ -35,27 +36,40 @@ package edu.isi.bmkeg.ooevv.editor.view
 		public var model:OoevvEditorModel;
 		
 		[Inject]
-		public var listModel:PagedListModel;
+		public var listModel:OoevvElementPagedListModel;
 		
 		override public function onRegister():void 
 		{
-			addContextListener(PagedListUpdatedEvent.UPDATED, 
-				catalogueUpdatedHandler);
+
+			addContextListener(FindOoevvElementSetByIdResultEvent.FIND_OOEVVELEMENTSETBY_ID_RESULT, 
+				oesUpdatedHandler);
 			
-			addViewListener(ListOoevvElementEvent.LIST_OOEVVELEMENT, 
-				dispatch);
+			addContextListener(PagedListUpdatedEvent.UPDATED + OoevvElementPagedListModel.LIST_ID, 
+				catalogueUpdatedHandler);
 			
 			addContextListener(ListOoevvElementResultEvent.LIST_OOEVVELEMENT_RESULT, 
 				updateVariableListControl);
+
+			addContextListener(UploadExcelFileFaultEvent.UPLOAD_EXCEL_FILE_FAULT, 
+				reportUploadError);
+			
+			addContextListener(ListOoevvElementSetResultEvent.LIST_OOEVVELEMENTSET_RESULT, 
+				updateOoevvElementListControl);
+
+			addContextListener(GenerateExcelFileResultEvent.GENERATE_EXCEL_FILE_RESULT, 
+				activateNewFileButton);
+
+			addViewListener(SaveNewFileEvent.SAVE_NEW_FILE, 
+				saveFile);
+			
+			addViewListener(ClearUpdownloadEvent.CLEAR_UPDOWNLOAD, 
+				clearUpdownload);
 			
 			addViewListener(ListOoevvElementSetEvent.LIST_OOEVVELEMENTSET, 
 				dispatch);
 			
-			addContextListener(ListOoevvElementSetResultEvent.LIST_OOEVVELEMENTSET_RESULT, 
-				updateOoevvElementListControl);
-			
-			addContextListener(UploadExcelFileFaultEvent.UPLOAD_EXCEL_FILE_FAULT, 
-				reportUploadError);
+			addViewListener(ListOoevvElementEvent.LIST_OOEVVELEMENT, 
+				dispatch);
 			
 			addViewListener(SelectOoevvElementSetEvent.SELECT_OOEVV_ELEMENT_SET, 
 				dispatch);
@@ -72,6 +86,8 @@ package edu.isi.bmkeg.ooevv.editor.view
 			var oe:OoevvElement_qo = new OoevvElement_qo();
 			dispatch(new ListOoevvElementPagedEvent(oe, 0, 200));
 			
+			dispatch( new GenerateExcelFileEvent("new_ooevv.xls") )
+			
 		}
 		
 		private function updateOoevvElementListControl(event:ListOoevvElementSetResultEvent):void {
@@ -79,6 +95,14 @@ package edu.isi.bmkeg.ooevv.editor.view
 			view.ooevvElementSetCombo.dataProvider = event.list; 
 			
 			view.turnOffLoadingIndicator();
+			
+		}
+		
+		private function clearUpdownload(event:ClearUpdownloadEvent):void {
+						
+			view.turnOffLoadingIndicator();
+			view.ooevvElementSetCombo.selectedIndex = 0;
+			view.selectOoevvElementSet();
 			
 		}
 		
@@ -93,6 +117,14 @@ package edu.isi.bmkeg.ooevv.editor.view
 			
 		}
 		
+		private function oesUpdatedHandler(event:FindOoevvElementSetByIdResultEvent):void
+		{
+			
+			view.updownButtons.loadFile(event.object.xlsFileName, event.object.xlsFile);
+			
+			view.turnOffLoadingIndicator();
+			
+		}
 		
 		override public function onRemove():void 
 		{				
@@ -128,6 +160,42 @@ package edu.isi.bmkeg.ooevv.editor.view
 			view.updownButtons.clearFile();
 			
 		}
+		
+		private function activateNewFileButton(event:Event):void
+		{
+			view.newOoevvButton.enabled = true;
+		}
+		
+		public function saveFile(event:SaveNewFileEvent):void {
+			var data:ByteArray = model.blankXls;
+			var saveFile:FileReference = new FileReference();
+			saveFile.addEventListener(Event.OPEN, saveBeginHandler);
+			saveFile.addEventListener(Event.COMPLETE, saveCompleteHandler);
+			saveFile.addEventListener(IOErrorEvent.IO_ERROR, saveIOErrorHandler);
+			saveFile.save(data,"temp_ooevv.xls");
+		}
+		
+		private function saveBeginHandler(event:Event):void
+		{
+			/* IT'D BE NICE TO HAVE A PROGRESS BAR HERE*/
+		}
+		
+		private function saveCompleteHandler(event:Event):void
+		{
+			event.target.removeEventListener(Event.OPEN, saveBeginHandler);
+			event.target.removeEventListener(Event.COMPLETE, saveCompleteHandler);
+			event.target.removeEventListener(IOErrorEvent.IO_ERROR, saveIOErrorHandler);
+		}
+		
+		private function saveIOErrorHandler(event:IOErrorEvent):void
+		{
+			event.target.removeEventListener(Event.COMPLETE, saveCompleteHandler);
+			event.target.removeEventListener(IOErrorEvent.IO_ERROR, saveIOErrorHandler);
+			
+			trace("Error while trying to save:");
+			trace(event);
+		}
+
 
 	}
 

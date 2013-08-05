@@ -34,7 +34,16 @@ package edu.isi.bmkeg.ooevv.services.serverInteraction.impl
 		{
 			return getOperation("uploadExcelFile");
 		}
-
+		
+		public function get generateExcelFile():AbstractOperation
+		{
+			return getOperation("generateExcelFile");
+		}
+		
+		public function get deleteOoevvElementSet():AbstractOperation
+		{
+			return getOperation("deleteOoevvElementSet");
+		}
 		
 		
 	}

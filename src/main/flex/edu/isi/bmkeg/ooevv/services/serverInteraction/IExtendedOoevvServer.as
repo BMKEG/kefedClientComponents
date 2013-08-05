@@ -10,6 +10,10 @@ package edu.isi.bmkeg.ooevv.services.serverInteraction
 		// ~~~~~~~~~~~~~~~
 		function get uploadExcelFile():AbstractOperation;
 
+		function get generateExcelFile():AbstractOperation;
+		
+		function get deleteOoevvElementSet():AbstractOperation;
+
 	}
 
 }

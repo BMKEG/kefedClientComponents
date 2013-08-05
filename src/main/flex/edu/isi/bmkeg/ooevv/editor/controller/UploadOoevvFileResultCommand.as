@@ -1,7 +1,6 @@
 package edu.isi.bmkeg.ooevv.editor.controller
 {	
 	import edu.isi.bmkeg.ooevv.editor.model.OoevvEditorModel;
-	import edu.isi.bmkeg.ooevv.editor.service.*;
 	import edu.isi.bmkeg.ooevv.events.*;
 	import edu.isi.bmkeg.ooevv.rl.events.FindOoevvElementSetByIdEvent;
 	import edu.isi.bmkeg.ooevv.services.*;

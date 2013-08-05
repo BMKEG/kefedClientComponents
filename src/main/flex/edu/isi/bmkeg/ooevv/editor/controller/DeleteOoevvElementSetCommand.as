@@ -11,11 +11,11 @@ package edu.isi.bmkeg.ooevv.editor.controller
 	
 	import flash.events.Event;
 	
-	public class GenerateExcelFileCommand extends ModuleCommand
+	public class DeleteOoevvElementSetCommand extends ModuleCommand
 	{
 		
 		[Inject]
-		public var event:GenerateExcelFileEvent;
+		public var event:DeleteOoevvElementSetEvent;
 		
 		[Inject]
 		public var model:OoevvEditorModel;
@@ -25,7 +25,7 @@ package edu.isi.bmkeg.ooevv.editor.controller
 		
 		override public function execute():void {	
 
-			service.generateExcelFile(event.name);
+			service.deleteOoevvElementSet(event.vpdmfId);
 		
 		}
 		

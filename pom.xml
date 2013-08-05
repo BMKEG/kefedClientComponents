@@ -3,87 +3,23 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-<!-- <parent> <groupId>edu.isi.bmkeg</groupId> <artifactId>FlexShell</artifactId> 
-		<version>1.0-SNAPSHOT</version> </parent> -->
+  	<parent>
+	    <groupId>edu.isi.bmkeg</groupId>
+	    <artifactId>bmkeg-as-parent</artifactId>
+	    <version>1.1.3-SNAPSHOT</version>
+	    <relativePath>../bmkeg-as-parent</relativePath>
+ 	</parent>
 
 	<groupId>edu.isi.bmkeg</groupId>
-	<artifactId>kefed-client-components</artifactId>
+	<artifactId>kefedClientComponents</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>kefedComponents</name>
 	<packaging>swc</packaging>
 
-	<properties>
-		<!-- <root.basedir>${project.parent.basedir}</root.basedir> -->
-		<flexmojos.version>4.2-beta</flexmojos.version>
-		<flex.version>4.5.0.20967</flex.version>
-		<flashplayer.version.major>10.2</flashplayer.version.major>
-		<flashplayer.version.minor>0</flashplayer.version.minor>
-		<flexunit.version>4.1-RC2</flexunit.version>
-		<sonar.language>flex</sonar.language>
-		<sonar.dynamicAnalysis>false</sonar.dynamicAnalysis>
-		<root.basedir>${project.basedir}</root.basedir>
-		<flex.flashPlayer.command>/Applications/Adobe Flash Builder
-			4.5/player/mac/10.2/Flash Player Debugger.app/Contents/MacOS/Flash
-			Player Debugger</flex.flashPlayer.command>
-	</properties>
-
 	<build>
-		<sourceDirectory>src/main/flex</sourceDirectory>
-		<testSourceDirectory>src/test/flex</testSourceDirectory>
-		<plugins>
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>remove-FlexUnitApplication</id>
-						<phase>generate-sources</phase>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<filesets>
-						<fileset>
-							<directory>src/main/flex</directory>
-							<includes>
-								<include>FlexUnitApplication.mxml</include>
-								<include>FlexUnitCompilerApplication.mxml</include>
-							</includes>
-						</fileset>
-					</filesets>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<!-- <groupId>net.flexmojos.oss</groupId> -->
-				<groupId>org.sonatype.flexmojos</groupId>
-				<artifactId>flexmojos-maven-plugin</artifactId>
-				<!-- <version>5.0-beta</version> -->
-				<version>${flexmojos.version}</version>
-				<extensions>true</extensions>
-				<configuration>
-					<compilerWarnings>
-						<warn-no-constructor>false</warn-no-constructor>
-					</compilerWarnings>
-					<targetPlayer>${flashplayer.version.major}.${flashplayer.version.minor}</targetPlayer>
-				</configuration>
-				<dependencies>
-					<dependency>
-						<groupId>com.adobe.flex</groupId>
-						<artifactId>compiler</artifactId>
-						<version>${flex.version}</version>
-						<type>pom</type>
-					</dependency>
-
-				</dependencies>
-			</plugin>
-
-		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings 
-					only. It has no influence on the Maven build itself. -->
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -91,6 +27,26 @@
 					<configuration>
 						<lifecycleMappingMetadata>
 							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.sonatype.flexmojos
+										</groupId>
+										<artifactId>
+											flexmojos-maven-plugin
+										</artifactId>
+										<versionRange>
+											[4.2-beta,)
+										</versionRange>
+										<goals>
+											<goal>compile-swc</goal>
+											<goal>test-compile</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
 								<pluginExecution>
 									<pluginExecutionFilter>
 										<groupId>
@@ -110,26 +66,6 @@
 										<ignore></ignore>
 									</action>
 								</pluginExecution>
-								<pluginExecution>
-									<pluginExecutionFilter>
-										<groupId>
-											org.sonatype.flexmojos
-										</groupId>
-										<artifactId>
-											flexmojos-maven-plugin
-										</artifactId>
-										<versionRange>
-											[4.2-beta,)
-										</versionRange>
-										<goals>
-											<goal>test-compile</goal>
-											<goal>compile-swc</goal>
-										</goals>
-									</pluginExecutionFilter>
-									<action>
-										<ignore></ignore>
-									</action>
-								</pluginExecution>
 							</pluginExecutions>
 						</lifecycleMappingMetadata>
 					</configuration>
@@ -142,21 +78,12 @@
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>flex-framework</artifactId>
-			<version>${flex.version}</version>
 			<type>pom</type>
-			<exclusions>
-				<!-- make sure to exclude the default 'playerglobal' transitive dependency -->
-				<exclusion>
-					<groupId>com.adobe.flex.framework</groupId>
-					<artifactId>playerglobal</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>playerglobal</artifactId>
-			<version>${flex.version}</version>  <!-- this artifact version must match the flex SDK version used in this project -->
 			<classifier>${flashplayer.version.major}</classifier>  <!-- the classifier specifies the target flash player major version -->
 			<type>swc</type>
 		</dependency>
@@ -164,15 +91,12 @@
 		<dependency>
 			<groupId>com.adobe.flexunit</groupId>
 			<artifactId>flexunit</artifactId>
-			<version>${flexunit.version}</version>
 			<type>swc</type>
-			<scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>hamcrest-as3</groupId>
 			<artifactId>hamcrest-as3</artifactId>
-			<version>1.1.0</version>
 			<type>swc</type>
 			<scope>test</scope>
 		</dependency>
@@ -180,135 +104,52 @@
 		<dependency>
 			<groupId>org.mockolate</groupId>
 			<artifactId>mockolate</artifactId>
-			<version>0.12.4</version>
 			<type>swc</type>
 			<scope>test</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>edu.isi.bmkeg</groupId>
-			<version>0.0.2-SNAPSHOT</version>
-			<type>swc</type>
-			<artifactId>kefed-as</artifactId>
-		</dependency>
-
-		<dependency>
 			<groupId>org.robotlegs</groupId>
-			<version>1.5.2</version>
 			<type>swc</type>
 			<artifactId>robotlegs-framework</artifactId>
 		</dependency>
 
 		<dependency>
-			<groupId>com.adobe</groupId>
-			<artifactId>as3corelib</artifactId>
-			<version>1.0</version>
-			<type>swc</type>
-		</dependency>
-
-		<dependency>
 			<groupId>flare</groupId>
-			<version>2009-01-24</version>
 			<type>swc</type>
 			<artifactId>flare</artifactId>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.robotlegs</groupId>
-			<version>0.5.3</version>
 			<type>swc</type>
 			<artifactId>robotlegs-utilities-Modular</artifactId>
 		</dependency>
-
-		<dependency>
-			<groupId>edu.isi.bmkeg</groupId>
-			<artifactId>cosi-as</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
-			<type>swc</type>
-		</dependency>
-
+		
 		<dependency>
 			<groupId>edu.isi.bmkeg</groupId>
 			<artifactId>cosi-as-services</artifactId>
-			<version>0.0.2-SNAPSHOT</version>
 			<type>swc</type>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>edu.isi.bmkeg</groupId>
-			<version>0.0.1</version>
+			<artifactId>cosi-as</artifactId>
+			<type>swc</type>
+		</dependency>
+		
+		<dependency>
+			<groupId>edu.isi.bmkeg</groupId>
 			<type>swc</type>
 			<artifactId>vpdmfFlex</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>edu.isi.bmkeg</groupId>
+			<type>swc</type>
+			<artifactId>digitalLibraryClientComponents</artifactId>
+		</dependency>
+
 	</dependencies>
-
-	<!-- specify the flex-mojos repositories (can also be done in settings.xml) -->
-	<repositories>
-		<repository>
-			<id>flex-mojos-repository</id>
-			<url>http://repository.sonatype.org/content/groups/flexgroup/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-		<repository>
-			<id>hugin</id>
-			<name>hugin public repository</name>
-			<url>http://hugin.isi.edu:8180/nexus/content/groups/public/</url>
-		</repository>
-
-		<repository>
-			<id>hugin-snapshots</id>
-			<name>Hugin ISI MRP repository SNAPSHOTS</name>
-			<url>http://hugin.isi.edu:8180/nexus/content/repositories/BMKEG-SNAPSHOT/</url>
-		</repository>
-
-		<repository>
-			<id>hugin-3rd-party</id>
-			<name>Hugin Third Party Nexus Repository</name>
-			<url>http://hugin.isi.edu:8180/nexus/content/repositories/thirdparty/</url>
-		</repository>
-	</repositories>
-
-	<pluginRepositories>
-		<pluginRepository>
-			<id>flex-mojos-repository</id>
-			<url>http://repository.sonatype.org/content/groups/flexgroup/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</pluginRepository>
-		<pluginRepository>
-			<id>flexpmd.opensource.adobe</id>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<name>FlexPMD repository on opensource.adobe.com</name>
-			<url>http://opensource.adobe.com/svn/opensource/flexpmd/maven-repository/release/</url>
-		</pluginRepository>
-	</pluginRepositories>
-
-	<distributionManagement>
-		<repository>
-			<id>hugin-releases</id>
-			<name>hugin releases</name>
-			<url>http://hugin.isi.edu:8180/nexus/content/repositories/releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>hugin-snapshots</id>
-			<name>Hugin ISI MRP repository SNAPSHOTS</name>
-			<url>http://hugin.isi.edu:8180/nexus/content/repositories/BMKEG-SNAPSHOT/</url>
-		</snapshotRepository>
-	</distributionManagement>
 
 </project>

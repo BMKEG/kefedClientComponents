@@ -19,7 +19,7 @@ package edu.isi.bmkeg.ooevv.editor.controller
 		public var event:ListOoevvElementSetEvent;
 
 		[Inject]
-		public var model:PagedListModel;
+		public var model:OoevvElementPagedListModel;
 		
 		[Inject]
 		public var ooevvService:IOoevvService;
