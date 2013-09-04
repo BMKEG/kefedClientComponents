@@ -42,7 +42,9 @@ package edu.isi.bmkeg.ooevv.editor.controller
 				oe.elementType = "ExperimentalVariable";
 			}
 
-			dispatch( new FindOoevvElementSetByIdEvent(event.uid) );
+			if( !isNaN(event.uid) ) 
+				dispatch( new FindOoevvElementSetByIdEvent(event.uid) );
+	
 			dispatch( new ListOoevvElementPagedEvent(oe, 0, 200) );
 			
 		}
