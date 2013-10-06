@@ -96,7 +96,9 @@ package edu.isi.bmkeg.kefed.diagram.view
 			
 			dispatchToModules(e);
 			dispatch(e);
-		
+
+			this.updateXml();
+
 		}
 		
 		private function handleAddFlareNode(e:AddFlareNodeEvent):void {
@@ -107,6 +109,8 @@ package edu.isi.bmkeg.kefed.diagram.view
 			dispatchToModules(e);
 			dispatch(e);
 		
+			this.updateXml();
+
 		}
 		
 		private function handleRenameFlareNode(e:RenameFlareNodeEvent):void {
@@ -116,7 +120,9 @@ package edu.isi.bmkeg.kefed.diagram.view
 			
 			dispatchToModules(e);
 			dispatch(e);
-		
+
+			this.updateXml();
+
 		}
 		
 		private function handleRemoveFlareEdge(e:RemoveFlareEdgeEvent):void {
@@ -126,7 +132,9 @@ package edu.isi.bmkeg.kefed.diagram.view
 			
 			dispatchToModules(e);
 			dispatch(e);
-		
+
+			this.updateXml();
+
 		}
 		
 		private function handleRemoveFlareNode(e:RemoveFlareNodeEvent):void {
@@ -136,6 +144,8 @@ package edu.isi.bmkeg.kefed.diagram.view
 			
 			dispatchToModules(e);
 			dispatch(e);
+
+			this.updateXml();
 		
 		}
 		
@@ -146,7 +156,7 @@ package edu.isi.bmkeg.kefed.diagram.view
 			
 			dispatchToModules(e);
 			dispatch(e);
-			
+						
 		}
 		
 		private function handleIncomingSelectFlareNode(e:SelectFlareNodeEvent):void {
@@ -159,6 +169,13 @@ package edu.isi.bmkeg.kefed.diagram.view
 			view.diagram.selectObject(dob);	
 			this.model.shutDownGraph = false;
 						
+		}
+		
+		/**
+		 * Send the XML of the diagram out to the world
+		 */
+		private function updateXml():void {
+			dispatchToModules( new UpdateKapitXmlEvent(view.diagram.toXML(), new Date()) );
 		}
 		
 		// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

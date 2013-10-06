@@ -67,7 +67,7 @@
 			 fontWeight="bold"
 			 fontStyle="italic"/>
 	
-	<s:Group id="contentGroup" width="100%" height="100%" left="15" right="15" top="55" bottom="40">
+	<s:Group id="contentGroup" width="100%" height="100%" left="15" right="15" top="55" bottom="10">
 		<s:layout>
 			<s:VerticalLayout/>
 		</s:layout>

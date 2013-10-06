@@ -98,6 +98,7 @@ package edu.isi.bmkeg.kefed.diagram.view
 						k = kk;
 
 						this.dispatchEvent( new AddNewKefedElementEvent(k) );
+						this.dispatchEvent( new UpdateKapitXmlEvent(this.toXML(), new Date()) );
 						this.dispatchEvent( new DropKefedNodeIntoDiagramEvent(k, this.toXML() ) );
 
 					}

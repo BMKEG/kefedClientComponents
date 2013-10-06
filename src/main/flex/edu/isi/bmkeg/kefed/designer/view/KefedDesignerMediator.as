@@ -1,32 +1,17 @@
 package edu.isi.bmkeg.kefed.designer.view
 {
 
-	import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
 	import edu.isi.bmkeg.kefed.designer.events.elementLevel.*;
-	import edu.isi.bmkeg.kefed.designer.events.elementLevel.RemoveKefedElementEvent;
+	import edu.isi.bmkeg.kefed.rl.events.*;
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
-	import edu.isi.bmkeg.kefed.designer.view.KefedDesignerView;
+	import edu.isi.bmkeg.kefed.designer.view.popups.*;
 	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodeEvent;
+	import edu.isi.bmkeg.kefed.events.*;
+	import edu.isi.bmkeg.kefed.model.qo.design.KefedModel_qo;
 	
 	import flash.events.Event;
-	import flash.utils.getDefinitionByName;
 	
-	import mx.binding.utils.BindingUtils;
-	import mx.binding.utils.ChangeWatcher;
-	import mx.collections.ArrayCollection;
-	import mx.controls.Alert;
-	import mx.core.Application;
-	import mx.core.FlexGlobals;
-	import mx.events.DataGridEvent;
-	import mx.events.FlexEvent;
-	import mx.events.IndexChangedEvent;
-	import mx.events.ListEvent;
-	import mx.managers.CursorManager;
 	import mx.managers.PopUpManager;
-	import mx.rpc.events.FaultEvent;
-	import mx.rpc.events.ResultEvent;
-	import mx.utils.ColorUtil;
-	import mx.utils.StringUtil;
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 	
@@ -42,15 +27,30 @@ package edu.isi.bmkeg.kefed.designer.view
 		override public function onRegister():void 
 		{
 
-			addViewListener(SelectKefedElementEvent.SELECT_KEFED_ELEMENT, handleOutgoingSelectElement);
+			addViewListener(SelectKefedElementEvent.SELECT_KEFED_ELEMENT, 
+				handleOutgoingSelectElement);
 			
+			addViewListener(SaveCompleteKefedModelEvent.SAVE_COMPLETE_KEFED_MODEL, 
+				dispatch);
+
+			addViewListener(ActivateKefedModelListPopupEvent.ACTIVATE_CORPUS_LIST_POPUP, 
+				activateKefedModelListPopup);
+
 			addContextListener(AddNewKefedEdgeEvent.ADD_NEW_KEFED_EDGE, handleGraphChange);
 			addContextListener(AddNewKefedElementEvent.ADD_NEW_KEFED_ELEMENT, handleGraphChange);
 			addContextListener(RemoveKefedEdgeEvent.REMOVE_KEFED_EDGE, handleGraphChange);
 			addContextListener(RemoveKefedElementEvent.REMOVE_KEFED_ELEMENT, handleGraphChange);
 			//addContextListener(SelectKefedElementEvent.SELECT_KEFED_ELEMENT, handleIncomingSelectElement);
-
-			//addModuleListener(DoodadModuleEvent.DO_STUFF_REQUESTED, handleDoStuffRequest, DoodadModuleEvent);
+		
+			view.model = model.kefedModel;
+			if( view.model.exptId == null) {
+				view.model.exptId = "";
+			}
+			
+			// when we load this element, we list all the models in the system. 
+			var kQo:KefedModel_qo = new KefedModel_qo();
+			dispatch(new ListKefedModelEvent(kQo) );
+			
 		}
 		
 		private function handleGraphChange(e:Event):void {
@@ -73,6 +73,16 @@ package edu.isi.bmkeg.kefed.designer.view
 			this.dispatch(e);
 			this.dispatchToModules(new SelectFlareNodeEvent(e.uid));
 
+		}
+		
+		private function activateKefedModelListPopup(e:ActivateKefedModelListPopupEvent):void {
+			
+			var popup:KefedModelListPopup = PopUpManager.createPopUp(this.view, KefedModelListPopup, true) 
+				as KefedModelListPopup;
+			PopUpManager.centerPopUp(popup);
+						
+			mediatorMap.createMediator( popup );
+			
 		}
 				
 	}

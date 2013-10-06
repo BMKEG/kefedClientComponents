@@ -43,15 +43,11 @@ package edu.isi.bmkeg.kefed.diagram
 
 			commandMap.mapEvent(SelectFlareNodeEvent.SELECT_FLARE_NODE, SelectFlareNodeCommand);
 			
-			commandMap.mapEvent(LoadKefedModelToDiagramEvent.LOAD_KEFED_MODEL_TO_DIAGRAM, LoadKefedModelToDiagramCommand);
-
 			commandMap.mapEvent(FindOoevvElementByIdEvent.FIND_OOEVVELEMENT_BY_ID, 
 				FindOoevvElementByIdCommand);
 
-			
-			
 			moduleCommandMap.mapEvent(SelectFlareNodeEvent.SELECT_FLARE_NODE, SelectFlareNodeCommand);
-
+			moduleCommandMap.mapEvent(LoadKefedModelToDiagramEvent.LOAD_KEFED_MODEL_TO_DIAGRAM, LoadKefedModelToDiagramCommand);
 		}
 		
 		override public function dispose():void

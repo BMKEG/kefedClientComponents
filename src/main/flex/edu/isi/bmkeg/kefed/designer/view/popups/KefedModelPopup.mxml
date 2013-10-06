@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!-- containers\spark\myComponents\MyLoginForm.mxml -->
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   preinitialize="titlewindow1_preinitializeHandler(event)"
+			   close="hitCancel();">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	
+	<fx:Script>
+		<![CDATA[
+			import edu.isi.bmkeg.digitalLibrary.events.ClosePopupEvent;
+			import edu.isi.bmkeg.digitalLibrary.model.citations.Corpus;
+			import edu.isi.bmkeg.digitalLibrary.rl.events.*;
+			import edu.isi.bmkeg.kefed.designer.view.*;
+			
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.hamcrest.object.nullValue;
+						
+			private var _p:KefedDesignerView;
+			
+			public function set p(p:KefedDesignerView):void {
+				this._p = p;
+				if( p != null ) {
+					if( p.model.exptId != null )
+						this.exptIdInput.text = p.model.exptId;
+					if( p.model.notes != null )
+						this.notesInput.text = p.model.notes;
+					this.versionInput.text = new String(p.model.version);
+				}
+			}
+
+			public function get p():KefedDesignerView {
+				return this._p;
+			}
+			
+			// Handle the close button and Cancel button.
+			private function hitCancel():void {
+				this.p = null;
+				PopUpManager.removePopUp( this );
+			}            
+			
+			// Handle the OK button.
+			private function hitOk():void {
+
+				this.p.model.exptId = this.exptIdInput.text;
+				this.p.model.notes = this.notesInput.text;
+				this.p.model.version = new Number(this.versionInput.text);
+				
+				PopUpManager.removePopUp( this );
+				this.p = null;
+
+			}
+			
+			protected function titlewindow1_preinitializeHandler(event:FlexEvent):void
+			{
+				BindingManager.debugBinding("exptIdInput.text");
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Form>
+		<s:FormItem label="Experiment Id">
+			<s:TextInput id="exptIdInput" width="100%"/>
+		</s:FormItem> 
+		<s:FormItem label="Version">
+			<s:TextInput id="versionInput" width="100%"/>
+		</s:FormItem> 
+		<s:FormItem label="Notes">
+			<s:TextArea id="notesInput" heightInLines="3" width="100%"/>
+		</s:FormItem> 
+	</s:Form>
+	<s:HGroup> 
+		<s:Button label="OK"
+				  click="hitOk();" /> 
+		<s:Button label="Cancel"
+				  click="hitCancel();"/> 
+	</s:HGroup> 
+</s:TitleWindow>

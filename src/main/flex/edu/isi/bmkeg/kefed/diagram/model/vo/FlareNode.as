@@ -91,6 +91,8 @@ package edu.isi.bmkeg.kefed.diagram.model.vo
 		public var yy:Number;
 		public var ww:Number;
 		public var hh:Number;
+		public var xLabel:Number;
+		public var yLabel:Number;
 		
 		public function FlareNode()
 		{

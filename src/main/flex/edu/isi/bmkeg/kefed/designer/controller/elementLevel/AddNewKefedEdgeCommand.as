@@ -56,6 +56,7 @@ package edu.isi.bmkeg.kefed.designer.controller.elementLevel
 			} else {
 				
 				var e:KefedModelEdge = new KefedModelEdge();
+				e.edgeType = "-";
 				e.uuid = linkUid;
 				e.source = s;
 				e.target = t;

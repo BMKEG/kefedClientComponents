@@ -13,10 +13,21 @@ package edu.isi.bmkeg.kefed.designer
 	import edu.isi.bmkeg.kefed.designer.events.elementLevel.*;	
 	import edu.isi.bmkeg.kefed.designer.controller.translateDiagram.*;	
 	import edu.isi.bmkeg.kefed.designer.controller.elementLevel.*;	
+	import edu.isi.bmkeg.kefed.events.*;
+	import edu.isi.bmkeg.kefed.rl.events.*;
+	import edu.isi.bmkeg.kefed.rl.services.IKefedService;
+	import edu.isi.bmkeg.kefed.rl.services.impl.*;
+	import edu.isi.bmkeg.kefed.rl.services.serverInteraction.*;
+	import edu.isi.bmkeg.kefed.rl.services.serverInteraction.impl.*;
+	import edu.isi.bmkeg.kefed.services.*;
+	import edu.isi.bmkeg.kefed.services.impl.*;
+	import edu.isi.bmkeg.kefed.services.serverInteraction.*;
+	import edu.isi.bmkeg.kefed.services.serverInteraction.impl.*;
 	
 	import edu.isi.bmkeg.kefed.designer.model.*;
-	import edu.isi.bmkeg.kefed.designer.service.*;	
+	import edu.isi.bmkeg.kefed.designer.controller.*;
 	import edu.isi.bmkeg.kefed.designer.view.*;
+	import edu.isi.bmkeg.kefed.designer.view.popups.*;
 
 	import edu.isi.bmkeg.ooevv.editor.controller.*;
 	import edu.isi.bmkeg.ooevv.editor.model.*;
@@ -44,9 +55,21 @@ package edu.isi.bmkeg.kefed.designer
 		
 		override public function startup():void
 		{
+
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			// KefedDesigner
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			injector.mapSingleton(KefedDesignerModel);
-			injector.mapSingletonOf(IKefedService, KefedService);
+			injector.mapSingletonOf(IKefedService, KefedServiceImpl);
+			injector.mapSingletonOf(IKefedServer, KefedServerImpl);
 			injector.mapSingleton(OoevvElementPagedListModel);
+			injector.mapSingletonOf(IExtendedKefedService, ExtendedKefedServiceImpl);
+			injector.mapSingletonOf(IExtendedKefedServer, ExtendedKefedServerImpl);
+
+			commandMap.mapEvent(SaveCompleteKefedModelEvent.SAVE_COMPLETE_KEFED_MODEL, 
+				SaveCompleteKefedModelCommand);
+			commandMap.mapEvent(SaveCompleteKefedModelResultEvent.SAVE_COMPLETE_KEFED_MODEL_RESULT,
+				SaveCompleteKefedModelResultCommand);
 			
 			// Events from KefedDiagram and translated to KefedDesigner events
 			moduleCommandMap.mapEvent(AddFlareNodeEvent.ADD_FLARE_NODE, TranslateAddFlareNodeCommand);
@@ -56,7 +79,8 @@ package edu.isi.bmkeg.kefed.designer
 			moduleCommandMap.mapEvent(RenameFlareNodeEvent.RENAME_FLARE_NODE, TranslateRenameFlareNodeCommand);
 			moduleCommandMap.mapEvent(SelectFlareNodeEvent.SELECT_FLARE_NODE, TranslateSelectFlareNodeCommand);
 			moduleCommandMap.mapEvent(AddNewKefedElementEvent.ADD_NEW_KEFED_ELEMENT, DispatchLocallyCommand);
-
+			moduleCommandMap.mapEvent(UpdateKapitXmlEvent.UPDATE_KAPIT_XML, UpdateKapitXmlCommand);
+		
 			commandMap.mapEvent(AddNewKefedEdgeEvent.ADD_NEW_KEFED_EDGE, AddNewKefedEdgeCommand);
 			commandMap.mapEvent(AddNewKefedElementEvent.ADD_NEW_KEFED_ELEMENT, AddNewKefedElementCommand);
 			commandMap.mapEvent(RenameKefedElementEvent.RENAME_KEFED_ELEMENT, RenameKefedElementCommand);
@@ -65,6 +89,19 @@ package edu.isi.bmkeg.kefed.designer
 			
 			mediatorMap.mapView(KefedDesignerView, KefedDesignerMediator);
 
+			// Need a bit of extra detail to deal with popups
+			mediatorMap.mapView(KefedModelListPopup, KefedModelListPopupMediator, null, false, false);
+
+			commandMap.mapEvent(ListKefedModelEvent.LIST_KEFEDMODEL, 
+				ListKefedModelCommand);
+			commandMap.mapEvent(ListKefedModelResultEvent.LIST_KEFEDMODEL_RESULT, 
+				ListKefedModelResultCommand);
+			commandMap.mapEvent(RetrieveCompleteKefedModelEvent.RETRIEVE_COMPLETE_KEFED_MODEL, 
+				RetrieveCompleteKefedModelCommand);
+			commandMap.mapEvent(RetrieveCompleteKefedModelResultEvent.RETRIEVE_COMPLETE_KEFED_MODEL_RESULT, 
+				RetrieveCompleteKefedModelResultCommand);
+			
+			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// KefedDiagram 
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -73,7 +110,7 @@ package edu.isi.bmkeg.kefed.designer
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// Cytoscape Web 
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			mediatorMap.mapView(CytoscapeWeb, CytoscapeWebMediator);
+			//mediatorMap.mapView(CytoscapeWeb, CytoscapeWebMediator);
 			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// OoevvEditor 
@@ -121,6 +158,8 @@ package edu.isi.bmkeg.kefed.designer
 			
 //			commandMap.mapEvent(LoadOoevvElementSetResultEvent.LOAD_OOEVV_ELEMENT_SET_RESULT, LoadOoevvElementSetResultCommand);
 //			commandMap.mapEvent(LoadOoevvElementResultEvent.LOAD_OOEVV_ELEMENT_RESULT, LoadOoevvElementResultCommand);
+		
+			
 			
 		}
 	}

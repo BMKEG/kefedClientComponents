@@ -17,9 +17,13 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import edu.isi.bmkeg.kefed.events.*;
 			import edu.isi.bmkeg.kefed.model.design.KefedModel;
 			import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
+			import edu.isi.bmkeg.kefed.designer.view.popups.*;
 			import edu.isi.bmkeg.kefed.designer.events.elementLevel.SelectKefedElementEvent;
+			
+			import mx.managers.PopUpManager;
 			
 			import spark.events.ListEvent;
 			
@@ -66,6 +70,22 @@
 				}
 			}
 			
+			protected function renameButton_clickHandler(event:MouseEvent):void {
+				var popup:KefedModelPopup = PopUpManager.createPopUp(this, KefedModelPopup, true) as KefedModelPopup;			
+				PopUpManager.centerPopUp(popup);
+				popup.p = this;
+			}
+			
+			protected function loadButton_clickHandler(event:MouseEvent):void
+			{
+				this.dispatchEvent( new ActivateKefedModelListPopupEvent() );
+				
+			}
+			
+			protected function saveButton_clickHandler(event:MouseEvent):void
+			{
+				this.dispatchEvent( new SaveCompleteKefedModelEvent(this.model) );
+			}
 			
 		]]>
 	</fx:Script>
@@ -81,8 +101,25 @@
 	</s:states>
 	
 	<mx:HDividedBox width="100%" height="100%">
+
+		<s:Panel id="editorPanel" 
+				 width="70%" height="100%" 
+				 title="KEfED Model Editor: {model.exptId}" 
+				 skinClass="edu.isi.bmkeg.kefed.diagram.view.KefedDiagramModuleSkin">
 		
-		<diagView:KefedDiagramModule width="70%" height="100%"/>
+			<s:layout>
+				<s:VerticalLayout/>
+			</s:layout>
+			
+			<diagView:KefedDiagramModule width="100%" height="100%"/>
+			
+			<mx:HBox width="100%" height="30" verticalAlign="middle" >
+				<mx:Button id="renameButton" label="Rename..." click="renameButton_clickHandler(event)" /> 
+				<mx:Button id="loadButton" label="Load" click="loadButton_clickHandler(event)" /> 
+				<mx:Button id="saveButton" label="Save"  click="saveButton_clickHandler(event)" /> 
+			</mx:HBox>
+				
+		</s:Panel>
 		
 		<s:Group id="modelDetails" width="30%" height="100%" >
 			

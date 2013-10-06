@@ -147,11 +147,8 @@
     ]]>
     
 	</fx:Script>
-	
-	<s:Panel id="flatPanel" 
-			  width="100%" height="100%" 
-			  title="KEfED Model Editor" 
-			  skinClass="edu.isi.bmkeg.kefed.diagram.view.KefedDiagramModuleSkin">                
+		
+	<mx:VBox width="100%" height="100%" >                
 			
 		<mx:HBox width="100%" height="30" verticalAlign="middle" >
 		
@@ -169,6 +166,6 @@
 									creationComplete="initDiagram();">
 	        </local:KapitDiagramView>
 		</mx:HBox>
-	</s:Panel>
+	</mx:VBox>
 	
 </mx:Module>

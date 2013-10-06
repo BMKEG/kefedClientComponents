@@ -19,6 +19,8 @@ package edu.isi.bmkeg.kefed.designer.model
 		public var modelList:ArrayCollection = new ArrayCollection();
 		
 		public var kefedModel:KefedModel = new KefedModel();
+
+		public var lastXmlUpdateTime:Date = new Date();
 		
 		// Copy of the KEfED model
 		public var savedModel:KefedModel = new KefedModel();
