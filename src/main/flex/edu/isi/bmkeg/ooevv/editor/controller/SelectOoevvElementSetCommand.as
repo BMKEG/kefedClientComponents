@@ -30,7 +30,7 @@ package edu.isi.bmkeg.ooevv.editor.controller
 			
 			var oe:OoevvElement_qo = new OoevvElement_qo();
 			var oes:OoevvElementSet_qo = new OoevvElementSet_qo();
-			oe.sets.addItem(oes);
+			oe.ontology = oes;
 			
 			if( !isNaN(event.uid) ) { 
 				oes.vpdmfId = event.uid + "";

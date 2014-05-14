@@ -242,6 +242,19 @@
 				
 			}
 			
+			private function nameLabelFunktion(item:Object, column:DataGridColumn):String {
+				
+				if(item.viewType == "OoevvProcess")
+					return "Process";
+				else if( item.viewType == "OoevvEntity" ) 
+					return "Entity";
+				else if( item.viewType == "ExperimentalVariable") 
+					return item['ExperimentalVariable_3'];
+				
+				return "";
+				
+			}
+			
 			//~~~~~~~~~~~~~~~~~~~
 			// Generate new file.
 			//~~~~~~~~~~~~~~~~~~~
@@ -317,7 +330,7 @@
 								   labelFunction="typeLabelFunktion" 
 								   headerText="Type"/> 
 				<mx:DataGridColumn id="nameColumn" 
-								   dataField="vpdmfLabel" 
+								   labelFunction="nameLabelFunktion" 
 								   headerText="Name"/> 
 			</mx:columns> 
 	</mx:DataGrid>

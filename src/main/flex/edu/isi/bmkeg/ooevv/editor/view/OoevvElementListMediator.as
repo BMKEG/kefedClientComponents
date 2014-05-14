@@ -37,7 +37,7 @@ package edu.isi.bmkeg.ooevv.editor.view
 
 			// instantiate the view with data if present.
 			if( model != null && model.ooevvElementSet != null ) {
-				view.elements = model.ooevvElementSet.elements;
+				view.elements = model.ooevvElementSet.term;
 			}
 
 		}
@@ -56,7 +56,7 @@ package edu.isi.bmkeg.ooevv.editor.view
 		private function updateVariableListControl(event:LoadOoevvElementSetResultEvent):void {
 			
 			var oes:OoevvElementSet = OoevvElementSet(event.result);
-			view.elements = oes.elements; 
+			view.elements = oes.term; 
 			
 		}		
 		
