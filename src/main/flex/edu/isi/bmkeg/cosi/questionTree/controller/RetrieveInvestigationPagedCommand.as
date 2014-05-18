@@ -1,7 +1,7 @@
 package edu.isi.bmkeg.cosi.questionTree.controller
 {	
 	import edu.isi.bmkeg.cosi.questionTree.model.*;
-	import edu.isi.bmkeg.cosi.model.*;
+	import edu.isi.bmkeg.cosi.model.*
 	import edu.isi.bmkeg.cosi.rl.events.*;
 	import edu.isi.bmkeg.cosi.rl.services.ICosiService;
 	

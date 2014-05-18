@@ -11,9 +11,6 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import edu.isi.bmkeg.digitalLibrary.events.ClosePopupEvent;
-			import edu.isi.bmkeg.digitalLibrary.model.citations.Corpus;
-			import edu.isi.bmkeg.digitalLibrary.rl.events.*;
 			import edu.isi.bmkeg.kefed.designer.view.*;
 			
 			import mx.events.FlexEvent;

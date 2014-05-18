@@ -4,9 +4,6 @@ package edu.isi.bmkeg.kefed.designer.view.popups
 	import edu.isi.bmkeg.events.*;
 	import edu.isi.bmkeg.kefed.events.*;
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
-	import edu.isi.bmkeg.digitalLibrary.rl.events.*;
-	import edu.isi.bmkeg.digitalLibraryModule.events.*;
-	import edu.isi.bmkeg.digitalLibraryModule.model.*;
 	import edu.isi.bmkeg.pagedList.*;
 	import edu.isi.bmkeg.pagedList.model.*;
 	

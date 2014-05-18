@@ -216,7 +216,7 @@
 		<top:CytoscapeWeb id="cscapeModule" parameters="{params}" width="70%" height="100%"/>
 
 		<s:Panel id="modelDetails" width="30%" height="100%" 
-				  title="{model.reference}"  
+				  title="{model.exptId}"  
 				  backgroundAlpha="{modelDetails.getStyle('borderAlpha')}" 
 				  backgroundColor="{modelDetails.getStyle('borderColor')}">
 					

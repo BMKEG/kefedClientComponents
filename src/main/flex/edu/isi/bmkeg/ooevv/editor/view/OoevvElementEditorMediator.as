@@ -134,7 +134,7 @@ package edu.isi.bmkeg.ooevv.editor.view
 
 				var oswnr:OrdinalScaleWithNamedRanks = OrdinalScaleWithNamedRanks(ms);
 				
-				view.owwnrTable.dataProvider = oswnr.ordinalValues;
+				view.owwnrTable.dataProvider = oswnr.oVal;
 								
 			} else if( s == "CompositeScale") {
 
@@ -146,7 +146,7 @@ package edu.isi.bmkeg.ooevv.editor.view
 
 				var nswat:NominalScaleWithAllowedTerms = NominalScaleWithAllowedTerms(ms);
 
-				view.nswatTable.dataProvider = nswat.nominalValues;
+				view.nswatTable.dataProvider = nswat.nVal;
 
 			} else if( s == "RelativeTermScale") {
 //				var rts:RelativeTermScale = RelativeTermScale(o);
