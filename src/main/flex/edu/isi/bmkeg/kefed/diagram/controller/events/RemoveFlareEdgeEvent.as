@@ -9,14 +9,19 @@ package edu.isi.bmkeg.kefed.diagram.controller.events
 		public static const REMOVE_FLARE_EDGE:String = "removeFlareEdge";
 		
 		public var uid:String;
+		public var xml:XML;
 		
 		/**
 		 * Constructor.
 		 */
-		public function RemoveFlareEdgeEvent(uid:String)
+		public function RemoveFlareEdgeEvent(uid:String, 
+											 xml:XML, 
+											 bubbles:Boolean=false, 
+											 cancelable:Boolean=false)
 		{
-			super(REMOVE_FLARE_EDGE);
+			super(REMOVE_FLARE_EDGE, bubbles, cancelable);
 			this.uid = uid;
+			this.xml = xml;
 		}
 		
 		/**
@@ -24,7 +29,7 @@ package edu.isi.bmkeg.kefed.diagram.controller.events
 		 */
 		override public function clone() : Event
 		{
-			return new RemoveFlareEdgeEvent(uid);
+			return new RemoveFlareEdgeEvent(uid, xml, bubbles, cancelable);
 		}
 		
 	}

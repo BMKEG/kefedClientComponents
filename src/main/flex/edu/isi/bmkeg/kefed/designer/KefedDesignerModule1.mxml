@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:diagBase="edu.isi.bmkeg.kefed.diagram.*"
+		 xmlns:diagView="edu.isi.bmkeg.kefed.diagram.view.*"
+		 xmlns:ooevv="edu.isi.bmkeg.ooevv.editor.view.*"
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx"
+		 xmlns:view="edu.isi.bmkeg.kefed.designer.view.*"
+		 creationComplete="module1_creationCompleteHandler(event)"
+		 width="400" height="300" >
+	
+	<fx:Declarations>
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import edu.isi.bmkeg.kefed.events.elementLevel.SelectKefedElementEvent;
+			import edu.isi.bmkeg.kefed.designer.view.popups.*;
+			import edu.isi.bmkeg.kefed.events.*;
+			import edu.isi.bmkeg.kefed.rl.events.*;
+			import edu.isi.bmkeg.kefed.model.design.KefedModel;
+			import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
+			import edu.isi.bmkeg.kefed.model.qo.design.KefedModel_qo;
+			
+			import mx.core.IVisualElementContainer;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.robotlegs.core.IContext;
+			import org.robotlegs.core.IInjector;
+			import org.robotlegs.utilities.modular.core.IModule;
+			import org.robotlegs.utilities.modular.core.IModuleContext;
+			
+			import spark.events.ListEvent;
+			
+			protected var context:IModuleContext;
+			
+			/**
+			 * We need to initialize our context by setting the parent
+			 * injector for the module. This is actually injected by the
+			 * shell, so no need to worry about it!
+			 */
+			[Inject]
+			public function set parentInjector(value:IInjector):void
+			{
+				context = new KefedDesignerContext(this, value);
+			}
+			
+			public function dispose():void
+			{
+				if(parent && parent.contains(this))
+					IVisualElementContainer(parent).removeElement(this);
+				context.dispose();
+				context = null;    
+			}	
+			
+			[Bindable]
+			public var model:KefedModel;
+
+			[Bindable]
+			public var panelTitle:String = "Designer";
+			
+			[Bindable]
+			public var modelDescription:String = "Notes";
+			
+			private function cancelSave(event:MouseEvent):void {
+			}
+			
+			private function doSave(event:MouseEvent, exit:Boolean):void {
+			}
+			
+/*			private function handleObjectSelectedInGrid(event:MouseEvent):void {
+				var i:int = objectsGrid.selectedIndex;
+				var k:KefedModelElement = KefedModelElement(model.elements.getItemAt(i));
+				this.dispatchEvent(new SelectKefedElementEvent(k.uuid));
+			}*/
+			
+			private function handleObjectDoubleClickInGrid(event:MouseEvent):void {
+			}
+			
+			private function handleLinkSelectedInGrid(event:ListEvent):void {
+			}
+			
+			private function objectsGridCompleted(event:Event):void {
+			}
+			
+			private function traceEvent(event:Event):void {
+				trace("Event ",event);
+			}
+			
+			private function ooevvElementTypeLabelFunktion(item:Object, thisObject:Object):String {
+				var k:KefedModelElement = KefedModelElement(item); 
+				var p:RegExp = /Instance/;
+				return k.elementType.replace(p,"");
+			}
+			
+			private function ooevvElementLabelFunktion(item:Object, thisObject:Object):String {
+				var k:KefedModelElement = KefedModelElement(item); 
+				if( k.defn != null && k.defn != null) {
+					return k.defn.termValue;
+				} else {
+					return "";
+				}
+			}
+			
+			protected function module1_creationCompleteHandler(event:FlexEvent):void
+			{
+				//
+				// When we load this element, we list all the models in the system. 
+				//
+				var kQo:KefedModel_qo = new KefedModel_qo();
+				this.dispatchEvent(new ListKefedModelEvent(kQo) );		
+			}
+			
+			protected function kefedModelNotesControl_clickHandler(event:MouseEvent):void
+			{
+				this.dispatchEvent( new ActivateEditKefedModelPopupEvent() );				
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<!--<s:states>
+		<s:State name="Model"/>
+		<s:State name="MaterialEntity"/>
+		<s:State name="Process"/>
+		<s:State name="ProcessPoint"/>
+		<s:State name="Constant"/>
+		<s:State name="Parameter"/>
+		<s:State name="Measurement"/>
+	</s:states>-->
+	
+	<mx:HDividedBox width="100%" height="100%">
+
+		<s:Panel id="modelListPanel" 
+				 width="20%" 
+				 height="100%" 
+				 title="Models" 
+				 skinClass="edu.isi.bmkeg.kefed.designer.view.KefedDesignerModuleSkin">
+			<view:KefedModelListControl width="100%" height="100%"/>
+			<s:layout>
+				<s:VerticalLayout/>
+			</s:layout>			
+		</s:Panel>		
+
+		<s:Panel id="editorPanel" 
+				 width="60%" 
+				 height="100%" 
+				 title="{panelTitle}" 
+				 skinClass="edu.isi.bmkeg.kefed.designer.view.KefedDesignerModuleSkin">
+		
+			<s:layout>
+				<s:VerticalLayout/>
+			</s:layout>
+			
+			<s:Label id="kefedModelNotesControl" 
+					 text="{modelDescription}" 
+					 width="100%"
+					 click="kefedModelNotesControl_clickHandler(event)"/>
+			
+			<diagView:KefedDiagramModule width="100%" height="100%"/>
+			
+		</s:Panel>		
+			
+		<mx:VBox width="20%" height="100%">
+	
+			<mx:LinkBar borderStyle="none" backgroundAlpha="1.0" dataProvider="{myViewStack}"/>
+		
+			<mx:ViewStack id="myViewStack" 
+					  borderStyle="none"  
+					  height="100%" width="100%">
+
+				<!-- Define each panel using a VBox container. -->
+				<mx:VBox label="Element Catalog" width="100%" height="100%">
+					<ooevv:OoevvElementCatalog id="ooevvCat" width="100%" height="100%" />
+				</mx:VBox>
+				
+				<mx:VBox label="Element Detail" width="100%" height="100%">
+					<view:KefedElementDataStructureControl id="kedsControl" title="Data Structure" 
+														   width="100%" height="100%"
+														   skinClass="edu.isi.bmkeg.kefed.designer.view.KefedDesignerModuleSkin"/>	
+				</mx:VBox>
+				
+			</mx:ViewStack>
+
+		</mx:VBox>
+		
+	</mx:HDividedBox>
+	
+</mx:Module>

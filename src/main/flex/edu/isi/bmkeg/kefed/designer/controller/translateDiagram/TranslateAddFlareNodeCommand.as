@@ -1,11 +1,9 @@
 package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 {	
-	import edu.isi.bmkeg.kefed.model.design.*;
-	
-	import edu.isi.bmkeg.kefed.designer.events.elementLevel.AddNewKefedElementEvent;
-
 	import edu.isi.bmkeg.kefed.diagram.controller.events.AddFlareNodeEvent;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareNode;
+	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
+	import edu.isi.bmkeg.kefed.events.elementLevel.InsertKefedElementEvent;
+	import edu.isi.bmkeg.kefed.model.design.*;
 	
 	import flash.events.Event;
 	
@@ -70,8 +68,9 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 			}
 			
 			kefedEl.uuid = el.uid;
+			var xml:XML = this.event.xml;
 			
-			var event:AddNewKefedElementEvent = new AddNewKefedElementEvent(kefedEl);
+			var event:InsertKefedElementEvent = new InsertKefedElementEvent(kefedEl, xml);
 			dispatch(event);
 			
 		}

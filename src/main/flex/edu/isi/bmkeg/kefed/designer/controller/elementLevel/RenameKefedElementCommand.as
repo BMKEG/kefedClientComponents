@@ -2,7 +2,7 @@ package edu.isi.bmkeg.kefed.designer.controller.elementLevel
 {	
 	import edu.isi.bmkeg.kefed.model.design.*;
 	
-	import edu.isi.bmkeg.kefed.designer.events.elementLevel.RenameKefedElementEvent;
+	import edu.isi.bmkeg.kefed.events.elementLevel.RenameKefedElementEvent;
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
 
 	import flash.events.Event;

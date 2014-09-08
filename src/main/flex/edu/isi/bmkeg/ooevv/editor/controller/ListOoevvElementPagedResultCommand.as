@@ -28,22 +28,10 @@ package edu.isi.bmkeg.ooevv.editor.controller
 			
 			for each(var lvi:LightViewInstance in event.list) {
 				
-				var o:Object = new Object();
+				var o:Object = lvi.convertToIndexTupleObject();
 				o.vpdmfLabel = lvi.vpdmfLabel;
 				o.viewType = lvi.defName;
 				o.vpdmfId = lvi.vpdmfId;
-				var fields:Array = lvi.indexTupleFields.split(/\<\|\>/);
-				var tuple:Array = lvi.indexTuple.split(/\<\|\>/);
-				
-				for(var i:int=0; i<fields.length; i++) {
-					var f:String = fields[i] as String;
-					var v:String = tuple[i] as String;			
-					if( v == null )
-						v = "";
-					v = v.replace(/,/,", ");
-					o[f]=v;	
-				}
-				
 				l.addItem(o);
 				
 			}
@@ -55,8 +43,6 @@ package edu.isi.bmkeg.ooevv.editor.controller
 			}
 			
 		}
-	
-		
 		
 	}
 	

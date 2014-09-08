@@ -31,12 +31,13 @@
 		import com.kapit.diagram.proxies.DiagramProxy;
 		import com.kapit.diagram.proxies.KDLProxy;
 		import com.kapit.diagram.view.DiagramObject;
+		import com.kapit.diagram.view.DiagramSprite;
 		
 		import edu.isi.bmkeg.kefed.diagram.KefedDiagramContext;
 		import edu.isi.bmkeg.kefed.diagram.controller.events.*;
 		import edu.isi.bmkeg.kefed.diagram.controller.events.ChangeZoomEvent;
 		import edu.isi.bmkeg.kefed.diagram.controller.events.ShowKefedSvgEvent;
-		import edu.isi.bmkeg.kefed.diagram.model.vo.FlareGraph;
+		import edu.isi.bmkeg.kefed.model.flare.FlareGraph;
 		import edu.isi.bmkeg.kefed.diagram.utils.UiUtil;
 		import edu.isi.bmkeg.kefed.diagram.view.kapit.DiagramMappings;
 		import edu.isi.bmkeg.kefed.diagram.view.kapit.FlareLinkProxy;
@@ -113,6 +114,12 @@
 			this.dispatchEvent(ev);
 		}	
 		
+		private function saveLayout(event:MouseEvent):void {
+			var xml:XML = diagram.toXML();			
+			var ev:UpdateKapitXmlEvent = new UpdateKapitXmlEvent(xml, new Date());
+			this.dispatchEvent(ev);
+		}	
+		
 		private function handleDiagramSelectionChanged(e:DiagramEvent):void
 		{
 			var arr:Array = diagram.getSelectedObjects();
@@ -120,8 +127,8 @@
 			var type:String = null;
 			if( arr && arr.length == 1 ) { 
 				var dObj:DiagramObject = DiagramObject(arr[0]);
-				uid = dObj.dataobjectid;
-				this.dispatchEvent( new SelectFlareNodeEvent(uid) );
+				uid = dObj.did;
+				this.dispatchEvent( new SelectFlareNodeInDiagramEvent(uid) );
 			}			
 		}
 		
@@ -158,6 +165,8 @@
 		    <mx:Button label="Reset Zoom" click="handleResetZoomClick(event)"/>
 		    <mx:Button label="SVG" click="showSVG(event)" enabled="{zoomControl.value == 1}"
 		    	toolTip="Show SVG code for diagram.  Zoom control must be at 1."/>
+			<mx:Button label="Save Layout" click="saveLayout(event)"
+					   toolTip="Save this layout in the Database."/>
 		</mx:HBox>
 		<mx:HBox width="100%" height="100%" verticalAlign="middle" >
 			<local:KapitDiagramView width="100%" 

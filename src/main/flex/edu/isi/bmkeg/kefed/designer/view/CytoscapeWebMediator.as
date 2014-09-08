@@ -1,11 +1,9 @@
 package edu.isi.bmkeg.kefed.designer.view
 {
 
-	import edu.isi.bmkeg.kefed.designer.events.elementLevel.*;
-	import edu.isi.bmkeg.kefed.designer.events.elementLevel.RemoveKefedElementEvent;
+	import edu.isi.bmkeg.kefed.events.elementLevel.*;
+	import edu.isi.bmkeg.kefed.events.elementLevel.DeleteKefedElementEvent;
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
-	import edu.isi.bmkeg.kefed.designer.view.KefedDesignerView;
-	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodeEvent;
 	import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
 	
 	import flash.events.Event;
@@ -64,9 +62,9 @@ package edu.isi.bmkeg.kefed.designer.view
 			
 			addViewListener(ApplicationFacade.DRAW_GRAPH, readyFunction);
 
-			addContextListener(AddNewKefedElementEvent.ADD_NEW_KEFED_ELEMENT, handleGraphChange);
-			addContextListener(RemoveKefedEdgeEvent.REMOVE_KEFED_EDGE, handleGraphChange);
-			addContextListener(RemoveKefedElementEvent.REMOVE_KEFED_ELEMENT, handleGraphChange);
+			addContextListener(InsertKefedElementEvent.INSERT_KEFED_ELEMENT, handleGraphChange);
+			addContextListener(DeleteKefedEdgeEvent.DELETE_KEFED_EDGE, handleGraphChange);
+			addContextListener(DeleteKefedElementEvent.REMOVE_KEFED_ELEMENT, handleGraphChange);
 			//addContextListener(SelectKefedElementEvent.SELECT_KEFED_ELEMENT, handleIncomingSelectElement);
 
 			//addModuleListener(DoodadModuleEvent.DO_STUFF_REQUESTED, handleDoStuffRequest, DoodadModuleEvent);

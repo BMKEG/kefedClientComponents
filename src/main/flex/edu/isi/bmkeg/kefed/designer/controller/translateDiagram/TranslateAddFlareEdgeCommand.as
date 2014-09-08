@@ -3,11 +3,10 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 	
 	import edu.isi.bmkeg.kefed.model.design.KefedModelEdge;
 	import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
-	import edu.isi.bmkeg.kefed.designer.events.elementLevel.AddNewKefedEdgeEvent;
-	import edu.isi.bmkeg.kefed.designer.model.*;
+	import edu.isi.bmkeg.kefed.events.elementLevel.InsertKefedEdgeEvent;
 	import edu.isi.bmkeg.kefed.diagram.controller.events.AddFlareEdgeEvent;
 	import edu.isi.bmkeg.kefed.diagram.model.KefedDiagramModel;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareEdge;
+	import edu.isi.bmkeg.kefed.model.flare.FlareEdge;
 	
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
@@ -23,9 +22,6 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 	
 		[Inject]
 		public var event:AddFlareEdgeEvent;
-
-		[Inject]
-		public var kefedDesignerModel:KefedDesignerModel;
 				
 		[Inject]
 		public var moduleDispatcher:IModuleEventDispatcher;
@@ -36,8 +32,9 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 			var source:String = this.event.sourceUid;
 			var target:String = this.event.targetUid;
 			var edge:String = this.event.linkUid;
+			var xml:XML = this.event.xml;
 
-			var event:AddNewKefedEdgeEvent = new AddNewKefedEdgeEvent(source, target, edge);
+			var event:InsertKefedEdgeEvent = new InsertKefedEdgeEvent(source, target, edge, xml);
 			
 			dispatch(event);
 					

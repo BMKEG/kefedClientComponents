@@ -13,8 +13,8 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 	import com.kapit.diagram.view.DiagramView;
 	
 	import edu.isi.bmkeg.kefed.diagram.controller.events.*;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareGraph;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareNode;
+	import edu.isi.bmkeg.kefed.model.flare.FlareGraph;
+	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
 	import edu.isi.bmkeg.kefed.diagram.view.KefedDiagramModule;
 	
 	import mx.utils.StringUtil;
@@ -49,7 +49,7 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 			var sprite:DiagramSprite = DiagramSprite(el);
 			var spriteid:String = sprite.spriteid;
 			var name:String = el.did;
-			var uid:String = UIDUtil.createUID();
+			var uid:String = el.did;
 			var obj:FlareNode = new FlareNode();
 			obj.type = type;
 			obj.spriteid = spriteid;
@@ -65,7 +65,9 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 			obj.compositions = 0;
 			obj.master = "";
 			
-			_kefedDiagramView.dispatchEvent( new AddFlareNodeEvent(obj) );
+			var xml:XML = _view.toXML();
+
+			_kefedDiagramView.dispatchEvent( new AddFlareNodeEvent(obj, xml) );
 			
 			return uid;
 
@@ -73,8 +75,10 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 		
 		public function removeDataObject(el:IDiagramElement):void
 		{
-			var uid:String = el.dataobjectid;
-			_kefedDiagramView.dispatchEvent( new RemoveFlareNodeEvent(uid) );
+			var uid:String = el.did;
+			var xml:XML = _view.toXML();
+
+			_kefedDiagramView.dispatchEvent( new RemoveFlareNodeEvent(uid, xml) );
 		}
 		
 		public function allowLinkAction(el:IDiagramElement):Boolean
@@ -152,6 +156,7 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 		
 		public function dataObjectRemoved(uid:String):void
 		{
+		
 		}
 		
 		public function dataObjectLoaded(el:IDiagramElement):void
@@ -197,9 +202,6 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 		{
 			var s:DiagramSprite = el as DiagramSprite;		
 			
-			var uid:String = el.dataobjectid;
-			_kefedDiagramView.dispatchEvent( new RemoveFlareNodeEvent(uid) );
-
 			if (s && s.masterobject)
 				return false;	
 			return true;

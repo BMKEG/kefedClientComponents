@@ -29,7 +29,7 @@
 					
 					var oe:OoevvElement = new OoevvElement();
 					var oes:OoevvElementSet = new OoevvElementSet();
-					oe.ontology = oes;
+					oe.ooevvSet.addItem( oes );
 					oes.vpdmfId = vpdmfId;
 					
 					this.dispatchEvent( new SelectOoevvElementSetEvent(vpdmfId, 0, "") );

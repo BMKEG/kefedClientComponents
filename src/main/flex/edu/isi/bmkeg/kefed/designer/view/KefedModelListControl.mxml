@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Group xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 xmlns:hc="com.hillelcoren.components.*"
+		 width="100%" height="100%">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<s:states>
+		<s:State name="empty"/>	
+		<s:State name="modelLoaded"/>	
+	</s:states>
+	
+	<fx:Script>
+		<![CDATA[
+			import edu.isi.bmkeg.kefed.events.*;
+			import edu.isi.bmkeg.kefed.rl.events.*;
+			import edu.isi.bmkeg.ftd.rl.events.ListFTDFragmentEvent;
+			import edu.isi.bmkeg.ftd.model.qo.*;
+			import edu.isi.bmkeg.kefed.designer.view.popups.*;
+			import edu.isi.bmkeg.kefed.designer.model.*;
+			import edu.isi.bmkeg.kefed.model.design.*;
+			import edu.isi.bmkeg.kefed.model.qo.design.*;
+			import edu.isi.bmkeg.ooevv.model.*;
+			import edu.isi.bmkeg.vpdmf.model.instances.LightViewInstance;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Bindable]
+			public var domain:OoevvElementSet;
+			
+			[Bindable]
+			public var tree:XML = <root/>;
+			
+			[Bindable]
+			public var fragment:String = "...";
+			
+			//
+			// Define a custom function for the labelFunction property
+			// to display an Object in the ComboBox control.
+			//
+			public function myLabelFunc(item:Object):String {
+				if( item == null )
+					return "-";
+				
+				if( item.vpdmfLabel == null )
+					return "< None >";
+				
+				return item.vpdmfLabel; 
+			}	
+			
+			protected function addButton_clickHandler(event:MouseEvent):void
+			{
+				this.dispatchEvent( new ActivateKefedModelListPopupEvent() );
+			}
+			
+			protected function removeButton_clickHandler(event:MouseEvent):void
+			{
+				Alert.show("Are You Sure?", "Confirm Delete",
+					Alert.OK | Alert.CANCEL, this,
+					confirmDeleteListener, null, Alert.OK);
+			}
+			
+			protected function confirmDeleteListener(event:CloseEvent):void
+			{
+				if (event.detail == Alert.OK) {
+					this.dispatchEvent(new DeleteCompleteKefedModelEvent(-1) );
+				}
+			}
+						
+			protected function frgTree_clickHandler(event:MouseEvent):void
+			{
+				var o:XML = XML(frgTree.selectedItem); 
+				
+				if( o.attribute("type").toString() == "kefedModel" ) {			
+					
+					var kId:Number = Number(o.attribute("data"));
+					this.dispatchEvent(new RetrieveCompleteKefedModelEvent(kId));
+					
+					var frgQ:FTDFragment_qo = new FTDFragment_qo();
+					frgQ.vpdmfId = o.parent().attribute("data");
+					this.dispatchEvent(new ListFTDFragmentEvent(frgQ));
+					
+				}
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<s:Label id="currentFragmentControl" 
+				includeIn="modelLoaded"
+				width="100%"
+			 text="{fragment}"/>
+	
+	<mx:Tree id="frgTree"
+			 width="100%"
+			 height="100%"
+			 labelField="@label"
+			 click="frgTree_clickHandler(event)"
+			 dataProvider="{tree.node}">
+	</mx:Tree>	
+	
+	<s:Group width="100%" height="25">
+		<s:layout>
+			<s:HorizontalLayout />
+		</s:layout>
+		<s:Button id="addButton" width="37" height="22" 
+				  label="+" fontSize="16" click="addButton_clickHandler(event)"/>
+		<s:Button id="removeButton" width="37" height="22" 
+				  label="-" fontSize="16" click="removeButton_clickHandler(event)"/>
+	</s:Group>
+	
+</s:Group>

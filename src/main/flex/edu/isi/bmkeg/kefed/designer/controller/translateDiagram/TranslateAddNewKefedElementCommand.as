@@ -2,10 +2,10 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 {	
 	import edu.isi.bmkeg.kefed.model.design.*;
 	
-	import edu.isi.bmkeg.kefed.designer.events.elementLevel.AddNewKefedElementEvent;
+	import edu.isi.bmkeg.kefed.events.elementLevel.InsertKefedElementEvent;
 
 	import edu.isi.bmkeg.kefed.diagram.controller.events.AddFlareNodeEvent;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareNode;
+	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
 	
 	import flash.events.Event;
 	
@@ -16,7 +16,7 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 	{
 	
 		[Inject]
-		public var event:AddNewKefedElementEvent;
+		public var event:InsertKefedElementEvent;
 				
 
 		override public function execute():void

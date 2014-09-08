@@ -39,6 +39,41 @@ package edu.isi.bmkeg.kefed.services.serverInteraction.impl
 		{
 			return getOperation("retrieveCompleteKefedModel");
 		}
+
+		public function get deleteCompleteKefedModel():AbstractOperation
+		{
+			return getOperation("deleteCompleteKefedModel");
+		}
+		
+		public function get retrieveKefedModelTree():AbstractOperation
+		{
+			return getOperation("retrieveKefedModelTree");
+		}
+		
+		public function get createNewKefedModelForFragment():AbstractOperation
+		{
+			return getOperation("createNewKefedModelForFragment");
+		}
+		
+		public function get deleteKefedElement():AbstractOperation
+		{
+			return getOperation("deleteKefedNode");
+		}
+		
+		public function get deleteKefedEdge():AbstractOperation
+		{
+			return getOperation("deleteKefedEdge");
+		}
+		
+		public function get insertKefedElement():AbstractOperation
+		{
+			return getOperation("insertKefedElement");
+		}
+		
+		public function get insertKefedEdge():AbstractOperation
+		{
+			return getOperation("insertKefedEdge");
+		}
 		
 	}
 

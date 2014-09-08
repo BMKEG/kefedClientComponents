@@ -1,20 +1,24 @@
 package edu.isi.bmkeg.kefed.diagram.controller
 {	
-	import edu.isi.bmkeg.kefed.model.design.*;
 	import edu.isi.bmkeg.kefed.diagram.controller.events.DropKefedNodeIntoDiagramEvent;
-	import edu.isi.bmkeg.kefed.diagram.controller.events.LoadFlareGraphEvent;
+	import edu.isi.bmkeg.kefed.events.modelLevel.LoadFlareGraphEvent;
 	import edu.isi.bmkeg.kefed.diagram.model.KefedDiagramModel;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareGraph;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareNode;
+	import edu.isi.bmkeg.kefed.model.flare.FlareGraph;
+	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
 	import edu.isi.bmkeg.kefed.diagram.view.KefedDiagramModule;
+
+	import edu.isi.bmkeg.kefed.events.elementLevel.InsertKefedElementEvent;
+
+	import edu.isi.bmkeg.kefed.model.design.*;
 	
 	import flash.events.Event;
 	
 	import mx.utils.UIDUtil;
 	
 	import org.robotlegs.mvcs.Command;
+	import org.robotlegs.utilities.modular.mvcs.ModuleCommand;
 	
-	public class DropKefedNodeIntoDiagramCommand extends Command
+	public class DropKefedNodeIntoDiagramCommand extends ModuleCommand
 	{
 		
 		[Inject]
@@ -34,8 +38,8 @@ package edu.isi.bmkeg.kefed.diagram.controller
 			
 			//	id="2CFDD60E-6FBE-95CC-4262-A0ACB71D7077" 
 			// dataid="86134C5F-74F5-8654-8D65-A0ACB73EFB05" 
-			var id:String = UIDUtil.createUID(); 
-			var dataid:String = event.k.uuid; // uuid
+			var id:String = event.k.uuid;
+			var dataid:String = UIDUtil.createUID(); // uuid
 			var dx:String = "NaN";
 			var dy:String = "NaN";
 			var x:Number = event.k.x;
@@ -48,6 +52,7 @@ package edu.isi.bmkeg.kefed.diagram.controller
 			var yLabel:Number = (h/2.0);
 			
 			var label:String = event.k.defn.termValue;
+			
 			var nLines:int = Math.ceil(label.length / 12);
 			
 			if( event.k is ConstantInstance ) {
@@ -130,7 +135,7 @@ package edu.isi.bmkeg.kefed.diagram.controller
 			
 			var node:FlareNode = new FlareNode();
 			node.did = id;
-			node.uid = dataid;
+			node.uid = id;
 			node.nameValue = event.k.defn.termValue;
 			node.spriteid = spriteid;
 			
@@ -138,6 +143,8 @@ package edu.isi.bmkeg.kefed.diagram.controller
 			g.addNode(node);
 			
 			dispatch(new LoadFlareGraphEvent(g, xml) );
+			
+			dispatchToModules( new InsertKefedElementEvent(event.k, xml) );
 			
 		}
 		

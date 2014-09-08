@@ -1,9 +1,9 @@
 package edu.isi.bmkeg.kefed.diagram.model
 {
 	
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareEdge;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareGraph;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareNode;
+	import edu.isi.bmkeg.kefed.model.flare.FlareEdge;
+	import edu.isi.bmkeg.kefed.model.flare.FlareGraph;
+	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
 	import edu.isi.bmkeg.kefed.diagram.controller.events.*;
 	import edu.isi.bmkeg.kefed.model.design.*;
 	
@@ -120,70 +120,6 @@ package edu.isi.bmkeg.kefed.diagram.model
 			//this.kefedModel = kefedModel;
 		}
 		
-		public function importKefedModel(kefedModel:KefedModel):void {
-			
-			this.xml = XML( kefedModel.diagramXML );
-			
-			for each( var e:KefedModelElement in kefedModel.elements ) {
-				addFlareNode( this.convertKefedElementToFlareNode(e) );
-			}
-			
-			for each( var ee:KefedModelEdge in kefedModel.edges ) {
-				createFlareEdge(ee.source.uuid, ee.target.uuid, ee.uuid);
-			}
-			
-			dispatch(new LoadFlareGraphEvent(this.flareGraph, this.xml) );
-			
-		}
-		
-		public function convertKefedElementToFlareNode(
-			k:KefedModelElement):FlareNode {
-			
-			var n:FlareNode = new FlareNode();
-			n.did = k.uuid + "-0000"; 
-			n.uid = k.uuid;
-			n.nameValue = k.defn.termValue;
-			n.spriteid = spriteid;
-			
-			var dx:String = "NaN";
-			var dy:String = "NaN";
-			n.x = k.x;
-			n.y = k.y;
-			n.w = k.w;
-			n.h = k.h;
-			n.xLabel = k.xLabel;			
-			n.yLabel = k.yLabel;
-			
-			var spriteid:String = "";
-			var label:String = k.defn.termValue;
-			var nLines:int = Math.ceil(label.length / 12);
-			
-			if( k is ConstantInstance ) {
-				
-				spriteid = "Constant";
-				
-			} else if( k is ParameterInstance ) {
-				
-				spriteid = "Parameter";
-				
-				
-			} else if( k is MeasurementInstance ) {
-				
-				spriteid = "Measurement";
-				
-			} else if( k is EntityInstance) {
-				
-				spriteid = "Entity";
-				
-			} else if( k is ProcessInstance) {
-				
-				spriteid = "Process";
-				
-			}									
-			
-			return n;
-			
-		}
 			
 	}
 

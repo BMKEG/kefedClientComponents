@@ -15,7 +15,7 @@ package edu.isi.bmkeg.kefed.diagram.utils
 	import flash.text.TextLineMetrics;
 	
 	import edu.isi.bmkeg.kefed.diagram.view.kapit.*;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.*;
+	import edu.isi.bmkeg.kefed.model.flare.*;
 	import edu.isi.bmkeg.kefed.model.design.*;
 	
 	import mx.controls.Alert; 

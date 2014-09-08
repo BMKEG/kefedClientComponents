@@ -21,7 +21,7 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import edu.isi.bmkeg.kefed.designer.events.elementLevel.SelectKefedElementEvent;
+			import edu.isi.bmkeg.kefed.events.elementLevel.SelectKefedElementEvent;
 			import edu.isi.bmkeg.kefed.model.design.KefedModel;
 			import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
 			

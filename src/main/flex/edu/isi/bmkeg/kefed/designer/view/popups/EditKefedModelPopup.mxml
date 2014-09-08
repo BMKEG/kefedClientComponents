@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<!-- containers\spark\myComponents\MyLoginForm.mxml -->
+<s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
+			   xmlns:mx="library://ns.adobe.com/flex/mx" 
+			   xmlns:s="library://ns.adobe.com/flex/spark"
+			   close="handleCloseEvent();">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	
+	<fx:Script>
+		<![CDATA[
+			import edu.isi.bmkeg.events.*;
+			import edu.isi.bmkeg.kefed.events.*;
+			import edu.isi.bmkeg.kefed.model.design.KefedModel;
+			import edu.isi.bmkeg.kefed.rl.events.*;
+			import edu.isi.bmkeg.vpdmf.model.instances.LightViewInstance;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			
+			import spark.events.IndexChangeEvent;
+
+			[Bindable]
+			public var list:ArrayCollection = new ArrayCollection();
+			
+			[Bindable]
+			public var exptId:String = "...";
+			
+			[Bindable]
+			public var notes:String = "...";
+			
+			// Handle the close button and Cancel button.
+			private function handleCloseEvent():void {
+				this.dispatchEvent(new ClosePopupEvent(this));
+			}            
+			
+			//
+			// Define a custom function for the labelFunction property
+			// to display an Object in the ComboBox control.
+			//
+			public function myLabelFunc(item:Object):String {
+				return item.vpdmfLabel; 
+			}
+			
+			protected function button1_clickHandler(event:MouseEvent):void
+			{
+				
+				var km:KefedModel = new KefedModel();
+				km.exptId = exptIdInput.text;
+				km.notes = notesInput.text;
+					
+				this.dispatchEvent(
+					new UpdateKefedModelEvent(km, true, true) 
+				);						
+				
+				this.dispatchEvent(new ClosePopupEvent(this));
+				
+			}
+						
+			
+		]]>
+	</fx:Script>
+	
+	<s:Form>
+		<s:FormItem label="Experiment Id">
+			<s:TextInput id="exptIdInput" text="{exptId}" width="100%"/>
+		</s:FormItem> 
+		<s:FormItem label="Notes">
+			<s:TextArea id="notesInput" text="{notes}" heightInLines="3" width="100%"/>
+		</s:FormItem> 
+	</s:Form>
+	
+	<s:HGroup> 
+		<s:Button label="OK"
+				  click="button1_clickHandler(event)" /> 
+		<s:Button label="Cancel"
+				  click="handleCloseEvent();"/> 
+	</s:HGroup> 
+</s:TitleWindow>

@@ -25,7 +25,7 @@
 	import mx.collections.ArrayCollection;
 	import mx.binding.utils.BindingUtils;
 
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareNode;
+	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
 	//import edu.isi.bmkeg.kefed.elements.KefedBaseValueTemplate;
 	//import edu.isi.bmkeg.kefed.elements.KefedFullValueTemplate;
 	//import edu.isi.bmkeg.kefed.elements.KefedFieldTemplate;

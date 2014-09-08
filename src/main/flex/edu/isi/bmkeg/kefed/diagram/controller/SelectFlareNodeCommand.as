@@ -2,7 +2,7 @@ package edu.isi.bmkeg.kefed.diagram.controller
 {	
 	import org.robotlegs.mvcs.Command;
 	
-	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodeEvent;
+	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodeInDiagramEvent;
 	import edu.isi.bmkeg.kefed.diagram.model.KefedDiagramModel;
 	
 	import flash.events.Event;
@@ -11,14 +11,16 @@ package edu.isi.bmkeg.kefed.diagram.controller
 	{
 	
 		[Inject]
-		public var event:SelectFlareNodeEvent;
+		public var event:SelectFlareNodeInDiagramEvent;
 
 		[Inject]
 		public var kefedDiagramModel:KefedDiagramModel;
 				
 		override public function execute():void
 		{
-			kefedDiagramModel.selectNode(event.uid);
+			// TODO: NEED TO USE A BETTER WAY OF SELECTING NODES FROM THE APP
+			
+			//kefedDiagramModel.selectNode(event.uid);
 		}
 		
 	}

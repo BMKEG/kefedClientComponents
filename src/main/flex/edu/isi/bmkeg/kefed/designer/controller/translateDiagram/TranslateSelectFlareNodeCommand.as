@@ -3,11 +3,11 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 	
 	import edu.isi.bmkeg.kefed.model.design.KefedModelEdge;
 	import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
-	import edu.isi.bmkeg.kefed.designer.events.elementLevel.SelectKefedElementEvent;
+	import edu.isi.bmkeg.kefed.events.elementLevel.SelectKefedElementEvent;
 	import edu.isi.bmkeg.kefed.designer.model.*;
-	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodeEvent;
+	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodeInDiagramEvent;
 	import edu.isi.bmkeg.kefed.diagram.model.KefedDiagramModel;
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareEdge;
+	import edu.isi.bmkeg.kefed.model.flare.FlareEdge;
 	
 	import flash.events.ErrorEvent;
 	import flash.events.Event;
@@ -22,7 +22,7 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 	{
 	
 		[Inject]
-		public var event:SelectFlareNodeEvent;
+		public var event:SelectFlareNodeInDiagramEvent;
 
 		[Inject]
 		public var moduleDispatcher:IModuleEventDispatcher;
@@ -31,6 +31,7 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 		{
 
 			var uid:String = this.event.uid;
+			
 			var event:SelectKefedElementEvent = new SelectKefedElementEvent(uid);
 			dispatch(event);
 

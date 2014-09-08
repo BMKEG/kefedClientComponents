@@ -7,6 +7,7 @@ package edu.isi.bmkeg.kefed.diagram
 	import edu.isi.bmkeg.kefed.diagram.model.*;
 	import edu.isi.bmkeg.kefed.diagram.view.*;
 
+	import edu.isi.bmkeg.kefed.events.modelLevel.*;
 	import edu.isi.bmkeg.ooevv.rl.events.*;
 
 	import flash.display.DisplayObjectContainer;
@@ -41,12 +42,12 @@ package edu.isi.bmkeg.kefed.diagram
 			commandMap.mapEvent(DropKefedNodeIntoDiagramEvent.DROP_KEFED_NODE_INTO_DIAGRAM, DropKefedNodeIntoDiagramCommand);
 			commandMap.mapEvent(LoadFlareGraphEvent.LOAD_FLARE_GRAPH, LoadFlareGraphCommand);
 
-			commandMap.mapEvent(SelectFlareNodeEvent.SELECT_FLARE_NODE, SelectFlareNodeCommand);
+			commandMap.mapEvent(SelectFlareNodeInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, SelectFlareNodeCommand);
 			
 			commandMap.mapEvent(FindOoevvElementByIdEvent.FIND_OOEVVELEMENT_BY_ID, 
 				FindOoevvElementByIdCommand);
 
-			moduleCommandMap.mapEvent(SelectFlareNodeEvent.SELECT_FLARE_NODE, SelectFlareNodeCommand);
+			moduleCommandMap.mapEvent(SelectFlareNodeInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, SelectFlareNodeCommand);
 			moduleCommandMap.mapEvent(LoadKefedModelToDiagramEvent.LOAD_KEFED_MODEL_TO_DIAGRAM, LoadKefedModelToDiagramCommand);
 		}
 		

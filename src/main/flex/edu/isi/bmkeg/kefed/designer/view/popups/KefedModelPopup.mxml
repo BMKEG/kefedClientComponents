@@ -11,16 +11,16 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import edu.isi.bmkeg.kefed.designer.view.*;
+			import edu.isi.bmkeg.kefed.designer.*;
 			
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
 			import org.hamcrest.object.nullValue;
 						
-			private var _p:KefedDesignerView;
+			private var _p:KefedDesignerModule1;
 			
-			public function set p(p:KefedDesignerView):void {
+			public function set p(p:KefedDesignerModule1):void {
 				this._p = p;
 				if( p != null ) {
 					if( p.model.exptId != null )
@@ -31,7 +31,7 @@
 				}
 			}
 
-			public function get p():KefedDesignerView {
+			public function get p():KefedDesignerModule1 {
 				return this._p;
 			}
 			

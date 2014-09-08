@@ -1,14 +1,14 @@
 package edu.isi.bmkeg.kefed.designer.controller
 {	
-	import org.robotlegs.mvcs.Command;
-	
-	import edu.isi.bmkeg.kefed.events.*;
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
 	import edu.isi.bmkeg.kefed.diagram.controller.events.LoadKefedModelToDiagramEvent;
-		
-	import org.robotlegs.utilities.modular.mvcs.ModuleCommand;
+	import edu.isi.bmkeg.kefed.events.*;
+	import edu.isi.bmkeg.kefed.model.flare.FlareGraph;
 	
 	import flash.events.Event;
+	
+	import org.robotlegs.mvcs.Command;
+	import org.robotlegs.utilities.modular.mvcs.ModuleCommand;
 	
 	public class RetrieveCompleteKefedModelResultCommand extends ModuleCommand
 	{
@@ -23,6 +23,9 @@ package edu.isi.bmkeg.kefed.designer.controller
 		{
 			
 			model.kefedModel = event.kefedModel;
+			model.fg = new FlareGraph();
+			model.fg.importKefedModel( model.kefedModel );
+			
 			dispatchToModules( new LoadKefedModelToDiagramEvent(model.kefedModel) );
 			
 		}

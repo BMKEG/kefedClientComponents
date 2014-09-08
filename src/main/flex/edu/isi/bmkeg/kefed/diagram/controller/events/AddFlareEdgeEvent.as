@@ -11,16 +11,23 @@ package edu.isi.bmkeg.kefed.diagram.controller.events
 		public var sourceUid:String;
 		public var targetUid:String;
 		public var linkUid:String;
+		public var xml:XML;
 		
 		/**
 		 * Constructor.
 		 */
-		public function AddFlareEdgeEvent(sourceUid:String, targetUid:String, linkUid:String)
+		public function AddFlareEdgeEvent(sourceUid:String, 
+										  targetUid:String, 
+										  linkUid:String,
+										  xml:XML, 
+										  bubbles:Boolean=false, 
+										  cancelable:Boolean=false)
 		{
-			super(ADD_FLARE_EDGE);
+			super(ADD_FLARE_EDGE, bubbles, cancelable);
 			this.sourceUid = sourceUid;
 			this.targetUid = targetUid;
 			this.linkUid = linkUid;
+			this.xml = xml;
 		}
 		
 		/**
@@ -28,7 +35,8 @@ package edu.isi.bmkeg.kefed.diagram.controller.events
 		 */
 		override public function clone() : Event
 		{
-			return new AddFlareEdgeEvent(sourceUid, targetUid, linkUid);
+			return new AddFlareEdgeEvent(sourceUid, targetUid, linkUid, 
+				xml, bubbles, cancelable);
 		}
 		
 	}

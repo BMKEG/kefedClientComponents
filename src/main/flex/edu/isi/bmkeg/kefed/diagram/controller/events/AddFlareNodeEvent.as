@@ -1,6 +1,6 @@
 package edu.isi.bmkeg.kefed.diagram.controller.events
 {	
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareNode;
+	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
 	
 	import flash.events.Event;
 	
@@ -9,14 +9,18 @@ package edu.isi.bmkeg.kefed.diagram.controller.events
 		public static const ADD_FLARE_NODE:String = "addFlareNode";
 		
 		public var el:FlareNode;
+		public var xml:XML;
 		
 		/**
 		 * Constructor.
 		 */
-		public function AddFlareNodeEvent(el:FlareNode)
+		public function AddFlareNodeEvent(el:FlareNode, xml:XML, 
+											bubbles:Boolean=false,
+											cancelable:Boolean=false)
 		{
-			super(ADD_FLARE_NODE);
+			super(ADD_FLARE_NODE, bubbles, cancelable);
 			this.el = el;
+			this.xml = xml;
 		}
 		
 		/**
@@ -24,7 +28,7 @@ package edu.isi.bmkeg.kefed.diagram.controller.events
 		 */
 		override public function clone() : Event
 		{
-			return new AddFlareNodeEvent(el);
+			return new AddFlareNodeEvent(el, xml, bubbles, cancelable);
 		}
 		
 	}

@@ -12,6 +12,19 @@ package edu.isi.bmkeg.kefed.services.serverInteraction
 		
 		function get retrieveCompleteKefedModel():AbstractOperation;
 		
+		function get deleteCompleteKefedModel():AbstractOperation;
+
+		function get retrieveKefedModelTree():AbstractOperation;
+		
+		function get createNewKefedModelForFragment():AbstractOperation;
+		
+		function get deleteKefedElement():AbstractOperation;
+
+		function get deleteKefedEdge():AbstractOperation;
+		
+		function get insertKefedElement():AbstractOperation;
+		
+		function get insertKefedEdge():AbstractOperation;
 	}
 
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:Panel xmlns:fx="http://ns.adobe.com/mxml/2009" 
+		 xmlns:s="library://ns.adobe.com/flex/spark" 
+		 xmlns:mx="library://ns.adobe.com/flex/mx" 
+		 width="100%" height="100%">
+	<s:layout>
+		<s:VerticalLayout/>
+	</s:layout>
+	<fx:Declarations>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			import edu.isi.bmkeg.kefed.events.*;
+			import edu.isi.bmkeg.kefed.rl.events.*;
+			import edu.isi.bmkeg.kefed.designer.view.popups.*;
+			import edu.isi.bmkeg.kefed.designer.model.*;
+			import edu.isi.bmkeg.kefed.model.design.*;
+			import edu.isi.bmkeg.kefed.model.flare.*;
+			import edu.isi.bmkeg.kefed.model.qo.design.*;
+			import edu.isi.bmkeg.ooevv.model.*;
+			import edu.isi.bmkeg.vpdmf.model.instances.LightViewInstance;
+			
+			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import mx.controls.Alert;
+			import mx.events.CloseEvent;
+			
+			import spark.events.IndexChangeEvent;
+			
+			[Bindable]
+			public var dependsOn:ArrayCollection = new ArrayCollection();
+			
+			private function labelFunction2(item:Object, column:DataGridColumn):String 
+			{
+				return item["nameValue"];
+			}
+			
+		]]>
+	</fx:Script>
+	
+	<mx:DataGrid id="dataStructure" width="100%" height="100%" dataProvider="{dependsOn}">
+		<mx:columns> 
+			<mx:DataGridColumn id="nameValueColumn" width="75"
+							   labelFunction="labelFunction2"
+							   headerText="Parameters / Constants"/> 
+		</mx:columns> 
+	</mx:DataGrid>
+		
+</s:Panel>		

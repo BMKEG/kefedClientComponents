@@ -6,7 +6,7 @@
 		 xmlns:udb="edu.isi.bmkeg.utils.updownload.*" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 skinClass="edu.isi.bmkeg.ooevv.editor.view.OoevvElementCatalogSkin"
-		 title="OoEVV Catalog"
+		 title="Catalog"
 		 initialize="init()"
 		 width="100%"
 		 height="100%">
@@ -237,19 +237,24 @@
 					return "Entity";
 				else if( item.viewType == "ExperimentalVariable") 
 					return "Variable";
-			
+				else if( item.viewType == "SubVariable") 
+					return "SubVariable";
+				
 				return "";
 				
 			}
 			
 			private function nameLabelFunktion(item:Object, column:DataGridColumn):String {
+					
 				
 				if(item.viewType == "OoevvProcess")
-					return "Process";
+					return item['OoevvProcess_2'];
 				else if( item.viewType == "OoevvEntity" ) 
-					return "Entity";
+					return item['OoevvEntity_2'];
 				else if( item.viewType == "ExperimentalVariable") 
-					return item['ExperimentalVariable_3'];
+					return item['ExperimentalVariable_2'];
+				else if( item.viewType == "SubVariable") 
+					return item['SubVariable_2'];
 				
 				return "";
 				

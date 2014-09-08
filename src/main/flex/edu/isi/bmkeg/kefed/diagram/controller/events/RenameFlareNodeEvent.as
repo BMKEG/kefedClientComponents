@@ -1,6 +1,6 @@
 package edu.isi.bmkeg.kefed.diagram.controller.events
 {	
-	import edu.isi.bmkeg.kefed.diagram.model.vo.FlareNode;
+	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
 	
 	import flash.events.Event;
 	
@@ -10,15 +10,21 @@ package edu.isi.bmkeg.kefed.diagram.controller.events
 		
 		public var uid:String;
 		public var name:String;
+		public var xml:XML;
 		
 		/**
 		 * Constructor.
 		 */
-		public function RenameFlareNodeEvent(uid:String, name:String)
+		public function RenameFlareNodeEvent(uid:String, 
+											 name:String, 
+											 xml:XML, 
+											 bubbles:Boolean=false, 
+											 cancelable:Boolean=false )
 		{
-			super(RENAME_FLARE_NODE);
+			super(RENAME_FLARE_NODE, bubbles, cancelable);
 			this.uid = uid;
 			this.name = name;
+			this.xml = xml;
 		}
 		
 		/**
@@ -26,7 +32,7 @@ package edu.isi.bmkeg.kefed.diagram.controller.events
 		 */
 		override public function clone() : Event
 		{
-			return new RenameFlareNodeEvent(uid, name);
+			return new RenameFlareNodeEvent(uid, name, xml, bubbles, cancelable);
 		}
 		
 	}

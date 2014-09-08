@@ -14,13 +14,13 @@ package edu.isi.bmkeg.ooevv.editor.controller
 	{
 		
 		[Inject]
-		public var event:UploadOoevvFileEvent;
+		public var event:UploadCompleteEvent;
 		
 		[Inject]
 		public var service:IExtendedOoevvService;
 		
 		override public function execute():void {
-			service.uploadExcelFile(event.data, false);
+			service.uploadExcelFile(event.file.data, false);
 		}
 		
 	}

@@ -6,7 +6,6 @@ package edu.isi.bmkeg.kefed.diagram.view
 	import com.kapit.diagram.view.DiagramObject;
 	import com.kapit.diagram.view.DiagramAnnotation;
 	
-	import edu.isi.bmkeg.kefed.designer.events.elementLevel.AddNewKefedElementEvent;
 	import edu.isi.bmkeg.kefed.diagram.controller.events.*;
 	import edu.isi.bmkeg.kefed.model.design.*;
 	
@@ -59,7 +58,8 @@ package edu.isi.bmkeg.kefed.diagram.view
 					var e:OoevvElement = new OoevvElement();
 					e.elementType = obj.viewType;
 					e.vpdmfId = obj.vpdmfId;
-					e.termValue = obj.vpdmfLabel;
+					e.termValue = obj[obj.viewType + "_2"];
+					e.shortTermId = obj[obj.viewType + "_1"];
 					
 					var type:String = e.elementType;
 					
@@ -69,8 +69,12 @@ package edu.isi.bmkeg.kefed.diagram.view
 					k.w = 120;
 					k.h = 63;
 					k.defn = e;
-					
-					if( type == "ExperimentalVariable" ) {
+
+					if( type == "SubVariable"  ) {
+
+						return;
+						
+					} if( type == "ExperimentalVariable"  ) {
 		
 						askVbType();
 												
@@ -97,8 +101,6 @@ package edu.isi.bmkeg.kefed.diagram.view
 						kk.defn = k.defn;
 						k = kk;
 
-						this.dispatchEvent( new AddNewKefedElementEvent(k) );
-						this.dispatchEvent( new UpdateKapitXmlEvent(this.toXML(), new Date()) );
 						this.dispatchEvent( new DropKefedNodeIntoDiagramEvent(k, this.toXML() ) );
 
 					}
@@ -155,7 +157,6 @@ package edu.isi.bmkeg.kefed.diagram.view
 			kk.defn = k.defn;
 			k = kk;				
 			
-			this.dispatchEvent( new AddNewKefedElementEvent(k) );
 			this.dispatchEvent( new DropKefedNodeIntoDiagramEvent(k, this.toXML() ) );
 
 			mx.managers.PopUpManager.removePopUp(vbTypeDialog);

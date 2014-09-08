@@ -25,7 +25,7 @@ package edu.isi.bmkeg.kefed.events
 		
 		override public function clone() : Event
 		{
-			return new SaveCompleteKefedModelResultEvent(kefedModel, bubbles, cancelable);
+			return new RetrieveCompleteKefedModelResultEvent(kefedModel, bubbles, cancelable);
 		}
 		
 	}

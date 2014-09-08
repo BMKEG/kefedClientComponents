@@ -3,7 +3,10 @@
 <s:TitleWindow xmlns:fx="http://ns.adobe.com/mxml/2009"
 			   xmlns:mx="library://ns.adobe.com/flex/mx" 
 			   xmlns:s="library://ns.adobe.com/flex/spark"
-			   close="handleCloseEvent();">
+			   close="handleCloseEvent();"
+			   height="640"
+			   width="480">
+			   
 	<s:layout>
 		<s:VerticalLayout/>
 	</s:layout>
@@ -11,18 +14,22 @@
 	<fx:Script>
 		<![CDATA[
 			import edu.isi.bmkeg.events.*;
-			import edu.isi.bmkeg.kefed.events.*
-			import edu.isi.bmkeg.kefed.rl.events.*
+			import edu.isi.bmkeg.kefed.events.*;
+			import edu.isi.bmkeg.kefed.events.modelLevel.*;
 			import edu.isi.bmkeg.kefed.model.design.KefedModel;
+			import edu.isi.bmkeg.kefed.rl.events.*;
 			import edu.isi.bmkeg.vpdmf.model.instances.LightViewInstance;
 			
 			import mx.collections.ArrayCollection;
+			import mx.events.FlexEvent;
 			
 			import spark.events.IndexChangeEvent;
 
 			[Bindable]
-			public var list:ArrayCollection = new ArrayCollection();
-
+			public var tree:XML = <root/>;
+			
+			public var km:LightViewInstance;
+			
 			// Handle the close button and Cancel button.
 			private function handleCloseEvent():void {
 				this.dispatchEvent(new ClosePopupEvent(this));
@@ -36,34 +43,41 @@
 				return item.vpdmfLabel; 
 			}
 			
-			protected function button1_clickHandler(event:MouseEvent):void
+			protected function OK_clickHandler(event:MouseEvent):void
 			{
-				var i:int = listControl.selectedIndex;
+				var o:XML = XML(fragmentSelector.selectedItem); 
 				
-				if( i >= 0 ) {
+				if( o.attribute("type").toString() == "fragment" ) {			
 					
-					var o:Object = listControl.selectedItem;
+					var frgId:Number = Number(o.attribute("data"));
+					this.dispatchEvent(new CreateNewKefedModelForFragmentEvent(frgId));
+
+					this.dispatchEvent(new ClosePopupEvent(this));					
 					
-					this.dispatchEvent(
-						new RetrieveCompleteKefedModelEvent(o.vpdmfId as Number) 
-					);
-					
-				} 
+				}
 				
-				this.dispatchEvent(new ClosePopupEvent(this));
-				
+			}
+			
+			protected function listControl_changeHandler(event:IndexChangeEvent):void
+			{
+				//this.km = fragmentSelector.selectedItem;
 			}
 			
 		]]>
 	</fx:Script>
 	
-	<s:List id="listControl" width="100%" height="100%"
-		 	dataProvider="{list}"
-			labelFunction="myLabelFunc"
-			/>
+	<mx:Tree id="fragmentSelector"
+			 width="100%"
+			 height="100%"
+			 labelField="@label"
+			 doubleClickEnabled="true"
+			 doubleClick="OK_clickHandler(event)"
+			 dataProvider="{tree.node}">
+	</mx:Tree>	
+	
 	<s:HGroup> 
 		<s:Button label="OK"
-				  click="button1_clickHandler(event)" /> 
+				  click="OK_clickHandler(event)" /> 
 		<s:Button label="Cancel"
 				  click="handleCloseEvent();"/> 
 	</s:HGroup> 

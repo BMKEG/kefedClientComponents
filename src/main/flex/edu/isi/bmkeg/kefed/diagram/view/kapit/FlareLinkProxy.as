@@ -32,11 +32,12 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 			var type:String = el.getTagName();
 			
 			var l:DiagramLink = DiagramLink(el);
-			var sourceid:String = DiagramLink(el).sourceobject.dataobjectid;
-			var targetid:String = DiagramLink(el).targetobject.dataobjectid;
-			var uid:String = UIDUtil.createUID();
+			var sourceid:String = DiagramLink(el).sourceobject.did;
+			var targetid:String = DiagramLink(el).targetobject.did;
+			var uid:String = el.did;
+			var xml:XML = _view.toXML();
 						
-			_kefedDiagramView.dispatchEvent( new AddFlareEdgeEvent(sourceid, targetid, uid) );
+			_kefedDiagramView.dispatchEvent( new AddFlareEdgeEvent(sourceid, targetid, uid, xml) );
 			
 			return uid;
 		}
@@ -47,6 +48,8 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 		
 		public function removeDataObject(el:IDiagramElement):void
 		{
+			var xml:XML = _view.toXML();
+			_kefedDiagramView.dispatchEvent( new RemoveFlareEdgeEvent(el.did, xml) );
 		}
 		
 		public function propertyModified(el:IDiagramElement, propname:String, propvalue:Object, shapeid:String):void
@@ -72,7 +75,8 @@ package edu.isi.bmkeg.kefed.diagram.view.kapit
 
 		public function acceptRemoveObject(el:IDiagramElement):Boolean
 		{
-			_kefedDiagramView.dispatchEvent( new RemoveFlareEdgeEvent(el.dataobjectid) );
+			//var xml:XML = _view.toXML();
+			//_kefedDiagramView.dispatchEvent( new RemoveFlareEdgeEvent(el.did, xml) );
 			return true;
 		}
 				
