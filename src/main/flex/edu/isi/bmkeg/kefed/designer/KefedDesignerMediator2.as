@@ -1,7 +1,5 @@
 package edu.isi.bmkeg.kefed.designer
 {
-	import edu.isi.bmkeg.digitalLibrary.model.citations.ArticleCitation;
-	import edu.isi.bmkeg.digitalLibrary.rl.events.*;
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
 	import edu.isi.bmkeg.kefed.designer.view.popups.*;
 	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodeInDiagramEvent;
@@ -12,18 +10,15 @@ package edu.isi.bmkeg.kefed.designer
 	
 	import flash.events.Event;
 	
-	import mx.core.FlexGlobals;
 	import mx.managers.PopUpManager;
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
 	
-	import spark.components.Application;
-
-	public class KefedDesignerMediator extends ModuleMediator 
+	public class KefedDesignerMediator2 extends ModuleMediator 
 	{
 
 		[Inject]
-		public var view:KefedDesignerModule;
+		public var view:KefedDesignerModule2;
 
 		[Inject]
 		public var model:KefedDesignerModel;
@@ -60,12 +55,16 @@ package edu.isi.bmkeg.kefed.designer
 			
 			addViewListener(UpdateKefedModelResultEvent.UPDATE_KEFEDMODEL_RESULT, 
 				updateKefedModelResultHandler);
-			
+					
 			view.model = model.kefedModel;
 			if( view.model.exptId == null) {
 				view.model.exptId = "";
 			}
-						
+			
+			// when we load this element, we list all the models in the system. 
+			var kQo:KefedModel_qo = new KefedModel_qo();
+			this.dispatch(new ListKefedModelEvent(kQo) );
+			
 		}
 		
 		private function handleGraphChange(e:Event):void {
@@ -110,11 +109,10 @@ package edu.isi.bmkeg.kefed.designer
 		private function updateKefedModelResultHandler(e:UpdateKefedModelResultEvent):void {
 			
 			this.dispatch( new RetrieveCompleteKefedModelEvent(e.id) );
-			
-			this.dispatch( new RetrieveKefedModelTreeEvent(model.articleCitation.vpdmfId) );
+			this.dispatch( new RetrieveKefedModelTreeEvent( model.articleCitation.vpdmfId ) );
 			
 		}
-						
+				
 	}
 	
 }

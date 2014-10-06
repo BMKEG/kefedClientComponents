@@ -29,13 +29,19 @@
 */
 package org.cytoscapeweb.controller {
 	    
+    import flash.events.Event;
+    
     import org.cytoscapeweb.ApplicationFacade;
+    import org.cytoscapeweb.CytoscapeWeb;
     import org.cytoscapeweb.model.*;
     import org.cytoscapeweb.util.ExternalFunctions;
-    import org.cytoscapeweb.view.*;
+	import org.cytoscapeweb.view.*;
     import org.puremvc.as3.interfaces.INotification;
-    import org.puremvc.as3.patterns.command.SimpleCommand;
+    import org.puremvc.as3.patterns.command.SimpleCommand;	
 
+	import mx.core.FlexGlobals;
+	import spark.components.Application;
+	
     public class StartupCommand extends SimpleCommand {
         /**
          * Register the Proxies (MODEL) and Mediators (VIEW).
@@ -63,6 +69,9 @@ package org.cytoscapeweb.controller {
             // Add the callback functions, in order to allow the Flash player
             // to comunicate with JavaScript functions:
             sendNotification(ApplicationFacade.ADD_CALLBACKS);
+			
+			
+			
         }
     }
 }

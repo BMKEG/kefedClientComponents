@@ -20,7 +20,7 @@ package edu.isi.bmkeg.kefed.designer.controller
 				
 		override public function execute():void
 		{
-			dispatch(new RetrieveKefedModelTreeEvent());
+			dispatch(new RetrieveKefedModelTreeEvent(model.articleCitation.vpdmfId));
 		}
 		
 	}

@@ -1,6 +1,7 @@
 package edu.isi.bmkeg.kefed.designer.model
 {
 	
+	import edu.isi.bmkeg.digitalLibrary.model.citations.*;
 	import edu.isi.bmkeg.kefed.model.flare.*;
 	import edu.isi.bmkeg.kefed.model.design.KefedModel;
 	import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
@@ -16,6 +17,8 @@ package edu.isi.bmkeg.kefed.designer.model
 	[Bindable]
 	public class KefedDesignerModel extends Actor
 	{
+		
+		public var articleCitation:ArticleCitation;
 		
 		public var frgTree:XML = <root/>;
 		

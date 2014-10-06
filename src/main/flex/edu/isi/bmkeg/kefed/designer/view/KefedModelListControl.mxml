@@ -18,6 +18,7 @@
 	
 	<fx:Script>
 		<![CDATA[
+			import edu.isi.bmkeg.digitalLibrary.model.citations.LiteratureCitation;
 			import edu.isi.bmkeg.kefed.events.*;
 			import edu.isi.bmkeg.kefed.rl.events.*;
 			import edu.isi.bmkeg.ftd.rl.events.ListFTDFragmentEvent;
@@ -37,16 +38,16 @@
 			import mx.events.CloseEvent;
 			
 			import spark.events.IndexChangeEvent;
+
+			[Bindable]
+			public var fragment:String = "...";
 			
 			[Bindable]
 			public var domain:OoevvElementSet;
 			
 			[Bindable]
 			public var tree:XML = <root/>;
-			
-			[Bindable]
-			public var fragment:String = "...";
-			
+
 			//
 			// Define a custom function for the labelFunction property
 			// to display an Object in the ComboBox control.
@@ -99,10 +100,12 @@
 		]]>
 	</fx:Script>
 	
-	<s:Label id="currentFragmentControl" 
+	<s:TextArea id="currentFragmentControl" 
 				includeIn="modelLoaded"
 				width="100%"
-			 text="{fragment}"/>
+				editable="false"
+			 	heightInLines="10"
+			 	text="{fragment}"/>
 	
 	<mx:Tree id="frgTree"
 			 width="100%"

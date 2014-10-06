@@ -16,7 +16,7 @@ package edu.isi.bmkeg.kefed.services
 
 		function deleteCompleteKefedModel(id:Number):void;
 
-		function retrieveKefedModelTree():void;
+		function retrieveKefedModelTree(acId:Number):void;
 		
 		function createNewKefedModelForFragment(frgId:Number):void;
 	

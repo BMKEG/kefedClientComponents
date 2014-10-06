@@ -36,6 +36,7 @@ package org.cytoscapeweb.controller {
     import org.cytoscapeweb.view.components.GraphView;
     import org.cytoscapeweb.view.render.ImageCache;
     import org.puremvc.as3.interfaces.INotification;
+    import org.cytoscapeweb.CytoscapeWeb;
     
     
     public class DrawGraphCommand extends BaseSimpleCommand {

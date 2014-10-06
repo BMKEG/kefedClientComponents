@@ -18,9 +18,9 @@
 			
 			import org.hamcrest.object.nullValue;
 						
-			private var _p:KefedDesignerModule1;
+			private var _p:KefedDesignerModule;
 			
-			public function set p(p:KefedDesignerModule1):void {
+			public function set p(p:KefedDesignerModule):void {
 				this._p = p;
 				if( p != null ) {
 					if( p.model.exptId != null )
@@ -31,7 +31,7 @@
 				}
 			}
 
-			public function get p():KefedDesignerModule1 {
+			public function get p():KefedDesignerModule {
 				return this._p;
 			}
 			

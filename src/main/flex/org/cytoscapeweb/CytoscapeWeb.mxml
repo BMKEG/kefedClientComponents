@@ -39,7 +39,6 @@
 <mx:Script>
 <![CDATA[
 	import mx.resources.ResourceBundle;
-	import org.cytoscapeweb.ApplicationFacade;
 	import org.cytoscapeweb.view.components.GraphView;
 
     [Bindable]
@@ -65,14 +64,15 @@
 
     private function onComplete():void {
 	    // Initialize the ApplicationFacade (PureMVC Framework):
-    	ApplicationFacade.getInstance().startup(this);
+		ApplicationFacade.getInstance().startup(this);
     }
 ]]>
 </mx:Script>
 
     <mx:Canvas styleName="rawBox"
                width="100%" height="100%"
-               verticalScrollPolicy="off" horizontalScrollPolicy="off"
+               verticalScrollPolicy="off" 
+			   horizontalScrollPolicy="off"
                autoLayout="true">
                
         <mx:Box id="graphBox" styleName="rawBox" width="100%" height="100%"
@@ -80,7 +80,7 @@
                 verticalAlign="middle" horizontalAlign="center"
                 autoLayout="true"/>
                 
-        <app:PanZoomBox id="panZoomBox" visible="false"
+        <app:PanZoomBox id="panZoomBox" visible="true"
                         rollOver="onRollOverPanZoomBox();"
                         rollOut="onRollOutPanZoomBox();"/>
     </mx:Canvas>

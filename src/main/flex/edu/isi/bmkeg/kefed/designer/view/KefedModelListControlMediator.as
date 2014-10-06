@@ -1,6 +1,8 @@
 package edu.isi.bmkeg.kefed.designer.view
 {
 	import edu.isi.bmkeg.digitalLibrary.events.*;
+	import edu.isi.bmkeg.digitalLibrary.model.citations.*;
+	import edu.isi.bmkeg.digitalLibrary.rl.events.FindArticleCitationByIdResultEvent;
 	import edu.isi.bmkeg.ftd.rl.events.*;
 	import edu.isi.bmkeg.kefed.designer.model.*;
 	import edu.isi.bmkeg.kefed.designer.view.popups.*;
@@ -16,6 +18,9 @@ package edu.isi.bmkeg.kefed.designer.view
 	import mx.managers.PopUpManager;
 	
 	import org.robotlegs.mvcs.Mediator;
+	
+	import mx.core.FlexGlobals;
+	import spark.components.Application;
 	
 	public class KefedModelListControlMediator extends Mediator
 	{
@@ -35,7 +40,7 @@ package edu.isi.bmkeg.kefed.designer.view
 
 			addContextListener(ListFTDFragmentResultEvent.LIST_FTDFRAGMENT_RESULT, 
 				loadFrg);
-			
+						
 			addViewListener(ActivateKefedModelListPopupEvent.ACTIVATE_CORPUS_LIST_POPUP, 
 				activateKefedModelListPopup);
 			
@@ -49,8 +54,13 @@ package edu.isi.bmkeg.kefed.designer.view
 				refresh);
 			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			// On loading this control, we load the 'Fragment Tree' from the server
-			dispatch(new RetrieveKefedModelTreeEvent()) ;
+			// On loading this control, we load the 'Fragment Tree' from the server 
+			// based on the value of state variables set in the Global Application
+			var app:Application = Application(FlexGlobals.topLevelApplication);
+			if( app["currentArticleCitation"] != null ) {
+				this.model.articleCitation = app["currentArticleCitation"] as ArticleCitation;
+				dispatch(new RetrieveKefedModelTreeEvent(model.articleCitation.vpdmfId));				
+			}
 
 		}
 		
@@ -67,13 +77,13 @@ package edu.isi.bmkeg.kefed.designer.view
 			PopUpManager.centerPopUp(popup);
 			mediatorMap.createMediator( popup );
 
-			dispatch(new RetrieveFragmentTreeEvent()) ;
+			dispatch(new RetrieveFragmentTreeEvent(model.articleCitation.vpdmfId)) ;
 			
 		}
 
 		private function refresh(e:Event):void {
 			
-			dispatch(new RetrieveFragmentTreeEvent()) ;
+			dispatch(new RetrieveFragmentTreeEvent(model.articleCitation.vpdmfId)) ;
 			
 		}
 		
@@ -93,8 +103,6 @@ package edu.isi.bmkeg.kefed.designer.view
 			}	
 			
 		}
-
-		
 		
 	}
 	

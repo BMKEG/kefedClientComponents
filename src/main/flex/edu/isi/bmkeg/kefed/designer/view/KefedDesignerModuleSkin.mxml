@@ -6,7 +6,7 @@
 					  blendMode="normal">
 	
 	<fx:Metadata>
-		[HostComponent("edu.isi.bmkeg.kefed.designer.KefedDesignerModule1")]
+		[HostComponent("edu.isi.bmkeg.kefed.designer.KefedDesignerModule")]
 	</fx:Metadata>
 	
 </skins:BmkegPanelSkin>		

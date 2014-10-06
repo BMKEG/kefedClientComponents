@@ -106,12 +106,12 @@ package edu.isi.bmkeg.kefed.services.impl
 		
 		// ~~~~~~~~~
 		
-		public function retrieveKefedModelTree():void 
+		public function retrieveKefedModelTree(acId:Number):void 
 		{
 			server.retrieveKefedModelTree.cancel();
 			server.retrieveKefedModelTree.addEventListener(ResultEvent.RESULT, retrieveKefedModelTreeResultHandler);
 			server.retrieveKefedModelTree.addEventListener(FaultEvent.FAULT, faultHandler);
-			server.retrieveKefedModelTree.send();
+			server.retrieveKefedModelTree.send(acId);
 		}
 		
 		private function retrieveKefedModelTreeResultHandler(event:ResultEvent):void

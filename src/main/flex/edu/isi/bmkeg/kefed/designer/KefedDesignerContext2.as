@@ -6,9 +6,9 @@ package edu.isi.bmkeg.kefed.designer
 	import org.robotlegs.mvcs.Context;
 	import org.robotlegs.core.IInjector;
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
-
-	import org.cytoscapeweb.CytoscapeWeb;
 	
+	import edu.isi.bmkeg.kefed.cytoscape.*;	
+
 	import edu.isi.bmkeg.kefed.diagram.controller.events.*;	
 	import edu.isi.bmkeg.kefed.diagram.view.KefedDiagramModule;
 
@@ -19,16 +19,15 @@ package edu.isi.bmkeg.kefed.designer
 	import edu.isi.bmkeg.ftd.rl.services.serverInteraction.impl.*;
 
 	import edu.isi.bmkeg.digitalLibrary.events.*;
-	import edu.isi.bmkeg.digitalLibrary.rl.events.*;
 	import edu.isi.bmkeg.digitalLibrary.services.*;
 	import edu.isi.bmkeg.digitalLibrary.services.impl.*;
 	import edu.isi.bmkeg.digitalLibrary.services.serverInteraction.*;
 	import edu.isi.bmkeg.digitalLibrary.services.serverInteraction.impl.*;
 	
+	import edu.isi.bmkeg.kefed.events.elementLevel.*;	
 	import edu.isi.bmkeg.kefed.designer.controller.translateDiagram.*;	
 	import edu.isi.bmkeg.kefed.designer.controller.elementLevel.*;	
 	import edu.isi.bmkeg.kefed.events.*;
-	import edu.isi.bmkeg.kefed.events.elementLevel.*;	
 	import edu.isi.bmkeg.kefed.events.modelLevel.*;
 	import edu.isi.bmkeg.kefed.rl.events.*;
 	import edu.isi.bmkeg.kefed.rl.services.IKefedService;
@@ -41,7 +40,6 @@ package edu.isi.bmkeg.kefed.designer
 	import edu.isi.bmkeg.kefed.services.serverInteraction.impl.*;
 	
 	import edu.isi.bmkeg.kefed.designer.model.*;
-	import edu.isi.bmkeg.kefed.designer.controller.moduleLevel.*;
 	import edu.isi.bmkeg.kefed.designer.controller.*;
 	import edu.isi.bmkeg.kefed.designer.view.*;
 	import edu.isi.bmkeg.kefed.designer.view.popups.*;
@@ -67,10 +65,12 @@ package edu.isi.bmkeg.kefed.designer
 	import edu.isi.bmkeg.utils.dao.*;
 	import edu.isi.bmkeg.utils.updownload.*;
 	
-	public class KefedDesignerContext extends ModuleContext
+	import org.cytoscapeweb.CytoscapeWeb;
+	
+	public class KefedDesignerContext2 extends ModuleContext
 	{
 		
-		public function KefedDesignerContext(contextView:DisplayObjectContainer,
+		public function KefedDesignerContext2(contextView:DisplayObjectContainer,
 													injector:IInjector)
 		{
 			super(contextView, true, injector);
@@ -108,11 +108,6 @@ package edu.isi.bmkeg.kefed.designer
 			moduleCommandMap.mapEvent(SelectFlareNodeInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, TranslateSelectFlareNodeCommand);
 			moduleCommandMap.mapEvent(InsertKefedElementEvent.INSERT_KEFED_ELEMENT, DispatchLocallyCommand);
 			moduleCommandMap.mapEvent(UpdateKapitXmlEvent.UPDATE_KAPIT_XML, UpdateKapitXmlCommand);
-		
-			// These events from the digital library must 
-			// also be propagated to KEfED designer
-			moduleCommandMap.mapEvent(FindArticleCitationByIdResultEvent.FIND_ARTICLECITATIONBY_ID_RESULT, 
-				FindArticleCitationByIdResultCommand);
 			
 			commandMap.mapEvent(InsertKefedEdgeEvent.INSERT_KEFED_EDGE, InsertKefedEdgeCommand);
 			commandMap.mapEvent(InsertKefedEdgeResultEvent.INSERT_KEFED_EDGE_RESULT, InsertKefedEdgeResultCommand);
@@ -181,6 +176,11 @@ package edu.isi.bmkeg.kefed.designer
 			// KefedDiagram 
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			viewMap.mapType(KefedDiagramModule);
+			
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			// Cytoscape Web 
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			mediatorMap.mapView(CytoscapeWeb, CytoscapeWebMediator);
 			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// OoevvEditor 

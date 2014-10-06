@@ -32,7 +32,6 @@ package org.cytoscapeweb.controller {
 	
 	import org.puremvc.as3.interfaces.INotification;
 	
-	
     /**
      * It binds the data to the configuration.
      */

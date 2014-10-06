@@ -7,8 +7,9 @@ package edu.isi.bmkeg.kefed.designer.controller
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel
 	
 	import flash.events.Event;
+	import org.robotlegs.utilities.modular.mvcs.ModuleCommand;
 	
-	public class FindKefedModelByIdResultCommand extends Command
+	public class FindKefedModelByIdResultCommand extends ModuleCommand
 	{
 	
 		[Inject]
@@ -20,6 +21,7 @@ package edu.isi.bmkeg.kefed.designer.controller
 		override public function execute():void
 		{
 			model.kefedModel = event.object;
+			dispatch(event);
 		}
 		
 	}

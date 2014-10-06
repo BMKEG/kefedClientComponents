@@ -12,15 +12,19 @@ package edu.isi.bmkeg.kefed.events
 		
 		public static const RETRIEVE_KEFED_MODEL_TREE:String = "retrieveKefedModelTree";
 			
-		public function RetrieveKefedModelTreeEvent(bubbles:Boolean=false, 
+		public var acId:Number;
+		
+		public function RetrieveKefedModelTreeEvent(acId:Number, 
+													bubbles:Boolean=false, 
 										 cancelable:Boolean=false )
 		{
+			this.acId = acId;
 			super(RETRIEVE_KEFED_MODEL_TREE, bubbles, cancelable);
 		}
 		
 		override public function clone() : Event
 		{
-			return new RetrieveKefedModelTreeEvent(bubbles, cancelable);
+			return new RetrieveKefedModelTreeEvent(acId, bubbles, cancelable);
 		}
 		
 	}

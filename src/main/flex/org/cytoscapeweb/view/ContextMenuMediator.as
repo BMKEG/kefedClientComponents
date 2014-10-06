@@ -34,7 +34,9 @@ package org.cytoscapeweb.view {
     import flash.events.ContextMenuEvent;
     import flash.ui.ContextMenu;
     import flash.ui.ContextMenuItem;
-    
+	import spark.components.Application;
+	import mx.core.FlexGlobals;
+
     import mx.events.FlexEvent;
     
     import org.cytoscapeweb.ApplicationFacade;
@@ -42,6 +44,7 @@ package org.cytoscapeweb.view {
     import org.cytoscapeweb.model.converters.ExternalObjectConverter;
     import org.cytoscapeweb.util.ExternalFunctions;
     import org.cytoscapeweb.util.Groups;
+    import org.cytoscapeweb.CytoscapeWeb;
         
     /**
      * Top level mediator for the application.
@@ -100,7 +103,12 @@ package org.cytoscapeweb.view {
             
             // Redefine the application context menu:
             // -----------------------------------------------------------
-            application.contextMenu = customContextMenu;
+			//application.contextMenu = customContextMenu;
+			
+			// KEfED modification, moving the 'application' to the top level.
+			var app:Application = Application(FlexGlobals.topLevelApplication);
+			app.contextMenu = customContextMenu;
+			
         }
     
         private function onMenuSelect(evt:ContextMenuEvent):void {

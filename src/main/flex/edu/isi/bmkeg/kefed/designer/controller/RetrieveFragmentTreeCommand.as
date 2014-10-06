@@ -19,7 +19,7 @@ package edu.isi.bmkeg.kefed.designer.controller
 				
 		override public function execute():void
 		{
-			srv.retrieveFragmentTree();
+			srv.retrieveFragmentTree(event.acId);
 		}
 		
 	}

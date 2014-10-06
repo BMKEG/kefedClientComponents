@@ -60,6 +60,7 @@ package org.cytoscapeweb.view {
     import org.cytoscapeweb.view.components.GraphView;
     import org.cytoscapeweb.view.components.PanZoomBox;
     import org.puremvc.as3.interfaces.INotification;
+    import org.cytoscapeweb.CytoscapeWeb;
     
     
     public class ApplicationMediator extends BaseMediator {

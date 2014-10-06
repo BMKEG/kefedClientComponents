@@ -189,6 +189,7 @@ package org.cytoscapeweb {
                 instance = new ApplicationFacade(new SingletonLock());
             return instance as ApplicationFacade;
         }
+		
     }
 }
 

@@ -43,13 +43,14 @@ package org.cytoscapeweb.view {
     import mx.utils.Base64Encoder;
     
     import org.cytoscapeweb.ApplicationFacade;
-	import org.cytoscapeweb.model.converters.ExternalObjectConverter;
+    import org.cytoscapeweb.model.converters.ExternalObjectConverter;
     import org.cytoscapeweb.model.data.FirstNeighborsVO;
     import org.cytoscapeweb.model.data.GraphicsDataTable;
     import org.cytoscapeweb.model.data.VisualStyleBypassVO;
     import org.cytoscapeweb.model.data.VisualStyleVO;
     import org.cytoscapeweb.model.error.CWError;
     import org.cytoscapeweb.model.methods.error;
+    import org.cytoscapeweb.rlTriggerEvents.*;
     import org.cytoscapeweb.util.ExternalFunctions;
     import org.cytoscapeweb.util.Groups;
     import org.cytoscapeweb.vis.data.CompoundNodeSprite;
@@ -65,8 +66,29 @@ package org.cytoscapeweb.view {
         /** Cannonical name of the Mediator. */
         public static const NAME:String = "ExternalInterfaceMediator";
         
-        // ========[ PRIVATE PROPERTIES ]===========================================================
-        
+		// ========[ ADDED PROPERTIES FOR ROBOTLEGS LISTENERS ]==================================
+		private var listeners:Object = {
+			contextmenu:false,
+			deselect:false,
+			filter:false,
+			dblclick:false,
+			click:false,
+			drag:false,
+			dragstart:false,
+			dragstop:false, 
+			mouseover:false,
+			mouseout:false,
+			filter:false,
+			select:false,
+			error:false,
+			zoom:false,
+			layout:false
+		};
+		private var activeCallbacks:Object = new Object();
+
+		// ========[ PRIVATE PROPERTIES ]===========================================================
+		
+		
 
         // ========[ CONSTRUCTOR ]==================================================================
    
@@ -102,7 +124,12 @@ package org.cytoscapeweb.view {
         }
         
         public function hasListener(type:String, group:String=Groups.NONE):Boolean {
-            return callExternalInterface(ExternalFunctions.HAS_LISTENER, {type: type, group: group});
+			if( this.listeners[type] ) {
+				return true;
+			} else {
+				return false;
+			}
+            //return callExternalInterface(ExternalFunctions.HAS_LISTENER, {type: type, group: group});
         }
         
         /**
@@ -123,7 +150,42 @@ package org.cytoscapeweb.view {
          *         function returns void.
          */
         public function callExternalInterface(functionName:String, argument:*, json:Boolean=false):* {
-            if (ExternalInterface.available) {
+           
+			// KEfED Modification: 
+			//    We alter this code to have the CytoscapeWeb Module dispatch a
+			///   robotlegs event that we can capture with a mediator
+			if( functionName == "_onReady" ) {
+
+				var ev:RobotlegsReadyCallbackEvent = new RobotlegsReadyCallbackEvent(true, true);
+				this.viewComponent.dispatchEvent(ev);
+				
+			} else if( functionName == "_invokeListeners" ) {
+				
+				var type:String = argument.type;
+				var data:Object = argument.value;
+				
+				var ev2:RobotlegsListenerEvent = new RobotlegsListenerEvent(
+					RobotlegsListenerEvent.ROBOTLEGS_LISTENER + type, data, true, true);
+				this.viewComponent.dispatchEvent(ev2);
+				
+			} else if( functionName == "_invokeContextMenuCallback" ) {
+				
+				var callBack:String = argument.value;
+				var group:String = argument.group;
+				var uuid:String = argument.target.data.id;
+				
+				var ev3:RobotlegsContextMenuCallbackEvent = new RobotlegsContextMenuCallbackEvent(
+					RobotlegsContextMenuCallbackEvent.ROBOTLEGS_CONTEXT_MENU_CALLBACK + callBack, group, uuid, true, true);
+				this.viewComponent.dispatchEvent(ev3);
+				
+			}
+			
+			/**
+			 * Since we are only invoking Cytoscape Web from within Flex, 
+			 * we replace the callback mechanism to Javascript with robotlegs
+			 * events.
+			 * 
+			 if (ExternalInterface.available) {
                 var desigFunction:String;
                 
                 if (json && argument != null) {
@@ -146,137 +208,149 @@ package org.cytoscapeweb.view {
             } else {
                 trace("Error [callExternalInterface]: ExternalInterface is NOT available!");
                 return undefined;
-            }
+            }*/
+
         }
         
         // ========[ PRIVATE METHODS ]==============================================================
         
         // Callbacks ---------------------------------------------------
         
-        private function draw(options:Object):void {
+		// KEfED Modification: 
+		//    We alter this code to make these function calls public.
+		//    This permits our Flex application to make function calls to Cytoscape. 
+		public function enableCallback(cbName:String):void {
+			if( this.listeners[cbName] == null ) { 
+				trace( "No such callback function: " + cbName);
+				return;
+			}
+			this.listeners[cbName] = true;
+		}
+		
+        public function draw(options:Object):void {
             sendNotification(ApplicationFacade.DRAW_GRAPH, options);
         }
         
-        private function addContextMenuItem(label:String, group:String=null):void {
+		public function addContextMenuItem(label:String, group:String=null):void {
             if (group == null) group = Groups.NONE;
             menuProxy.addMenuItem(label, group);
         }
         
-        private function removeContextMenuItem(label:String, group:String=null):void {
+		public function removeContextMenuItem(label:String, group:String=null):void {
             if (group == null) group = Groups.NONE;
             menuProxy.removeMenuItem(label, group);
         }
         
-        private function select(group:String, items:Array):void {
+		public function select(group:String, items:Array):void {
             if (items == null)
                 sendNotification(ApplicationFacade.SELECT_ALL, group);
             else
                 sendNotification(ApplicationFacade.SELECT, graphProxy.getDataSpriteList(items, group));
         }
         
-        private function deselect(group:String, items:Array):void {
+		public function deselect(group:String, items:Array):void {
             if (items == null)
                 sendNotification(ApplicationFacade.DESELECT_ALL, group);
             else
                 sendNotification(ApplicationFacade.DESELECT, graphProxy.getDataSpriteList(items, group));
         }
        
-        private function mergeEdges(value:Boolean):void {
+		public function mergeEdges(value:Boolean):void {
             sendNotification(ApplicationFacade.MERGE_EDGES, value);
         }
         
-        private function isEdgesMerged():Boolean {
+		public function isEdgesMerged():Boolean {
             return graphProxy.edgesMerged;
         }
         
-        private function showPanZoomControl(value:Boolean):void {
+		public function showPanZoomControl(value:Boolean):void {
             sendNotification(ApplicationFacade.SHOW_PANZOOM_CONTROL, value);
         }
         
-        private function showNodeLabels(value:Boolean):void {
+		public function showNodeLabels(value:Boolean):void {
             sendNotification(ApplicationFacade.SHOW_LABELS, { value: value, group: Groups.NODES });
         }
         
-        private function isNodeLabelsVisible():Boolean {
+		public function isNodeLabelsVisible():Boolean {
             return configProxy.nodeLabelsVisible;
         }
         
-        private function showEdgeLabels(value:Boolean):void {
+		public function showEdgeLabels(value:Boolean):void {
             sendNotification(ApplicationFacade.SHOW_LABELS, { value: value, group: Groups.EDGES });
         }
         
-        private function isEdgeLabelsVisible():Boolean {
+		public function isEdgeLabelsVisible():Boolean {
             return configProxy.edgeLabelsVisible;
         }
         
-        private function enableNodeTooltips(val:Boolean):void {
+		public function enableNodeTooltips(val:Boolean):void {
             configProxy.nodeTooltipsEnabled = val;
         }
         
-        private function isNodeTooltipsEnabled():Boolean {
+		public function isNodeTooltipsEnabled():Boolean {
             return configProxy.nodeTooltipsEnabled;
         }
         
-        private function enableEdgeTooltips(value:Boolean):void {
+		public function enableEdgeTooltips(value:Boolean):void {
             configProxy.edgeTooltipsEnabled = value;
         }
         
-        private function isEdgeTooltipsEnabled():Boolean {
+		public function isEdgeTooltipsEnabled():Boolean {
             return configProxy.edgeTooltipsEnabled;
         }
         
-        private function isPanZoomControlVisible():Boolean {
+		public function isPanZoomControlVisible():Boolean {
             return configProxy.panZoomControlVisible;
         }
 
-        private function enableCustomCursors(value:Boolean):void {
+		public function enableCustomCursors(value:Boolean):void {
             sendNotification(ApplicationFacade.ENABLE_CUSTOM_CURSORS, value);
         }
         
-        private function isCustomCursorsEnabled():Boolean {
+		public function isCustomCursorsEnabled():Boolean {
             return configProxy.customCursorsEnabled;
         }
 
-        private function enableGrabToPan(value:Boolean):void {
+		public function enableGrabToPan(value:Boolean):void {
             sendNotification(ApplicationFacade.ENABLE_GRAB_TO_PAN, value);
         }
         
-        private function isGrabToPanEnabled():Boolean {
+		public function isGrabToPanEnabled():Boolean {
             return configProxy.grabToPanEnabled;
         }
         
-        private function panBy(panX:Number, panY:Number):void {
+		public function panBy(panX:Number, panY:Number):void {
             sendNotification(ApplicationFacade.PAN_GRAPH, {panX: panX, panY: panY});
         }
         
-        private function panToCenter():void {
+		public function panToCenter():void {
             sendNotification(ApplicationFacade.CENTER_GRAPH);
         }
         
-        private function zoomTo(scale:Number):void {
+		public function zoomTo(scale:Number):void {
             sendNotification(ApplicationFacade.ZOOM_GRAPH, scale);
         }
         
-        private function zoomToFit():void {
+		public function zoomToFit():void {
             sendNotification(ApplicationFacade.ZOOM_GRAPH_TO_FIT);
         }
         
-        private function getZoom():Number {
+		public function getZoom():Number {
             return graphProxy.zoom;
         }
         
-        private function filter(group:String, items:Array, updateVisualMappers:Boolean=false):void {
+		public function filter(group:String, items:Array, updateVisualMappers:Boolean=false):void {
             var filtered:Array = graphProxy.getDataSpriteList(items, group);
             sendNotification(ApplicationFacade.FILTER, 
                              { group: group, filtered: filtered, updateVisualMappers: updateVisualMappers });
         }
         
-        private function removeFilter(group:String, updateVisualMappers:Boolean=false):void {
+		public function removeFilter(group:String, updateVisualMappers:Boolean=false):void {
             sendNotification(ApplicationFacade.REMOVE_FILTER, 
                              { group: group, updateVisualMappers: updateVisualMappers });
         }
         
-        private function firstNeighbors(rootNodes:Array, ignoreFilteredOut:Boolean=false):String {
+		public function firstNeighbors(rootNodes:Array, ignoreFilteredOut:Boolean=false):String {
             var obj:Object = {};
             
             if (rootNodes != null && rootNodes.length > 0) {
@@ -291,19 +365,19 @@ package org.cytoscapeweb.view {
             return encode(obj);
         }
 
-        private function getNodeById(id:String):String {
+		public function getNodeById(id:String):String {
             var obj:Object = ExternalObjectConverter.toExtElement(graphProxy.getNode(id),
                                                                   graphProxy.zoom);
             return encode(obj);
         }
         
-        private function getEdgeById(id:String):String {
+		public function getEdgeById(id:String):String {
             var obj:Object = ExternalObjectConverter.toExtElement(graphProxy.getEdge(id),
                                                                   graphProxy.zoom);
             return encode(obj);
         }
         
-        private function getNodes(topLevelOnly:Boolean=false):String {
+		public function getNodes(topLevelOnly:Boolean=false):String {
             var nodes:* = graphProxy.graphData.nodes;
             var arr:*, n:NodeSprite;
             
@@ -320,7 +394,7 @@ package org.cytoscapeweb.view {
             return encode(arr);
         }
         
-        private function getChildNodes(parentId:String):String {
+		public function getChildNodes(parentId:String):String {
             var nodes:*, arr:Array = [];
             var cn:CompoundNodeSprite = graphProxy.getNode(parentId);
             
@@ -332,68 +406,68 @@ package org.cytoscapeweb.view {
             return encode(arr);
         }
         
-        private function getParentNodes():String {
+		public function getParentNodes():String {
             var nodes:DataList = graphProxy.graphData.group(Groups.COMPOUND_NODES);
             var list:* = nodes != null ? nodes : [];
             list = ExternalObjectConverter.toExtElementsArray(list, graphProxy.zoom);
             return encode(list);
         }
         
-        private function getEdges():String {
+		public function getEdges():String {
             var edges:Array = graphProxy.edges;
             var arr:Array = ExternalObjectConverter.toExtElementsArray(edges, graphProxy.zoom);
             return encode(arr);
         }
         
-        private function getMergedEdges():String {
+		public function getMergedEdges():String {
             var edges:Array = graphProxy.mergedEdges;
             var arr:Array = ExternalObjectConverter.toExtElementsArray(edges, graphProxy.zoom);
             return encode(arr);
         }
         
-        private function getSelectedNodes():String {
+		public function getSelectedNodes():String {
             var arr:Array = ExternalObjectConverter.toExtElementsArray(graphProxy.selectedNodes,
                                                                        graphProxy.zoom);
             return encode(arr);
         }
         
-        private function getSelectedEdges():String {
+		public function getSelectedEdges():String {
             var arr:Array = ExternalObjectConverter.toExtElementsArray(graphProxy.selectedEdges,
                                                                        graphProxy.zoom);
             return encode(arr);
         }
         
-        private function getLayout():Object {
+		public function getLayout():Object {
             return configProxy.currentLayout;
         }
         
-        private function applyLayout(layout:Object):void {
+		public function applyLayout(layout:Object):void {
             sendNotification(ApplicationFacade.APPLY_LAYOUT, layout);
         }
         
-        private function setVisualStyle(obj:Object):void {
+		public function setVisualStyle(obj:Object):void {
             if (obj != null) {
                 var style:VisualStyleVO = VisualStyleVO.fromObject(obj);
                 sendNotification(ApplicationFacade.SET_VISUAL_STYLE, style);
             }
         }
         
-        private function getVisualStyle():Object {
+		public function getVisualStyle():Object {
             return configProxy.visualStyle.toObject();
         }
         
-        private function setVisualStyleBypass(json:/*{group->{id->{propName->value}}}*/String):void {
+		public function setVisualStyleBypass(json:/*{group->{id->{propName->value}}}*/String):void {
             var obj:Object = JSON.decode(json);
             var bypass:VisualStyleBypassVO = VisualStyleBypassVO.fromObject(obj);
             sendNotification(ApplicationFacade.SET_VISUAL_STYLE_BYPASS, bypass);
         }
         
-        private function getVisualStyleBypass():String {
+		public function getVisualStyleBypass():String {
             var obj:Object = configProxy.visualStyleBypass.toObject();
             return encode(obj);
         }
         
-        private function addElements(items:Array, updateVisualMappers:Boolean=false):String {
+		public function addElements(items:Array, updateVisualMappers:Boolean=false):String {
             var newAll:Array = [], newNodes:Array = [], newEdges:Array = [], ret:Array = [];
             var edgesToAdd:Array = [], childrenToAdd:Array = [];
             var gr:String, newElement:DataSprite, parent:CompoundNodeSprite, o:Object;
@@ -489,7 +563,7 @@ package org.cytoscapeweb.view {
             return encode(ret);
         }
         
-        private function addNode(x:Number,
+		public function addNode(x:Number,
                                  y:Number,
                                  data:Object,
                                  updateVisualMappers:Boolean=false):String {
@@ -536,7 +610,7 @@ package org.cytoscapeweb.view {
             return encode(extObj);
         }
         
-        private function addEdge(data:Object, updateVisualMappers:Boolean=false):String {
+		public function addEdge(data:Object, updateVisualMappers:Boolean=false):String {
             var o:Object;
             
             try {
@@ -556,32 +630,32 @@ package org.cytoscapeweb.view {
             return encode(o);
         }
         
-        private function removeElements(group:String=Groups.NONE,
+		public function removeElements(group:String=Groups.NONE,
                                         items:Array=null, 
                                         updateVisualMappers:Boolean=false):void {
             sendNotification(ApplicationFacade.REMOVE_ITEMS,
                              { group: group, items: items, updateVisualMappers: updateVisualMappers });
         }
         
-        private function getDataSchema():String {
+		public function getDataSchema():String {
             var obj:Object = ExternalObjectConverter.toExtSchema(graphProxy.nodesSchema, graphProxy.edgesSchema);
             return encode(obj);
         }
         
-        private function addDataField(group:String, dataField:Object):void {
+		public function addDataField(group:String, dataField:Object):void {
             sendNotification(ApplicationFacade.ADD_DATA_FIELD, { group: group, dataField: dataField });
         }
         
-        private function removeDataField(group:String, name:String):void {
+		public function removeDataField(group:String, name:String):void {
             sendNotification(ApplicationFacade.REMOVE_DATA_FIELD, { group: group, name: name });
         }
         
-        private function updateData(group:String, items:Array=null, data:Object=null):void {
+		public function updateData(group:String, items:Array=null, data:Object=null):void {
             if (items != null || data != null)
                 sendNotification(ApplicationFacade.UPDATE_DATA, { group: group, items: items, data: data });
         }
         
-        private function getNetworkModel():String {
+		public function getNetworkModel():String {
             var data:Object = graphProxy.graphData;
             var nodesSchema:DataSchema = graphProxy.nodesSchema;
             var edgesSchema:DataSchema = graphProxy.edgesSchema;
@@ -595,12 +669,12 @@ package org.cytoscapeweb.view {
             return encode(model);
         }
         
-        private function getNetworkAsText(format:String="xgmml", options:Object=null):String {
+		public function getNetworkAsText(format:String="xgmml", options:Object=null):String {
             var viewCenter:Point = graphMediator.getViewCenter();
             return graphProxy.getDataAsText(format, viewCenter, options);
         }
         
-        private function getNetworkAsImage(format:String="pdf", options:Object=null):String {
+		public function getNetworkAsImage(format:String="pdf", options:Object=null):String {
             if (options == null) options = {};
             
             var appMediator:ApplicationMediator = facade.retrieveMediator(ApplicationMediator.NAME) as ApplicationMediator;
@@ -615,7 +689,7 @@ package org.cytoscapeweb.view {
             return "" + img;
         }
         
-        private function exportNetwork(format:String, url:String, options:Object=null):void {
+		public function exportNetwork(format:String, url:String, options:Object=null):void {
             sendNotification(ApplicationFacade.EXPORT_NETWORK, { format: format, url: url, options: options });
         }
 
@@ -624,32 +698,65 @@ package org.cytoscapeweb.view {
         private function addCallbacks():void {
             if (ExternalInterface.available) {
                 var functions:Array = [ "draw",
-                                        "addContextMenuItem", "removeContextMenuItem", 
-                                        "select", "deselect", 
-                                        "mergeEdges", "isEdgesMerged", 
-                                        "showNodeLabels", "isNodeLabelsVisible", 
-                                        "showEdgeLabels", "isEdgeLabelsVisible", 
-                                        "enableNodeTooltips", "isNodeTooltipsEnabled", 
-                                        "enableEdgeTooltips", "isEdgeTooltipsEnabled", 
-                                        "showPanZoomControl", "isPanZoomControlVisible",
-                                        "enableCustomCursors", "isCustomCursorsEnabled",
-                                        "enableGrabToPan", "isGrabToPanEnabled", "panBy", "panToCenter", 
-                                        "zoomTo", "zoomToFit", "getZoom", 
-                                        "filter", "removeFilter", 
+                                        "addContextMenuItem", 
+										"removeContextMenuItem", 
+                                        "select", 
+										"deselect", 
+                                        "mergeEdges", 
+										"isEdgesMerged", 
+                                        "showNodeLabels", 
+										"isNodeLabelsVisible", 
+                                        "showEdgeLabels", 
+										"isEdgeLabelsVisible", 
+                                        "enableNodeTooltips", 
+										"isNodeTooltipsEnabled", 
+                                        "enableEdgeTooltips", 
+										"isEdgeTooltipsEnabled", 
+                                        "showPanZoomControl", 
+										"isPanZoomControlVisible",
+                                        "enableCustomCursors", 
+										"isCustomCursorsEnabled",
+                                        "enableGrabToPan", 
+										"isGrabToPanEnabled", 
+										"panBy", 
+										"panToCenter", 
+                                        "zoomTo", 
+										"zoomToFit", 
+										"getZoom", 
+                                        "filter", 
+										"removeFilter", 
                                         "firstNeighbors", 
-                                        "getNodes", "getParentNodes", "getChildNodes",
-                                        "getEdges", "getMergedEdges", 
-                                        "getNodeById", "getEdgeById",
-                                        "getSelectedNodes", "getSelectedEdges", 
-                                        "getLayout", "applyLayout", 
-                                        "setVisualStyle", "getVisualStyle", 
-                                        "getVisualStyleBypass", "setVisualStyleBypass",
-                                        "addElements", "addNode", "addEdge", "removeElements",
-                                        "getDataSchema", "addDataField", "removeDataField", "updateData",
-                                        "getNetworkModel", "getNetworkAsText", "getNetworkAsImage", 
+                                        "getNodes", 
+										"getParentNodes", 
+										"getChildNodes",
+                                        "getEdges", 
+										"getMergedEdges", 
+                                        "getNodeById", 
+										"getEdgeById",
+                                        "getSelectedNodes", 
+										"getSelectedEdges", 
+                                        "getLayout", 
+										"applyLayout", 
+                                        "setVisualStyle", 
+										"getVisualStyle", 
+                                        "getVisualStyleBypass", 
+										"setVisualStyleBypass",
+                                        "addElements", 
+										"addNode", 
+										"addEdge", 
+										"removeElements",
+                                        "getDataSchema", 
+										"addDataField", 
+										"removeDataField", 
+										"updateData",
+                                        "getNetworkModel", 
+										"getNetworkAsText", 
+										"getNetworkAsImage", 
                                         "exportNetwork" ];
 
-                for each (var f:String in functions) addFunction(f);
+                for each (var f:String in functions) {
+					addFunction(f);
+				}
 
             } else {
                 sendNotification(ApplicationFacade.EXT_INTERFACE_NOT_AVAILABLE);
