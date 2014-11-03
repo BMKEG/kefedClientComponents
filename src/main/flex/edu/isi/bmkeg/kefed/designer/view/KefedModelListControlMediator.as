@@ -14,12 +14,14 @@ package edu.isi.bmkeg.kefed.designer.view
 	import edu.isi.bmkeg.vpdmf.model.instances.LightViewInstance;
 	
 	import flash.events.Event;
+	import flash.external.ExternalInterface;
 	
+	import mx.controls.Alert;
+	import mx.core.FlexGlobals;
 	import mx.managers.PopUpManager;
 	
 	import org.robotlegs.mvcs.Mediator;
 	
-	import mx.core.FlexGlobals;
 	import spark.components.Application;
 	
 	public class KefedModelListControlMediator extends Mediator
@@ -56,10 +58,14 @@ package edu.isi.bmkeg.kefed.designer.view
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// On loading this control, we load the 'Fragment Tree' from the server 
 			// based on the value of state variables set in the Global Application
-			var app:Application = Application(FlexGlobals.topLevelApplication);
-			if( app["currentArticleCitation"] != null ) {
-				this.model.articleCitation = app["currentArticleCitation"] as ArticleCitation;
-				dispatch(new RetrieveKefedModelTreeEvent(model.articleCitation.vpdmfId));				
+			var articleIdCookie:Object = ExternalInterface.call("getCookie","articleCitationId");				
+						
+			if( articleIdCookie  != null ) {
+				var ac:ArticleCitation = new ArticleCitation();
+				var acId:Number = Number(articleIdCookie);
+				ac.vpdmfId = acId;
+				this.model.articleCitation = ac;
+				dispatch(new RetrieveKefedModelTreeEvent(acId));				
 			}
 
 		}

@@ -5,5 +5,5 @@ bin
 .actionScriptProperties
 .settings/*
 */oldCode/*
-
+.flexLibProperties
 /target

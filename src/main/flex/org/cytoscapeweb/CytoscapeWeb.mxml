@@ -30,22 +30,25 @@
 -->
 <mx:Module xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:app="org.cytoscapeweb.view.components.*"
                 width="100%" height="100%"
-                verticalScrollPolicy="off" horizontalScrollPolicy="off"
-                initialize="onInit()"
-                creationComplete="onComplete()">
+                verticalScrollPolicy="off" 
+				horizontalScrollPolicy="off"
+                initialize="onInit()" 
+			    creationComplete="onComplete()">
                 
 <mx:Style source="/assets/css/main.css"/>
 
 <mx:Script>
 <![CDATA[
+	import mx.events.DragEvent;
 	import mx.resources.ResourceBundle;
+	
 	import org.cytoscapeweb.view.components.GraphView;
 
     [Bindable]
     public var graphView:GraphView;
 
 	public var parameters:Object;
-	
+
     private function onInit():void {
         Security.allowDomain("*");
         
@@ -65,7 +68,8 @@
     private function onComplete():void {
 	    // Initialize the ApplicationFacade (PureMVC Framework):
 		ApplicationFacade.getInstance().startup(this);
-    }
+	}
+	
 ]]>
 </mx:Script>
 
@@ -73,12 +77,12 @@
                width="100%" height="100%"
                verticalScrollPolicy="off" 
 			   horizontalScrollPolicy="off"
-               autoLayout="true">
+			   autoLayout="true">
                
         <mx:Box id="graphBox" styleName="rawBox" width="100%" height="100%"
                 verticalScrollPolicy="off" horizontalScrollPolicy="off"
                 verticalAlign="middle" horizontalAlign="center"
-                autoLayout="true"/>
+				autoLayout="true"/>
                 
         <app:PanZoomBox id="panZoomBox" visible="true"
                         rollOver="onRollOverPanZoomBox();"

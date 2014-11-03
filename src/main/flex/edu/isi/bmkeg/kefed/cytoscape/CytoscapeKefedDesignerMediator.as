@@ -59,11 +59,11 @@ package edu.isi.bmkeg.kefed.cytoscape
 	 * Note that, because CytoscapeWeb uses PureMVC, the interaction with the component will largely
 	 * be based on callbacks rather than events. 
 	 */ 
-	public class CytoscapeWebMediator extends ModuleMediator 
+	public class CytoscapeKefedDesignerMediator extends ModuleMediator 
 	{
 
 		[Inject]
-		public var view:CytoscapeWeb;
+		public var view:CytoscapeKefedDesigner;
 
 		[Inject]
 		public var model:KefedDesignerModel;

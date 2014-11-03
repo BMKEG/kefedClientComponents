@@ -6,20 +6,22 @@
 		 xmlns:s="library://ns.adobe.com/flex/spark" 
 		 xmlns:mx="library://ns.adobe.com/flex/mx"
 		 xmlns:view="edu.isi.bmkeg.kefed.designer.view.*"
-		 width="400" height="300" >
+		 width="400" height="300">
 	
 	<fx:Declarations>
 	</fx:Declarations>
 	
 	<fx:Script>
 		<![CDATA[
-			import edu.isi.bmkeg.kefed.events.elementLevel.SelectKefedElementEvent;
 			import edu.isi.bmkeg.kefed.designer.view.popups.*;
 			import edu.isi.bmkeg.kefed.events.*;
-			import edu.isi.bmkeg.kefed.rl.events.*;
+			import edu.isi.bmkeg.kefed.events.elementLevel.SelectKefedElementEvent;
 			import edu.isi.bmkeg.kefed.model.design.KefedModel;
 			import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
 			import edu.isi.bmkeg.kefed.model.qo.design.KefedModel_qo;
+			import edu.isi.bmkeg.kefed.rl.events.*;
+			
+			import flash.external.ExternalInterface;
 			
 			import mx.core.FlexGlobals;
 			import mx.core.IVisualElementContainer;
@@ -108,7 +110,7 @@
 			{
 				this.dispatchEvent( new ActivateEditKefedModelPopupEvent() );				
 			}
-			
+						
 		]]>
 	</fx:Script>
 	

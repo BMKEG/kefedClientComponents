@@ -180,7 +180,7 @@ package edu.isi.bmkeg.kefed.designer
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// Cytoscape Web 
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			mediatorMap.mapView(CytoscapeWeb, CytoscapeWebMediator);
+			mediatorMap.mapView(CytoscapeKefedDesigner, CytoscapeKefedDesignerMediator);
 			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// OoevvEditor 

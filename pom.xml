@@ -122,13 +122,13 @@
 		
 		<dependency>
 			<groupId>edu.isi.bmkeg</groupId>
-			<artifactId>cosi-as-services</artifactId>
+			<artifactId>vpdmf-bioscholar-as-services</artifactId>
 			<type>swc</type>
 		</dependency>
 		
 		<dependency>
 			<groupId>edu.isi.bmkeg</groupId>
-			<artifactId>cosi-as</artifactId>
+			<artifactId>vpdmf-bioscholar-as</artifactId>
 			<type>swc</type>
 		</dependency>
 		
@@ -142,6 +142,19 @@
 			<groupId>edu.isi.bmkeg</groupId>
 			<type>swc</type>
 			<artifactId>digitalLibraryClientComponents</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.hillelcoren</groupId>
+			<artifactId>flex-autocomplete</artifactId>
+			<type>swc</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.as3commons</groupId>
+			<artifactId>as3commons-collections</artifactId>
+			<version>1.0.0</version>
+			<type>swc</type>
 		</dependency>
 
 	</dependencies>
