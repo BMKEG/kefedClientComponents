@@ -42,12 +42,12 @@ package edu.isi.bmkeg.kefed.diagram
 			commandMap.mapEvent(DropKefedNodeIntoDiagramEvent.DROP_KEFED_NODE_INTO_DIAGRAM, DropKefedNodeIntoDiagramCommand);
 			commandMap.mapEvent(LoadFlareGraphEvent.LOAD_FLARE_GRAPH, LoadFlareGraphCommand);
 
-			commandMap.mapEvent(SelectFlareNodeInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, SelectFlareNodeCommand);
+			commandMap.mapEvent(SelectFlareNodesInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, SelectFlareNodeCommand);
 			
 			commandMap.mapEvent(FindOoevvElementByIdEvent.FIND_OOEVVELEMENT_BY_ID, 
 				FindOoevvElementByIdCommand);
 
-			moduleCommandMap.mapEvent(SelectFlareNodeInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, SelectFlareNodeCommand);
+			moduleCommandMap.mapEvent(SelectFlareNodesInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, SelectFlareNodeCommand);
 			moduleCommandMap.mapEvent(LoadKefedModelToDiagramEvent.LOAD_KEFED_MODEL_TO_DIAGRAM, LoadKefedModelToDiagramCommand);
 		}
 		

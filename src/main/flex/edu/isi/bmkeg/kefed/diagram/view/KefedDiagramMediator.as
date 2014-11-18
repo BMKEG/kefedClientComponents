@@ -69,7 +69,7 @@ package edu.isi.bmkeg.kefed.diagram.view
 			addViewListener(RenameFlareNodeEvent.RENAME_FLARE_NODE, handleRenameFlareNode);
 			addViewListener(RemoveFlareEdgeEvent.REMOVE_FLARE_EDGE, handleRemoveFlareEdge);
 			addViewListener(RemoveFlareNodeEvent.REMOVE_FLARE_NODE, handleRemoveFlareNode);
-			addViewListener(SelectFlareNodeInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, handleOutgoingSelectFlareNode);
+			addViewListener(SelectFlareNodesInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, handleOutgoingSelectFlareNode);
 			addViewListener(ShowKefedSvgEvent.SHOW_KEFED_SVG, dispatch);
 			addViewListener(UpdateKapitXmlEvent.UPDATE_KAPIT_XML, handleUpdateKapitXml);
 			
@@ -141,7 +141,7 @@ package edu.isi.bmkeg.kefed.diagram.view
 		
 		}
 		
-		private function handleOutgoingSelectFlareNode(e:SelectFlareNodeInDiagramEvent):void {
+		private function handleOutgoingSelectFlareNode(e:SelectFlareNodesInDiagramEvent):void {
 			
 			if( this.model.shutDownGraph )
 				return;

@@ -29,6 +29,8 @@ package edu.isi.bmkeg.kefed.designer.controller.elementLevel
 			else 
 				trace("edge insertion failed ");
 
+			model.startElement = null;
+			
 			service.retrieveCompleteKefedModel(model.kefedModel.vpdmfId);
 			
 		}

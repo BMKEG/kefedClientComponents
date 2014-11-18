@@ -162,7 +162,9 @@ package edu.isi.bmkeg.kefed.cytoscape
 		}
 		
 		private function closeVbType(e:Event):void {
+
 			mx.managers.PopUpManager.removePopUp(vbTypeDialog);
+		
 		}
 		
 	}

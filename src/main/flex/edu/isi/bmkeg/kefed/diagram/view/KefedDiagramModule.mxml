@@ -128,7 +128,7 @@
 			if( arr && arr.length == 1 ) { 
 				var dObj:DiagramObject = DiagramObject(arr[0]);
 				uid = dObj.did;
-				this.dispatchEvent( new SelectFlareNodeInDiagramEvent(uid) );
+				//this.dispatchEvent( new SelectFlareNodesInDiagramEvent(uid) );
 			}			
 		}
 		

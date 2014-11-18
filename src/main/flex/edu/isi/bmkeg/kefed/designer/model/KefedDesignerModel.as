@@ -5,6 +5,7 @@ package edu.isi.bmkeg.kefed.designer.model
 	import edu.isi.bmkeg.kefed.model.flare.*;
 	import edu.isi.bmkeg.kefed.model.design.KefedModel;
 	import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
+	import edu.isi.bmkeg.kefed.model.design.KefedModelEdge;
 	import edu.isi.bmkeg.ooevv.model.OoevvElementSet;
 	
 	import flash.utils.Dictionary;
@@ -33,7 +34,11 @@ package edu.isi.bmkeg.kefed.designer.model
 		// Copy of the KEfED model
 		public var savedModel:KefedModel = new KefedModel();
 
-		public var kefedElement:KefedModelElement;
+		public var startElement:KefedModelElement;
+
+		public var kefedElements:ArrayCollection = new ArrayCollection();
+
+		public var kefedEdges:ArrayCollection = new ArrayCollection();
 
 		public var ooevvElementSet:OoevvElementSet;
 

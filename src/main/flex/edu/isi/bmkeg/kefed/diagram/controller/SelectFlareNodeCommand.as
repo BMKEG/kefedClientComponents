@@ -2,7 +2,7 @@ package edu.isi.bmkeg.kefed.diagram.controller
 {	
 	import org.robotlegs.mvcs.Command;
 	
-	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodeInDiagramEvent;
+	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodesInDiagramEvent;
 	import edu.isi.bmkeg.kefed.diagram.model.KefedDiagramModel;
 	
 	import flash.events.Event;
@@ -11,7 +11,7 @@ package edu.isi.bmkeg.kefed.diagram.controller
 	{
 	
 		[Inject]
-		public var event:SelectFlareNodeInDiagramEvent;
+		public var event:SelectFlareNodesInDiagramEvent;
 
 		[Inject]
 		public var kefedDiagramModel:KefedDiagramModel;

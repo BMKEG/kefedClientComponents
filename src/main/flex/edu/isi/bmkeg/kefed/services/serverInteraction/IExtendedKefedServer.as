@@ -25,6 +25,9 @@ package edu.isi.bmkeg.kefed.services.serverInteraction
 		function get insertKefedElement():AbstractOperation;
 		
 		function get insertKefedEdge():AbstractOperation;
+		
+		function get moveKefedEdgesAndElements():AbstractOperation;
+		
 	}
 
 }

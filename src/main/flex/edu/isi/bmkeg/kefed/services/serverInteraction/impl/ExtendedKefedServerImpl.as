@@ -57,7 +57,7 @@ package edu.isi.bmkeg.kefed.services.serverInteraction.impl
 		
 		public function get deleteKefedElement():AbstractOperation
 		{
-			return getOperation("deleteKefedNode");
+			return getOperation("deleteKefedElement");
 		}
 		
 		public function get deleteKefedEdge():AbstractOperation
@@ -75,6 +75,10 @@ package edu.isi.bmkeg.kefed.services.serverInteraction.impl
 			return getOperation("insertKefedEdge");
 		}
 		
+		public function get moveKefedEdgesAndElements():AbstractOperation
+		{
+			return getOperation("moveKefedEdgesAndElements");
+		}
 	}
 
 }

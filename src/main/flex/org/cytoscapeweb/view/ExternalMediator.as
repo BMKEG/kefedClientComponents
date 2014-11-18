@@ -40,6 +40,7 @@ package org.cytoscapeweb.view {
     import flash.geom.Point;
     import flash.utils.ByteArray;
     
+    import mx.collections.ArrayCollection;
     import mx.utils.Base64Encoder;
     
     import org.cytoscapeweb.ApplicationFacade;
@@ -164,6 +165,25 @@ package org.cytoscapeweb.view {
 				var type:String = argument.type;
 				var data:Object = argument.value;
 				
+				if( type == "select" || type == "deselect" ) {
+					data = argument.target;
+				} else if ( type == "dragstop"  ) {
+
+					data = new Object();
+					data.uid = argument.target.data.id;
+					data.newX = argument.target.x;
+					data.newY = argument.target.y;
+					
+					for each( var node:Object in JSON.decode( this.getNodes() ) ) {
+						if( node.data.id != data.uid )  {
+							data.refUid = node.data.id;
+							data.refX = node.x;
+							data.refY = node.y;
+							break;
+						}
+					}					
+				}
+
 				var ev2:RobotlegsListenerEvent = new RobotlegsListenerEvent(
 					RobotlegsListenerEvent.ROBOTLEGS_LISTENER + type, data, true, true);
 				this.viewComponent.dispatchEvent(ev2);
@@ -668,6 +688,23 @@ package org.cytoscapeweb.view {
             
             return encode(model);
         }
+		
+		/**
+		 * Changed to provide direct access to AS objects
+		 */
+		public function readNetworkModel():Object {
+			var data:Object = graphProxy.graphData;
+			var nodesSchema:DataSchema = graphProxy.nodesSchema;
+			var edgesSchema:DataSchema = graphProxy.edgesSchema;
+			
+			var nodesTable:GraphicsDataTable = new GraphicsDataTable(data.nodes, nodesSchema);
+			var edgesTable:GraphicsDataTable = new GraphicsDataTable(data.group(Groups.REGULAR_EDGES), edgesSchema);
+			var ds:DataSet = new DataSet(nodesTable, edgesTable);
+			
+			return ExternalObjectConverter.toExtNetworkModel(ds);
+			
+		}
+
         
 		public function getNetworkAsText(format:String="xgmml", options:Object=null):String {
             var viewCenter:Point = graphMediator.getViewCenter();

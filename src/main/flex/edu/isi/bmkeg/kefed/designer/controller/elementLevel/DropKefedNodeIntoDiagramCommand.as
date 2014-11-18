@@ -1,8 +1,8 @@
-package edu.isi.bmkeg.kefed.cytoscape.controller
+package edu.isi.bmkeg.kefed.designer.controller.elementLevel
 {	
 	import edu.isi.bmkeg.kefed.diagram.controller.events.DropKefedNodeIntoDiagramEvent;
 	import edu.isi.bmkeg.kefed.events.modelLevel.LoadFlareGraphEvent;
-	import edu.isi.bmkeg.kefed.diagram.model.KefedDiagramModel;
+	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
 	import edu.isi.bmkeg.kefed.model.flare.FlareGraph;
 	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
 	import edu.isi.bmkeg.kefed.diagram.view.KefedDiagramModule;
@@ -23,25 +23,18 @@ package edu.isi.bmkeg.kefed.cytoscape.controller
 		
 		[Inject]
 		public var event:DropKefedNodeIntoDiagramEvent;
-		
+
 		[Inject]
-		public var kefedDiagramModel:KefedDiagramModel;
-		
-		[Inject]
-		public var view:KefedDiagramModule;
+		public var model:KefedDesignerModel;
 
 		override public function execute():void
 		{
-			
-			var xml:XML = event.xml;
-			var sprites:XML = xml.panels.panel.lane.sprites[0];
-			
-			//	id="2CFDD60E-6FBE-95CC-4262-A0ACB71D7077" 
-			// dataid="86134C5F-74F5-8654-8D65-A0ACB73EFB05" 
+						
 			var id:String = event.k.uuid;
 			var dataid:String = UIDUtil.createUID(); // uuid
 			var dx:String = "NaN";
 			var dy:String = "NaN";
+			
 			var x:Number = event.k.x;
 			var y:Number = event.k.y;
 			var w:Number = event.k.w;
@@ -114,37 +107,7 @@ package edu.isi.bmkeg.kefed.cytoscape.controller
 
 			}
 			
-			var box:String = x + "," + y + "," + w + "," + h;
-
-			var anchorid:String = UIDUtil.createUID();
-			var targetid:String = UIDUtil.createUID();
-			
-			var newXML:XML = <sprite id={id} dataid={dataid} dx="NaN" dy="NaN" box={box} spriteid={spriteid}>
-					<anchor id={anchorid} dx="0" dy="0" target={targetid}/>
-					</sprite>;
-			
-			sprites.appendChild( newXML );
-
-			var annotations:XML = xml.panels.panel.lane.annotations[0];
-
-			box = (x + xLabel) + "," + (y + yLabel) + "," + 120 + "," + (20 * nLines);
-			
-			var newAnnot:XML = <annotation id={targetid} master={anchorid} dx={xLabel} dy={yLabel} box={box} spriteid="annotation"/>;
-			newAnnot.appendChild(new XML("<![CDATA[" + label + "]]>"));			
-			annotations.appendChild(newAnnot);
-			
-			var node:FlareNode = new FlareNode();
-			node.did = id;
-			node.uid = id;
-			node.nameValue = event.k.defn.termValue;
-			node.spriteid = spriteid;
-			
-			var g:FlareGraph = kefedDiagramModel.flareGraph;
-			g.addNode(node);
-			
-			dispatch(new LoadFlareGraphEvent(g, xml) );
-			
-			dispatchToModules( new InsertKefedElementEvent(event.k, xml) );
+			dispatch( new InsertKefedElementEvent(event.k, <xml/>) );
 			
 		}
 		

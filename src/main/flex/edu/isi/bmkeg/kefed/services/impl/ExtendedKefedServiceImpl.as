@@ -141,12 +141,12 @@ package edu.isi.bmkeg.kefed.services.impl
 		public function deleteKefedElement(uid:String, xml:String):void 
 		{
 			server.deleteKefedElement.cancel();
-			server.deleteKefedElement.addEventListener(ResultEvent.RESULT, deleteKefedNodeResultHandler);
+			server.deleteKefedElement.addEventListener(ResultEvent.RESULT, deleteKefedElementResultHandler);
 			server.deleteKefedElement.addEventListener(FaultEvent.FAULT, faultHandler);
 			server.deleteKefedElement.send(uid, xml);
 		}
 		
-		private function deleteKefedNodeResultHandler(event:ResultEvent):void
+		private function deleteKefedElementResultHandler(event:ResultEvent):void
 		{
 			var success:Boolean = Boolean(event.result);
 			dispatch(new DeleteKefedElementResultEvent(success));
@@ -201,6 +201,25 @@ package edu.isi.bmkeg.kefed.services.impl
 			dispatch(new InsertKefedEdgeResultEvent(success));
 		}	
 				
+		// ~~~~~~~~~
+		
+		public function  moveKefedEdgesAndElements(uids:ArrayCollection, dx:int, dy:int):void
+		{
+			server.moveKefedEdgesAndElements.cancel();
+			server.moveKefedEdgesAndElements.addEventListener(ResultEvent.RESULT, moveKefedEdgesAndElementsResultHandler);
+			server.moveKefedEdgesAndElements.addEventListener(FaultEvent.FAULT, faultHandler);
+			server.moveKefedEdgesAndElements.send(uids, dx, dy);
+		}
+		
+		private function moveKefedEdgesAndElementsResultHandler(event:ResultEvent):void
+		{
+			var success:Boolean = Boolean(event.result);
+			dispatch(new DragSelectionResultEvent(success));
+		}	
+		
+		
+
+		
 	}
 
 }

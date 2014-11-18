@@ -105,7 +105,7 @@ package edu.isi.bmkeg.kefed.designer
 			moduleCommandMap.mapEvent(RemoveFlareNodeEvent.REMOVE_FLARE_NODE, TranslateRemoveFlareNodeCommand);
 			moduleCommandMap.mapEvent(RemoveFlareEdgeEvent.REMOVE_FLARE_EDGE, TranslateRemoveFlareEdgeCommand);
 			moduleCommandMap.mapEvent(RenameFlareNodeEvent.RENAME_FLARE_NODE, TranslateRenameFlareNodeCommand);
-			moduleCommandMap.mapEvent(SelectFlareNodeInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, TranslateSelectFlareNodeCommand);
+			moduleCommandMap.mapEvent(SelectFlareNodesInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, SelectFlareNodeCommand);
 			moduleCommandMap.mapEvent(InsertKefedElementEvent.INSERT_KEFED_ELEMENT, DispatchLocallyCommand);
 			moduleCommandMap.mapEvent(UpdateKapitXmlEvent.UPDATE_KAPIT_XML, UpdateKapitXmlCommand);
 		

@@ -7,3 +7,6 @@ bin
 */oldCode/*
 .flexLibProperties
 /target
+/target
+libs/DiagramProxies.swc
+libs/Diagrammer.swc

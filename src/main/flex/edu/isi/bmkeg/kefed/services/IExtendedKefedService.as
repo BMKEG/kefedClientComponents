@@ -28,6 +28,7 @@ package edu.isi.bmkeg.kefed.services
 		
 		function insertKefedEdge(ke:KefedModelEdge, xml:String):void;
 
+		function moveKefedEdgesAndElements(uids:ArrayCollection, dx:int, dy:int):void;
 		
 	}
 

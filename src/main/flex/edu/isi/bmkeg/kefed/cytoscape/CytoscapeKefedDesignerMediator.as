@@ -5,6 +5,7 @@ package edu.isi.bmkeg.kefed.cytoscape
 	
 	import edu.isi.bmkeg.kefed.cytoscape.*;
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
+	import edu.isi.bmkeg.kefed.diagram.controller.events.*;
 	import edu.isi.bmkeg.kefed.events.*;
 	import edu.isi.bmkeg.kefed.events.elementLevel.*;
 	import edu.isi.bmkeg.kefed.events.modelLevel.*;
@@ -67,7 +68,10 @@ package edu.isi.bmkeg.kefed.cytoscape
 
 		[Inject]
 		public var model:KefedDesignerModel;
-		
+
+		private var loaded:Boolean = false;
+		private var linkStart:String = "";
+
 		private var facade:ApplicationFacade;
 		private var extMed:ExternalMediator = ApplicationFacade.getInstance()
 			.retrieveMediator( ExternalMediator.NAME ) as ExternalMediator;
@@ -87,8 +91,20 @@ package edu.isi.bmkeg.kefed.cytoscape
 			addViewListener(RobotlegsListenerEvent.ROBOTLEGS_LISTENER + "contextmenu", 
 				handleCallback_menu);
 
-			addViewListener(RobotlegsListenerEvent.ROBOTLEGS_LISTENER + "Create Outlink", 
+			addViewListener("RobotlegsContextMenuCallback__Create Outlink",
 				handleCreateOutlink);
+
+			addViewListener(RobotlegsListenerEvent.ROBOTLEGS_LISTENER + "select", 
+				handleSelect);
+
+			addViewListener(RobotlegsListenerEvent.ROBOTLEGS_LISTENER + "deselect", 
+				handleDeselect);
+
+			addViewListener(RobotlegsListenerEvent.ROBOTLEGS_LISTENER + "dragstop", 
+				handleDragstop);
+			
+			addViewListener(DropKefedNodeIntoDiagramEvent.DROP_KEFED_NODE_INTO_DIAGRAM, 
+				handleDropKefedNodeIntoDiagram);
 			
 			addContextListener(InsertKefedElementEvent.INSERT_KEFED_ELEMENT, 
 					handleGraphChange);
@@ -108,7 +124,10 @@ package edu.isi.bmkeg.kefed.cytoscape
 			var extMed:ExternalMediator = ApplicationFacade.getInstance()
 				.retrieveMediator( ExternalMediator.NAME ) as ExternalMediator;
 			extMed.enableCallback("contextmenu");
-			
+			extMed.enableCallback("select");
+			extMed.enableCallback("deselect");
+			extMed.enableCallback("dragstop");
+							
 		}
 		
 		private function handleGraphChange(e:Event):void {
@@ -136,17 +155,119 @@ package edu.isi.bmkeg.kefed.cytoscape
 			
 		}
 		
-		private function handleCreateOutlink(e:Event):void {
+		private function handleCreateOutlink(e:RobotlegsContextMenuCallbackEvent):void {
 			
-			//	view.model = model.kefedModel;
-			trace("layout");
+			var ev:StartFlareEdgeInDiagramEvent = new StartFlareEdgeInDiagramEvent(e.uuid);
+			this.dispatchToModules(ev);
 			
 		}
+		
+		private function handleSelect(e:Event):void {
+			
+			var eventData:ArrayCollection = new ArrayCollection();
+			
+			//
+			// Nodes selected is an array in the data field
+			//
+			var selection:Array = e["data"] as Array;
+			var groups:String = "";
+			if( selection.length > 0 ) {
+				groups = selection[0].group;
+			} else {
+				return;
+			}
+			
+			if( groups == "nodes" ) { 
+				
+				var nodes:ArrayCollection = new ArrayCollection();
+				for each( var s:Object in selection ) {
+					nodes.addItem( s.data.id );
+				}	
+				var ev:SelectFlareNodesInDiagramEvent = 
+						new SelectFlareNodesInDiagramEvent(nodes);
+				this.dispatchToModules(ev);		
+				
+			} else if( groups == "edges" ) { 
+					
+				var edges:ArrayCollection = new ArrayCollection();
+				for each( var s:Object in selection ) {
+					var o:Object = new Object();
+					o.sourceId = s.data.source;
+					o.targetId = s.data.target;
+					edges.addItem( o );
+				}	
+				var ev2:SelectFlareEdgesInDiagramEvent = 
+						new SelectFlareEdgesInDiagramEvent(edges);
+				this.dispatchToModules(ev2);
+				
+			}
+			
+		}
+		
+		private function handleDeselect(e:Event):void {
+			
+			var ev:DeselectElementsInDiagramEvent = 
+					new DeselectElementsInDiagramEvent();
+			this.dispatchToModules(ev);
+			
+		}
+		
+		private function handleDragstop(e:RobotlegsListenerEvent):void {
+			
+			var uid:String = e.data.uid;
+			var refUid:String = "";
+			var newX:int = e.data.x;
+			var newY:int = e.data.y;
+			
+			var ev:DragSelectionEvent = 
+				new DragSelectionEvent(e.data.uid, 
+					e.data.newX, e.data.newY, e.data.refUid,
+					e.data.refX, e.data.refY );
+			this.dispatchToModules(ev);
+			
+		}
+		
 		private function handleLoadGraph(e:RetrieveCompleteKefedModelResultEvent):void {
 			
 			var extMed:ExternalMediator = ApplicationFacade.getInstance()
 				.retrieveMediator( ExternalMediator.NAME ) as ExternalMediator;
+			
 
+			if( !loaded ) {
+				
+				var pp:Object = buildCytoscapeNetworkObject(e.kefedModel);
+				extMed.draw(pp);		
+				loaded = true;
+			
+			} else {
+
+				var list:Array = buildCytoscapeElementsList(e.kefedModel);
+				
+				var network:Object = extMed.readNetworkModel();
+				
+				var edges:Array = network.data.edges;
+				var edgeIds:Array = new Array();
+				for each (var ed:Object in edges) {
+					edgeIds.push(ed["id"]);
+				}
+				extMed.removeElements("edges", edgeIds);
+				
+				var nodes:Array = network.data.nodes;
+				var nodeIds:Array = new Array();
+				for each (var n:Object in nodes) {
+					nodeIds.push(n["id"]);
+				}
+				extMed.removeElements("nodes", nodeIds);
+				
+				extMed.addElements( list );
+				extMed.panToCenter();
+				
+			}
+			
+		}
+		
+		private function buildCytoscapeNetworkObject(m:KefedModel):Object {
+			
 			var pp:Object = new Object();
 			var network:Object = new Object();
 			pp["network"] = network;
@@ -154,10 +275,11 @@ package edu.isi.bmkeg.kefed.cytoscape
 			network["data"] = data;
 			var nodes:Array = new Array();
 			data["nodes"] = nodes;
-
-			for each (var nd:KefedModelElement in e.kefedModel.elements) {
+			
+			for each (var nd:KefedModelElement in m.elements) {
 				var node:Object = new Object();
 				node["id"] = nd.uuid;
+				node["group"] = Groups.NODES;
 				node["label"] = nd.defn.termValue;
 				node["type"] = nd.elementType;
 				nodes.push(node);
@@ -165,18 +287,24 @@ package edu.isi.bmkeg.kefed.cytoscape
 			
 			var edges:Array = new Array();
 			data["edges"] = edges;
-
-			for each (var ed:KefedModelEdge in e.kefedModel.edges) {
+			
+			for each (var ed:KefedModelEdge in m.edges) {
 				var edge:Object = new Object();
+				edge["group"] = Groups.EDGES;
 				edge["source"] = ed.source.uuid;
 				edge["target"] = ed.target.uuid;
+				edge["directed"] = true;
 				edges.push( edge );
 			}
 			
 			var dataschema:Object = {
 				nodes: [ 
 					{ name: "label", type: "string" }, 
-					{ name: "type", type: "string" }
+					{ name: "type", type: "string" },
+					{ name: "group", type: "string" } 
+				],
+				edges: [ 
+					{ name: "group", type: "string" } 
 				]
 			};
 			network["dataSchema"] = dataschema;
@@ -187,7 +315,7 @@ package edu.isi.bmkeg.kefed.cytoscape
 			layout["name"] = "Preset";
 			var points:Array = new Array();
 			options["points"] = points;	
-			for each (var nn:KefedModelElement in e.kefedModel.elements) {
+			for each (var nn:KefedModelElement in m.elements) {
 				var nnode:Object = new Object();
 				nnode["id"] = nn.uuid;
 				nnode["x"] = nn.x;
@@ -231,7 +359,7 @@ package edu.isi.bmkeg.kefed.cytoscape
 						value: 70/3 }
 				]
 			};
-
+			
 			var widthMapper:Object= {
 				attrName: "type",
 				entries: [ 
@@ -247,7 +375,7 @@ package edu.isi.bmkeg.kefed.cytoscape
 						value: 64/3 }
 				]
 			};
-
+			
 			var style:Object = {
 				nodes: {
 					shape: "RECTANGLE",
@@ -258,11 +386,41 @@ package edu.isi.bmkeg.kefed.cytoscape
 					height: { discreteMapper: heightMapper }
 				}
 			};
-							
+			
 			pp["visualStyle"] = style;
 			
-			extMed.draw(pp);
+			return pp;
+		}
+		
+		private function buildCytoscapeElementsList(m:KefedModel):Array {
 			
+			var elements:Array = new Array();
+			
+			for each (var nd:KefedModelElement in m.elements) {
+				var node:Object = new Object();
+				node["x"] = nd.x;
+				node["y"] = nd.y;
+				node["group"] = Groups.NODES;
+				var data:Object = new Object();
+				node["data"] = data;
+				data["id"] = nd.uuid;
+				data["label"] = nd.defn.termValue;
+				data["type"] = nd.elementType;
+				elements.push(node);
+			}
+						
+			for each (var ed:KefedModelEdge in m.edges) {
+				var edge:Object = new Object();
+				edge["group"] = Groups.EDGES;
+				var data2:Object = new Object();
+				edge["data"] = data2;
+				data2["source"] = ed.source.uuid;
+				data2["target"] = ed.target.uuid;
+				data2["directed"] = true;
+				elements.push( edge );
+			}
+			
+			return elements;
 		}
 		
 		/*private function handleIncomingSelectElement(e:SelectKefedElementEvent):void {
@@ -282,7 +440,14 @@ package edu.isi.bmkeg.kefed.cytoscape
 			this.dispatchToModules(new SelectFlareNodeEvent(e.uid));
 
 		}
-				
+			
+		private function handleDropKefedNodeIntoDiagram(e:Event):void {	
+			
+			this.dispatch(e);
+			this.dispatchToModules(e);
+		
+		}		
+		
 	}
 	
 }

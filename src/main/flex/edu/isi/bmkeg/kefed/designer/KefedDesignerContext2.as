@@ -23,7 +23,7 @@ package edu.isi.bmkeg.kefed.designer
 	import edu.isi.bmkeg.digitalLibrary.services.impl.*;
 	import edu.isi.bmkeg.digitalLibrary.services.serverInteraction.*;
 	import edu.isi.bmkeg.digitalLibrary.services.serverInteraction.impl.*;
-	
+
 	import edu.isi.bmkeg.kefed.events.elementLevel.*;	
 	import edu.isi.bmkeg.kefed.designer.controller.translateDiagram.*;	
 	import edu.isi.bmkeg.kefed.designer.controller.elementLevel.*;	
@@ -105,9 +105,18 @@ package edu.isi.bmkeg.kefed.designer
 			moduleCommandMap.mapEvent(RemoveFlareNodeEvent.REMOVE_FLARE_NODE, TranslateRemoveFlareNodeCommand);
 			moduleCommandMap.mapEvent(RemoveFlareEdgeEvent.REMOVE_FLARE_EDGE, TranslateRemoveFlareEdgeCommand);
 			moduleCommandMap.mapEvent(RenameFlareNodeEvent.RENAME_FLARE_NODE, TranslateRenameFlareNodeCommand);
-			moduleCommandMap.mapEvent(SelectFlareNodeInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, TranslateSelectFlareNodeCommand);
+			moduleCommandMap.mapEvent(DeselectElementsInDiagramEvent.DESELECT_ELEMENTS_IN_DIAGRAM, DeselectCommand);
+			moduleCommandMap.mapEvent(SelectFlareNodesInDiagramEvent.SELECT_FLARE_NODE_IN_DIAGRAM, SelectFlareNodeCommand);
+			moduleCommandMap.mapEvent(SelectFlareEdgesInDiagramEvent.SELECT_FLARE_EDGE_IN_DIAGRAM, SelectFlareEdgeCommand);
+			moduleCommandMap.mapEvent(StartFlareEdgeInDiagramEvent.START_FLARE_EDGE_IN_DIAGRAM, StartEdgeCommand);
+			moduleCommandMap.mapEvent(CancelFlareEdgeInDiagramEvent.CANCEL_FLARE_EDGE_IN_DIAGRAM, CancelStartEdgeCommand);
+			moduleCommandMap.mapEvent(DragSelectionEvent.DRAG_SELECTION, DragSelectionCommand);
 			moduleCommandMap.mapEvent(InsertKefedElementEvent.INSERT_KEFED_ELEMENT, DispatchLocallyCommand);
 			moduleCommandMap.mapEvent(UpdateKapitXmlEvent.UPDATE_KAPIT_XML, UpdateKapitXmlCommand);
+			
+			// Cytoscape module events. 
+			commandMap.mapEvent(DropKefedNodeIntoDiagramEvent.DROP_KEFED_NODE_INTO_DIAGRAM, 
+				DropKefedNodeIntoDiagramCommand);
 			
 			commandMap.mapEvent(InsertKefedEdgeEvent.INSERT_KEFED_EDGE, InsertKefedEdgeCommand);
 			commandMap.mapEvent(InsertKefedEdgeResultEvent.INSERT_KEFED_EDGE_RESULT, InsertKefedEdgeResultCommand);
@@ -115,6 +124,8 @@ package edu.isi.bmkeg.kefed.designer
 			commandMap.mapEvent(InsertKefedElementEvent.INSERT_KEFED_ELEMENT, InsertKefedElementCommand);
 			commandMap.mapEvent(InsertKefedElementResultEvent.INSERT_KEFED_ELEMENT_RESULT, InsertKefedElementResultCommand);
 			
+			commandMap.mapEvent(SelectKefedElementEvent.SELECT_KEFED_ELEMENT, SelectKefedElementCommand);
+			commandMap.mapEvent(SelectKefedEdgeEvent.SELECT_KEFED_EDGE, SelectKefedEdgeCommand);
 			commandMap.mapEvent(RenameKefedElementEvent.RENAME_KEFED_ELEMENT, RenameKefedElementCommand);
 
 			commandMap.mapEvent(DeleteKefedEdgeEvent.DELETE_KEFED_EDGE, DeleteKefedEdgeCommand);
@@ -165,7 +176,7 @@ package edu.isi.bmkeg.kefed.designer
 				DeleteCompleteKefedModelResultCommand);
 			
 			mediatorMap.mapView(KefedModelListControl, KefedModelListControlMediator);
-			mediatorMap.mapView(KefedDesignerModule, KefedDesignerMediator);
+			mediatorMap.mapView(KefedDesignerModule2, KefedDesignerMediator2);
 			mediatorMap.mapView(KefedElementDataStructureControl, KefedElementDataStructureControlMediator);
 
 			// Need a bit of extra detail to deal with popups

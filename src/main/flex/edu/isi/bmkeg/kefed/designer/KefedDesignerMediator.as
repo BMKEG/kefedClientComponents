@@ -4,7 +4,7 @@ package edu.isi.bmkeg.kefed.designer
 	import edu.isi.bmkeg.digitalLibrary.rl.events.*;
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
 	import edu.isi.bmkeg.kefed.designer.view.popups.*;
-	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodeInDiagramEvent;
+	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodesInDiagramEvent;
 	import edu.isi.bmkeg.kefed.events.*;
 	import edu.isi.bmkeg.kefed.events.elementLevel.*;
 	import edu.isi.bmkeg.kefed.model.qo.design.KefedModel_qo;

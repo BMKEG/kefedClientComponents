@@ -14,8 +14,9 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import edu.isi.bmkeg.kefed.events.elementLevel.SelectKefedElementEvent;
+			import edu.isi.bmkeg.kefed.events.elementLevel.*;
 			import edu.isi.bmkeg.kefed.designer.view.popups.*;
+			import edu.isi.bmkeg.kefed.diagram.controller.events.CancelFlareEdgeInDiagramEvent;
 			import edu.isi.bmkeg.kefed.events.*;
 			import edu.isi.bmkeg.kefed.rl.events.*;
 			import edu.isi.bmkeg.kefed.model.design.KefedModel;
@@ -23,6 +24,8 @@
 			import edu.isi.bmkeg.kefed.model.qo.design.KefedModel_qo;
 			
 			import mx.core.IVisualElementContainer;
+			import mx.core.FlexGlobals;
+			
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
@@ -69,6 +72,9 @@
 			[Bindable]
 			public var modelDescription:String = "Notes";
 			
+			[Bindable]
+			public var cytoscapeStatusMessage:String = "...";
+						
 			private function cancelSave(event:MouseEvent):void {
 			}
 			
@@ -116,11 +122,25 @@
 				//
 				var kQo:KefedModel_qo = new KefedModel_qo();
 				this.dispatchEvent(new ListKefedModelEvent(kQo) );		
+				
+				FlexGlobals.topLevelApplication.addEventListener(KeyboardEvent.KEY_UP, keyHandler);
+				
 			}
 			
 			protected function kefedModelNotesControl_clickHandler(event:MouseEvent):void
 			{
 				this.dispatchEvent( new ActivateEditKefedModelPopupEvent() );				
+			}
+			
+			protected function keyHandler(event:KeyboardEvent):void
+			{
+				var curKeyCode:int = event.keyCode;
+				if( curKeyCode == 8 || curKeyCode == 46 ) { // delete or backspace
+					this.dispatchEvent( new DeleteKefedElementEvent("", <xml/>) );				
+				} else if( curKeyCode == 27 ) { // escape
+					this.dispatchEvent( new CancelFlareEdgeInDiagramEvent() );									
+				}
+							
 			}
 			
 		]]>
@@ -153,6 +173,7 @@
 				 width="60%" 
 				 height="100%" 
 				 title="{panelTitle}" 
+				 keyDown="keyHandler(event)"
 				 skinClass="edu.isi.bmkeg.kefed.designer.view.KefedDesignerModuleSkin">
 		
 			<s:layout>
@@ -168,6 +189,10 @@
 						parameters="{cytoParams}" 
 						width="100%" 
 						height="100%"/>
+			
+			<s:Label id="cytoscapeStatus" 
+					 text="{cytoscapeStatusMessage}" 
+					 width="100%"/>
 			
 		</s:Panel>		
 			

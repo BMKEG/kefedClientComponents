@@ -2,7 +2,7 @@ package edu.isi.bmkeg.kefed.designer
 {
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
 	import edu.isi.bmkeg.kefed.designer.view.popups.*;
-	import edu.isi.bmkeg.kefed.diagram.controller.events.SelectFlareNodeInDiagramEvent;
+	import edu.isi.bmkeg.kefed.diagram.controller.events.*;
 	import edu.isi.bmkeg.kefed.events.*;
 	import edu.isi.bmkeg.kefed.events.elementLevel.*;
 	import edu.isi.bmkeg.kefed.model.qo.design.KefedModel_qo;
@@ -38,6 +38,9 @@ package edu.isi.bmkeg.kefed.designer
 			addViewListener(ActivateEditKefedModelPopupEvent.ACTIVATE_EDIT_KEFED_MODEL_POPUP, 
 				activateEditKefedModelPopup);
 
+			addViewListener(DeleteKefedElementEvent.REMOVE_KEFED_ELEMENT, 
+				handleDeleteKefedElement);
+			
 			addContextListener(RetrieveCompleteKefedModelResultEvent.RETRIEVE_COMPLETE_KEFED_MODEL_RESULT, 
 				retrieveCompleteKefedModelHandler);
 			
@@ -50,9 +53,13 @@ package edu.isi.bmkeg.kefed.designer
 			addContextListener(DeleteKefedEdgeEvent.DELETE_KEFED_EDGE, 
 				handleGraphChange);
 			
-			addContextListener(DeleteKefedElementEvent.REMOVE_KEFED_ELEMENT, 
-				handleGraphChange);
-			
+			addContextListener(StartFlareEdgeInDiagramEvent.START_FLARE_EDGE_IN_DIAGRAM, 
+				handleStartAddingEdge);
+
+			addViewListener(CancelFlareEdgeInDiagramEvent.CANCEL_FLARE_EDGE_IN_DIAGRAM, 
+				handleCancelAddingEdge);
+
+
 			addViewListener(UpdateKefedModelResultEvent.UPDATE_KEFEDMODEL_RESULT, 
 				updateKefedModelResultHandler);
 					
@@ -67,15 +74,33 @@ package edu.isi.bmkeg.kefed.designer
 			
 		}
 		
+		private function handleDeleteKefedElement(e:DeleteKefedElementEvent):void {
+			/*if( model.kefedElements.length > 0 ) {
+				e.uid = model.kefedElement.uuid;
+				dispatch(e);
+			}
+			if( model.kefedEdge!= null ) {
+				var e2:DeleteKefedEdgeEvent = new DeleteKefedEdgeEvent(model.kefedEdge.uuid, <XML/>);
+				dispatch(e2);
+			}*/
+		}		
+		
 		private function handleGraphChange(e:Event):void {
 			view.model = model.kefedModel;
 		}
 		
-		private function handleOutgoingSelectElement(e:SelectKefedElementEvent):void {
+		private function handleStartAddingEdge(e:StartFlareEdgeInDiagramEvent):void {
+			view.cytoscapeStatusMessage = "Adding Edge to " + model.startElement.uuid;
+		}
 
+		private function handleCancelAddingEdge(e:CancelFlareEdgeInDiagramEvent):void {
+			model.startElement = null;
+			view.cytoscapeStatusMessage = "...";
+		}
+
+		private function handleOutgoingSelectElement(e:SelectKefedElementEvent):void {
 			this.dispatch(e);
 			this.dispatchToModules(new SelectFlareNodeEvent(e.uid));
-
 		}
 		
 		private function activateKefedModelListPopup(e:ActivateKefedModelListPopupEvent):void {

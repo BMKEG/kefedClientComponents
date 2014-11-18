@@ -4,19 +4,21 @@ package edu.isi.bmkeg.kefed.diagram.controller.events
 	
 	import flash.events.Event;
 	
-	public class SelectFlareEdgeInDiagramEvent extends Event
+	import mx.collections.ArrayCollection;
+	
+	public class SelectFlareEdgesInDiagramEvent extends Event
 	{
 		public static const SELECT_FLARE_EDGE_IN_DIAGRAM:String = "selectFlareEdgeInDiagram";
 		
-		public var fe:FlareEdge;
+		public var edges:ArrayCollection = new ArrayCollection();
 		
 		/**
 		 * Constructor.
 		 */
-		public function SelectFlareEdgeInDiagramEvent(fe:FlareEdge)
+		public function SelectFlareEdgesInDiagramEvent(edges:ArrayCollection)
 		{
 			super(SELECT_FLARE_EDGE_IN_DIAGRAM);
-			this.fe = fe;
+			this.edges = edges;
 		}
 		
 		/**
@@ -24,7 +26,7 @@ package edu.isi.bmkeg.kefed.diagram.controller.events
 		 */
 		override public function clone() : Event
 		{
-			return new SelectFlareEdgeInDiagramEvent(fe);
+			return new SelectFlareEdgesInDiagramEvent(edges);
 		}
 		
 	}
