@@ -175,6 +175,9 @@ package edu.isi.bmkeg.kefed.designer
 			commandMap.mapEvent(DeleteCompleteKefedModelResultEvent.DELETE_COMPLETE_KEFED_MODEL_RESULT, 
 				DeleteCompleteKefedModelResultCommand);
 			
+			commandMap.mapEvent(DragSelectionResultEvent.DRAG_SELECTION_RESULT, DragSelectionResultCommand);
+
+			
 			mediatorMap.mapView(KefedModelListControl, KefedModelListControlMediator);
 			mediatorMap.mapView(KefedDesignerModule2, KefedDesignerMediator2);
 			mediatorMap.mapView(KefedElementDataStructureControl, KefedElementDataStructureControlMediator);
