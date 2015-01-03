@@ -36,7 +36,6 @@
 	<fx:Script>
 		<![CDATA[
 			
-			import edu.isi.bmkeg.ooevv.editor.OoevvEditorContext;
 			import edu.isi.bmkeg.ooevv.events.*;
 			import edu.isi.bmkeg.ooevv.events.catalog.*;
 			import edu.isi.bmkeg.ooevv.model.*;

@@ -109,13 +109,13 @@ package edu.isi.bmkeg.kefed.cytoscape
 			addContextListener(InsertKefedElementEvent.INSERT_KEFED_ELEMENT, 
 					handleGraphChange);
 			
-			addContextListener(DeleteKefedEdgeEvent.DELETE_KEFED_EDGE, 
+			addContextListener(DeleteKefedEdgesEvent.DELETE_KEFED_EDGE, 
 					handleGraphChange);
 			
 			addContextListener(RetrieveCompleteKefedModelResultEvent.RETRIEVE_COMPLETE_KEFED_MODEL_RESULT, 
 					handleLoadGraph);
 
-			addContextListener(DeleteKefedElementEvent.REMOVE_KEFED_ELEMENT, 
+			addContextListener(DeleteKefedElementsEvent.REMOVE_KEFED_ELEMENTS, 
 					handleGraphChange);
 			//addContextListener(SelectKefedElementEvent.SELECT_KEFED_ELEMENT, handleIncomingSelectElement);
 
@@ -190,10 +190,10 @@ package edu.isi.bmkeg.kefed.cytoscape
 			} else if( groups == "edges" ) { 
 					
 				var edges:ArrayCollection = new ArrayCollection();
-				for each( var s:Object in selection ) {
+				for each( var s2:Object in selection ) {
 					var o:Object = new Object();
-					o.sourceId = s.data.source;
-					o.targetId = s.data.target;
+					o.sourceId = s2.data.source;
+					o.targetId = s2.data.target;
 					edges.addItem( o );
 				}	
 				var ev2:SelectFlareEdgesInDiagramEvent = 

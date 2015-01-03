@@ -55,14 +55,14 @@ package edu.isi.bmkeg.kefed.services.serverInteraction.impl
 			return getOperation("createNewKefedModelForFragment");
 		}
 		
-		public function get deleteKefedElement():AbstractOperation
+		public function get deleteKefedElements():AbstractOperation
 		{
-			return getOperation("deleteKefedElement");
+			return getOperation("deleteKefedElements");
 		}
 		
-		public function get deleteKefedEdge():AbstractOperation
+		public function get deleteKefedEdges():AbstractOperation
 		{
-			return getOperation("deleteKefedEdge");
+			return getOperation("deleteKefedEdges");
 		}
 		
 		public function get insertKefedElement():AbstractOperation

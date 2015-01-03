@@ -8,7 +8,6 @@ package edu.isi.bmkeg.kefed.data
 	import org.robotlegs.utilities.modular.mvcs.ModuleContext;
 
 	import edu.isi.bmkeg.kefed.diagram.controller.events.*;	
-	import edu.isi.bmkeg.kefed.diagram.view.KefedDiagramModule;
 
 	import edu.isi.bmkeg.kefed.events.elementLevel.*;	
 	import edu.isi.bmkeg.kefed.designer.controller.translateDiagram.*;	

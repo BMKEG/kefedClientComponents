@@ -5,8 +5,6 @@
 //
 package edu.isi.bmkeg.kefed.designer.view 
 {
-	import com.kapit.diagram.view.DiagramObject;
-	import com.kapit.diagram.view.DiagramView;
 	
 	import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
 	import edu.isi.bmkeg.ooevv.ontology.OntologySearchInterface;

@@ -15,9 +15,6 @@
 	import mx.managers.PopUpManager;
 	import mx.collections.ArrayCollection;
 	
-	import com.kapit.diagram.view.DiagramObject;
-	import com.kapit.diagram.view.DiagramView;
-	
 	import edu.isi.bmkeg.kefed.ontology.OntologySearchEvent;
 	import edu.isi.bmkeg.kefed.ontology.OntologySearchInterface;
 	import edu.isi.bmkeg.kefed.ontology.bioportal.NCBOBioPortalDialog;

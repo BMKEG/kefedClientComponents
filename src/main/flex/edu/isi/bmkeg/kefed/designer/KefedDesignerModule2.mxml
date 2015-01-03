@@ -14,28 +14,27 @@
 	
 	<fx:Script>
 		<![CDATA[
-			import edu.isi.bmkeg.kefed.events.elementLevel.*;
 			import edu.isi.bmkeg.kefed.designer.view.popups.*;
 			import edu.isi.bmkeg.kefed.diagram.controller.events.CancelFlareEdgeInDiagramEvent;
 			import edu.isi.bmkeg.kefed.events.*;
-			import edu.isi.bmkeg.kefed.rl.events.*;
+			import edu.isi.bmkeg.kefed.events.elementLevel.*;
 			import edu.isi.bmkeg.kefed.model.design.KefedModel;
 			import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
 			import edu.isi.bmkeg.kefed.model.qo.design.KefedModel_qo;
+			import edu.isi.bmkeg.kefed.rl.events.*;
 			
-			import mx.core.IVisualElementContainer;
+			import mx.collections.ArrayCollection;
 			import mx.core.FlexGlobals;
-			
+			import mx.core.IVisualElementContainer;
 			import mx.events.FlexEvent;
 			import mx.managers.PopUpManager;
 			
+			import org.cytoscapeweb.ApplicationFacade;
+			import org.cytoscapeweb.model.ConfigProxy;
 			import org.robotlegs.core.IContext;
 			import org.robotlegs.core.IInjector;
 			import org.robotlegs.utilities.modular.core.IModule;
 			import org.robotlegs.utilities.modular.core.IModuleContext;
-			
-			import org.cytoscapeweb.model.ConfigProxy;
-			import org.cytoscapeweb.ApplicationFacade;
 			
 			import spark.events.ListEvent;
 			
@@ -136,7 +135,7 @@
 			{
 				var curKeyCode:int = event.keyCode;
 				if( curKeyCode == 8 || curKeyCode == 46 ) { // delete or backspace
-					this.dispatchEvent( new DeleteKefedElementEvent("", <xml/>) );				
+					this.dispatchEvent( new DeleteKefedElementsEvent(new ArrayCollection()) );				
 				} else if( curKeyCode == 27 ) { // escape
 					this.dispatchEvent( new CancelFlareEdgeInDiagramEvent() );									
 				}

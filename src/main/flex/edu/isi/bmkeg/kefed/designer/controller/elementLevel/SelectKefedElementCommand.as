@@ -58,9 +58,9 @@ package edu.isi.bmkeg.kefed.designer.controller.elementLevel
 			} else {
 
 				model.kefedElements = new ArrayCollection();
-				for each (var el:KefedModelElement in model.kefedModel.elements) {
-					if( el.uuid == uid ) {
-						model.kefedElements.addItem(el);
+				for each (var el2:KefedModelElement in model.kefedModel.elements) {
+					if( el2.uuid == uid ) {
+						model.kefedElements.addItem(el2);
 					}
 				}
 			

@@ -18,10 +18,10 @@
 	<fx:Script>
 		<![CDATA[
 			
-			var t:String = "";
+			private var t:String = "";
 			
 			[Bindable]
-			var vbName:String = "";
+			private var vbName:String = "";
 			
 			public function init():void {
 				this.vbNameLabel.setStyle("fontSize", 16);

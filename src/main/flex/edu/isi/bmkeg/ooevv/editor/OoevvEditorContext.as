@@ -21,9 +21,9 @@ package edu.isi.bmkeg.ooevv.editor
 
 		override public function startup():void
 		{
-			mediatorMap.mapView(OoevvElementSetControl, OoevvElementSetControlMediator);
-			mediatorMap.mapView(OoevvElementList, OoevvElementListMediator);
-			mediatorMap.mapView(OoevvElementEditor, OoevvElementEditorMediator);
+			//mediatorMap.mapView(OoevvElementSetControl, OoevvElementSetControlMediator);
+			//mediatorMap.mapView(OoevvElementList, OoevvElementListMediator);
+			//mediatorMap.mapView(OoevvElementEditor, OoevvElementEditorMediator);
 			
 			injector.mapSingleton(OoevvEditorModel);
 			injector.mapSingletonOf(IOoevvService, OoevvServiceImpl);

@@ -4,7 +4,7 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 	import edu.isi.bmkeg.kefed.diagram.controller.events.RemoveFlareEdgeEvent;
 	import edu.isi.bmkeg.kefed.diagram.model.KefedDiagramModel;
 	import edu.isi.bmkeg.kefed.model.flare.FlareEdge;
-	import edu.isi.bmkeg.kefed.events.elementLevel.DeleteKefedEdgeEvent;
+	import edu.isi.bmkeg.kefed.events.elementLevel.DeleteKefedEdgesEvent;
 	import edu.isi.bmkeg.kefed.model.design.KefedModelEdge;
 	import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
 	
@@ -27,12 +27,12 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 
 		override public function execute():void
 		{
-			var uid:String = this.event.uid;
+			/*var uid:String = this.event.uid;
 			var xml:XML = this.event.xml;
 			
-			var event:DeleteKefedEdgeEvent = new DeleteKefedEdgeEvent(uid, xml);
+			var event:DeleteKefedEdgesEvent = new DeleteKefedEdgesEvent(uid, xml);
 
-			dispatch(event);
+			dispatch(event);*/
 		}
 		
 	}

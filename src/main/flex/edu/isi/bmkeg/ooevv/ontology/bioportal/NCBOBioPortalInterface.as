@@ -9,7 +9,6 @@ package edu.isi.bmkeg.ooevv.ontology.bioportal
 	import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
 	import edu.isi.bmkeg.ooevv.ontology.OntologySearchEvent;
 	import edu.isi.bmkeg.ooevv.ontology.OntologySearchInterface;
-	import edu.isi.bmkeg.kefed.diagram.view.kapit.UiUtil;	
 	import flash.xml.XMLDocument;
 	
 	import mx.collections.ArrayCollection;
@@ -275,7 +274,8 @@ package edu.isi.bmkeg.ooevv.ontology.bioportal
 		 */
 
 		private function faultEventHandler(event:FaultEvent):void {
-			Alert.show(UiUtil.getFaultURL(event) + "\n" + event.toString());
+			Alert.show(//UiUtil.getFaultURL(event) + "\n" +
+				event.toString());
 
 			CursorManager.removeBusyCursor();
 			dispatchEvent(event); 			

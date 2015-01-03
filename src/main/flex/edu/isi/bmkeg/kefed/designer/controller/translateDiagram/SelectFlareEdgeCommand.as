@@ -35,7 +35,9 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 
 			for each (var ed1:Object in event.edges) {
 				for each (var ed2:KefedModelEdge in model.kefedModel.edges) {		
-					if( ed2.source.uuid == ed1.sourceUid && ed2.target.uuid == ed1.targetUid ) {
+					if( ed2.source.uuid == ed1.sourceId 
+							&& ed2.target.uuid == ed1.targetId 
+							&& !model.kefedEdges.contains(ed2) ) {
 						model.kefedEdges.addItem(ed2);
 					}
 				}

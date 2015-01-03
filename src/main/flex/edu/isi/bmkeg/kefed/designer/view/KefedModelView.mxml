@@ -48,7 +48,7 @@
 				this.vpdmfLabel = null;
 				this.date = null;
 				this.notes = null;
-				this.version = null;
+				this.version = 0;
 			}
 			
 			

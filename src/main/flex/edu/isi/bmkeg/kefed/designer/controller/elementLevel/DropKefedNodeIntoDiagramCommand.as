@@ -5,8 +5,7 @@ package edu.isi.bmkeg.kefed.designer.controller.elementLevel
 	import edu.isi.bmkeg.kefed.designer.model.KefedDesignerModel;
 	import edu.isi.bmkeg.kefed.model.flare.FlareGraph;
 	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
-	import edu.isi.bmkeg.kefed.diagram.view.KefedDiagramModule;
-
+	
 	import edu.isi.bmkeg.kefed.events.elementLevel.InsertKefedElementEvent;
 
 	import edu.isi.bmkeg.kefed.model.design.*;

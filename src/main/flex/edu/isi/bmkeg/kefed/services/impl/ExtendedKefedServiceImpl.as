@@ -138,28 +138,28 @@ package edu.isi.bmkeg.kefed.services.impl
 		
 		// ~~~~~~~~~
 		
-		public function deleteKefedElement(uid:String, xml:String):void 
+		public function deleteKefedElements(uids:ArrayCollection):void 
 		{
-			server.deleteKefedElement.cancel();
-			server.deleteKefedElement.addEventListener(ResultEvent.RESULT, deleteKefedElementResultHandler);
-			server.deleteKefedElement.addEventListener(FaultEvent.FAULT, faultHandler);
-			server.deleteKefedElement.send(uid, xml);
+			server.deleteKefedElements.cancel();
+			server.deleteKefedElements.addEventListener(ResultEvent.RESULT, deleteKefedElementResultHandler);
+			server.deleteKefedElements.addEventListener(FaultEvent.FAULT, faultHandler);
+			server.deleteKefedElements.send(uids);
 		}
 		
 		private function deleteKefedElementResultHandler(event:ResultEvent):void
 		{
-			var success:Boolean = Boolean(event.result);
+			var success:ArrayCollection = ArrayCollection(event.result);
 			dispatch(new DeleteKefedElementResultEvent(success));
 		}	
 
 		// ~~~~~~~~~
 		
-		public function deleteKefedEdge(uid:String, xml:String):void 
+		public function deleteKefedEdges(uids:ArrayCollection):void 
 		{
-			server.deleteKefedEdge.cancel();
-			server.deleteKefedEdge.addEventListener(ResultEvent.RESULT, deleteKefedEdgeResultHandler);
-			server.deleteKefedEdge.addEventListener(FaultEvent.FAULT, faultHandler);
-			server.deleteKefedEdge.send(uid, xml);
+			server.deleteKefedEdges.cancel();
+			server.deleteKefedEdges.addEventListener(ResultEvent.RESULT, deleteKefedEdgeResultHandler);
+			server.deleteKefedEdges.addEventListener(FaultEvent.FAULT, faultHandler);
+			server.deleteKefedEdges.send(uids);
 		}
 		
 		private function deleteKefedEdgeResultHandler(event:ResultEvent):void

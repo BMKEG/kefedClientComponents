@@ -46,7 +46,6 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 				if( els.length != 1 ) 
 					return;
 				
-				var uid:String = String( els.getItemAt( 0 ) );
 				var selection:KefedModelElement = null;
 				for each (var el:KefedModelElement in model.kefedModel.elements) {
 					if( lookup[el.uuid] != null ) {
@@ -69,10 +68,16 @@ package edu.isi.bmkeg.kefed.designer.controller.translateDiagram
 			} else {
 				
 				model.kefedElements = new ArrayCollection();
-				for each (var el:KefedModelElement in model.kefedModel.elements) {
-					if( lookup[el.uuid] != null ) {
-						model.kefedElements.addItem(el);
+				for each (var el2:KefedModelElement in model.kefedModel.elements) {
+					if( lookup[el2.uuid] != null ) {
+						model.kefedElements.addItem(el2);
 					}
+				}
+				
+				if( model.kefedElements.length == 1 ) {
+					var ev3:SelectKefedElementEvent = new SelectKefedElementEvent( 
+						model.kefedElements[0].uuid);
+					dispatch(ev3);
 				}
 				
 			}

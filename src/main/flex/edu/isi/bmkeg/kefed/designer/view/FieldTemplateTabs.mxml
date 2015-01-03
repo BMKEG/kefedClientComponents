@@ -16,10 +16,6 @@
 	import mx.managers.PopUpManager;
 	import mx.collections.ArrayCollection;
 	
-
-	import com.kapit.diagram.view.DiagramObject;
-	import com.kapit.diagram.view.DiagramView;
-	
 	import edu.isi.bmkeg.kefed.model.flare.FlareNode;
 	//import edu.isi.bmkeg.kefed.elements.KefedFieldTemplate;
 	

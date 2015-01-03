@@ -52,10 +52,10 @@ package edu.isi.bmkeg.kefed.designer
 			addContextListener(InsertKefedElementEvent.INSERT_KEFED_ELEMENT, 
 				handleGraphChange);
 			
-			addContextListener(DeleteKefedEdgeEvent.DELETE_KEFED_EDGE, 
+			addContextListener(DeleteKefedEdgesEvent.DELETE_KEFED_EDGE, 
 				handleGraphChange);
 			
-			addContextListener(DeleteKefedElementEvent.REMOVE_KEFED_ELEMENT, 
+			addContextListener(DeleteKefedElementsEvent.REMOVE_KEFED_ELEMENTS, 
 				handleGraphChange);
 			
 			addViewListener(UpdateKefedModelResultEvent.UPDATE_KEFEDMODEL_RESULT, 

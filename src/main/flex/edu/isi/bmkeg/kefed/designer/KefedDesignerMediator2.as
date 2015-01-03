@@ -5,11 +5,14 @@ package edu.isi.bmkeg.kefed.designer
 	import edu.isi.bmkeg.kefed.diagram.controller.events.*;
 	import edu.isi.bmkeg.kefed.events.*;
 	import edu.isi.bmkeg.kefed.events.elementLevel.*;
+	import edu.isi.bmkeg.kefed.model.design.KefedModelEdge;
+	import edu.isi.bmkeg.kefed.model.design.KefedModelElement;
 	import edu.isi.bmkeg.kefed.model.qo.design.KefedModel_qo;
 	import edu.isi.bmkeg.kefed.rl.events.*;
 	
 	import flash.events.Event;
 	
+	import mx.collections.ArrayCollection;
 	import mx.managers.PopUpManager;
 	
 	import org.robotlegs.utilities.modular.mvcs.ModuleMediator;
@@ -38,7 +41,7 @@ package edu.isi.bmkeg.kefed.designer
 			addViewListener(ActivateEditKefedModelPopupEvent.ACTIVATE_EDIT_KEFED_MODEL_POPUP, 
 				activateEditKefedModelPopup);
 
-			addViewListener(DeleteKefedElementEvent.REMOVE_KEFED_ELEMENT, 
+			addViewListener(DeleteKefedElementsEvent.REMOVE_KEFED_ELEMENTS, 
 				handleDeleteKefedElement);
 			
 			addContextListener(RetrieveCompleteKefedModelResultEvent.RETRIEVE_COMPLETE_KEFED_MODEL_RESULT, 
@@ -50,7 +53,7 @@ package edu.isi.bmkeg.kefed.designer
 			addContextListener(InsertKefedElementEvent.INSERT_KEFED_ELEMENT, 
 				handleGraphChange);
 			
-			addContextListener(DeleteKefedEdgeEvent.DELETE_KEFED_EDGE, 
+			addContextListener(DeleteKefedEdgesEvent.DELETE_KEFED_EDGE, 
 				handleGraphChange);
 			
 			addContextListener(StartFlareEdgeInDiagramEvent.START_FLARE_EDGE_IN_DIAGRAM, 
@@ -74,15 +77,21 @@ package edu.isi.bmkeg.kefed.designer
 			
 		}
 		
-		private function handleDeleteKefedElement(e:DeleteKefedElementEvent):void {
-			/*if( model.kefedElements.length > 0 ) {
-				e.uid = model.kefedElement.uuid;
+		private function handleDeleteKefedElement(e:DeleteKefedElementsEvent):void {
+			if( model.kefedElements.length > 0 ) {
+				for each (var ke:KefedModelElement in model.kefedElements) {
+					e.uids.addItem( ke.uuid );
+				}				
 				dispatch(e);
 			}
-			if( model.kefedEdge!= null ) {
-				var e2:DeleteKefedEdgeEvent = new DeleteKefedEdgeEvent(model.kefedEdge.uuid, <XML/>);
+			if( model.kefedEdges.length > 0) {
+				var uuids:ArrayCollection = new ArrayCollection();
+				for each (var ked:KefedModelEdge in model.kefedEdges) {
+					uuids.addItem( ked.uuid ); 
+				}
+				var e2:DeleteKefedEdgesEvent = new DeleteKefedEdgesEvent(uuids);
 				dispatch(e2);
-			}*/
+			}
 		}		
 		
 		private function handleGraphChange(e:Event):void {

@@ -5,7 +5,7 @@
 //
 package edu.isi.bmkeg.kefed.model.flare
 {
-	import edu.isi.bmkeg.kefed.diagram.view.kapit.DiagramMappings;
+	import edu.isi.bmkeg.kefed.diagram.view.DiagramMappings;
 	
 	import flare.vis.data.NodeSprite;
 	

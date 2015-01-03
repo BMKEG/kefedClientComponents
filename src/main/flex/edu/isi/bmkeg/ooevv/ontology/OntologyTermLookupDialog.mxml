@@ -15,7 +15,6 @@
 			import edu.isi.bmkeg.ooevv.ontology.OntologySearchEvent;
 			import edu.isi.bmkeg.ooevv.ontology.OntologySearchInterface;
 			import edu.isi.bmkeg.ooevv.ontology.OntologyTermReference;
-			import edu.isi.bmkeg.kefed.diagram.view.kapit.UiUtil;
 			import edu.isi.bmkeg.utils.CheckBoxDataGrid.CheckBoxRenderer;
 			
 			import mx.collections.ArrayCollection;
@@ -248,7 +247,8 @@
 			private function FaultEventHandler(event:FaultEvent):void {
 				searchButton.label = "Search";
 				searchButton.enabled = true;
-				Alert.show(UiUtil.getFaultURL(event) + "\n" + event.message.toString());
+				Alert.show(//UiUtil.getFaultURL(event) + "\n" + 
+					event.message.toString());
 			}
 			
 

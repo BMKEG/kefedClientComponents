@@ -142,7 +142,7 @@
 					 width="100%"
 					 click="kefedModelNotesControl_clickHandler(event)"/>
 			
-			<diagView:KefedDiagramModule width="100%" height="100%"/>
+			<!--<diagView:KefedDiagramModule width="100%" height="100%"/>-->
 			
 		</s:Panel>		
 			

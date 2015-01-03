@@ -10,7 +10,6 @@ package edu.isi.bmkeg.kefed.designer
 	import edu.isi.bmkeg.kefed.cytoscape.*;	
 
 	import edu.isi.bmkeg.kefed.diagram.controller.events.*;	
-	import edu.isi.bmkeg.kefed.diagram.view.KefedDiagramModule;
 
 	import edu.isi.bmkeg.ftd.rl.events.*;
 	import edu.isi.bmkeg.ftd.rl.services.IFtdService;
@@ -100,7 +99,6 @@ package edu.isi.bmkeg.kefed.designer
 				SaveCompleteKefedModelResultCommand);
 			
 			// Events from KefedDiagram and translated to KefedDesigner events
-			moduleCommandMap.mapEvent(AddFlareNodeEvent.ADD_FLARE_NODE, TranslateAddFlareNodeCommand);
 			moduleCommandMap.mapEvent(AddFlareEdgeEvent.ADD_FLARE_EDGE, TranslateAddFlareEdgeCommand);
 			moduleCommandMap.mapEvent(RemoveFlareNodeEvent.REMOVE_FLARE_NODE, TranslateRemoveFlareNodeCommand);
 			moduleCommandMap.mapEvent(RemoveFlareEdgeEvent.REMOVE_FLARE_EDGE, TranslateRemoveFlareEdgeCommand);
@@ -128,11 +126,11 @@ package edu.isi.bmkeg.kefed.designer
 			commandMap.mapEvent(SelectKefedEdgeEvent.SELECT_KEFED_EDGE, SelectKefedEdgeCommand);
 			commandMap.mapEvent(RenameKefedElementEvent.RENAME_KEFED_ELEMENT, RenameKefedElementCommand);
 
-			commandMap.mapEvent(DeleteKefedEdgeEvent.DELETE_KEFED_EDGE, DeleteKefedEdgeCommand);
-			commandMap.mapEvent(DeleteKefedEdgeResultEvent.DELETE_KEFED_EDGE_RESULT, DeleteKefedEdgeResultCommand);
+			commandMap.mapEvent(DeleteKefedEdgesEvent.DELETE_KEFED_EDGE, DeleteKefedEdgesCommand);
+			commandMap.mapEvent(DeleteKefedEdgeResultEvent.DELETE_KEFED_EDGE_RESULT, DeleteKefedEdgesResultCommand);
 			
-			commandMap.mapEvent(DeleteKefedElementEvent.REMOVE_KEFED_ELEMENT, DeleteKefedElementCommand);
-			commandMap.mapEvent(DeleteKefedElementResultEvent.DELETE_KEFED_ELEMENT_RESULT, DeleteKefedElementResultCommand);
+			commandMap.mapEvent(DeleteKefedElementsEvent.REMOVE_KEFED_ELEMENTS, DeleteKefedElementsCommand);
+			commandMap.mapEvent(DeleteKefedElementResultEvent.DELETE_KEFED_ELEMENT_RESULT, DeleteKefedElementsResultCommand);
 
 			commandMap.mapEvent(ListFTDFragmentEvent.LIST_FTDFRAGMENT, 
 				ListFTDFragmentCommand);
@@ -187,11 +185,6 @@ package edu.isi.bmkeg.kefed.designer
 			mediatorMap.mapView(EditKefedModelPopup, EditKefedModelPopupMediator, null, false, false);
 			
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			// KefedDiagram 
-			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-			viewMap.mapType(KefedDiagramModule);
-			
-			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			// Cytoscape Web 
 			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 			mediatorMap.mapView(CytoscapeKefedDesigner, CytoscapeKefedDesignerMediator);
@@ -205,9 +198,9 @@ package edu.isi.bmkeg.kefed.designer
 			injector.mapSingletonOf(IExtendedOoevvService, ExtendedOoevvServiceImpl);
 			injector.mapSingletonOf(IExtendedOoevvServer, ExtendedOoevvServerImpl);
 			
-			mediatorMap.mapView(OoevvElementSetControl, OoevvElementSetControlMediator);
+			//mediatorMap.mapView(OoevvElementSetControl, OoevvElementSetControlMediator);
 			mediatorMap.mapView(OoevvElementCatalog, OoevvElementCatalogMediator);
-			mediatorMap.mapView(OoevvElementEditor, OoevvElementEditorMediator);
+			//mediatorMap.mapView(OoevvElementEditor, OoevvElementEditorMediator);
 			
 			// list the ooevv element sets
 			commandMap.mapEvent(ListOoevvElementSetEvent.LIST_OOEVVELEMENTSET, 

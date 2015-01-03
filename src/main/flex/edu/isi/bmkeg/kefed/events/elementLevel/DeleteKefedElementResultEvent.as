@@ -9,10 +9,10 @@ package edu.isi.bmkeg.kefed.events.elementLevel
 	{
 		public static const DELETE_KEFED_ELEMENT_RESULT:String = "deleteKefedElementResult";
 
-		public var success:Boolean;
+		public var success:ArrayCollection = new ArrayCollection();
 
 		// Constructor
-		public function DeleteKefedElementResultEvent(success:Boolean, 
+		public function DeleteKefedElementResultEvent(success:ArrayCollection, 
 											 bubbles:Boolean=false, 
 											 cancelable:Boolean=false)
 		{

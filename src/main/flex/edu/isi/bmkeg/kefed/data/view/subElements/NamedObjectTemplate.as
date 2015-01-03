@@ -1,8 +1,5 @@
 package edu.isi.bmkeg.kefed.data.view.subElements {
-	
-	import com.kapit.diagram.view.DiagramObject;
-	import com.kapit.diagram.view.DiagramView;
-	
+		
 	import edu.isi.bmkeg.ooevv.model.OoevvElement;
 	
 	import mx.containers.Box;
@@ -27,8 +24,8 @@ package edu.isi.bmkeg.kefed.data.view.subElements {
 		[Bindable]
 		public var myObject:OoevvElement;
 	
-		[Bindable]
-		public var diagram:DiagramView;
+//		[Bindable]
+//		public var diagram:DiagramView;
 		
 		/** Monotonic controls whether only monotonic changes are allowed
 		 *  or whether all changes are allowed.  Monotonic changes only 

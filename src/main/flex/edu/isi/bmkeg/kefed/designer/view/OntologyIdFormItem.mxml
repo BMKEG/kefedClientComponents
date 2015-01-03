@@ -18,9 +18,6 @@
 	import mx.managers.PopUpManager;
 	import mx.collections.ArrayCollection;
 	
-	import com.kapit.diagram.view.DiagramObject;
-	import com.kapit.diagram.view.DiagramView;
-	
 	import edu.isi.bmkeg.ooevv.ontology.OntologySearchEvent;
 	import edu.isi.bmkeg.ooevv.ontology.OntologySearchInterface;
 	import edu.isi.bmkeg.ooevv.ontology.OntologyTermLookupDialog;

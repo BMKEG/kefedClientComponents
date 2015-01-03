@@ -18,9 +18,9 @@ package edu.isi.bmkeg.kefed.services.serverInteraction
 		
 		function get createNewKefedModelForFragment():AbstractOperation;
 		
-		function get deleteKefedElement():AbstractOperation;
+		function get deleteKefedElements():AbstractOperation;
 
-		function get deleteKefedEdge():AbstractOperation;
+		function get deleteKefedEdges():AbstractOperation;
 		
 		function get insertKefedElement():AbstractOperation;
 		

@@ -37,7 +37,7 @@ package edu.isi.bmkeg.kefed.designer.controller.elementLevel
 			var dy:int = 0;
 			
 			var uids:ArrayCollection = new ArrayCollection(); 
-			var moveSelection:Boolean = false;
+			/*var moveSelection:Boolean = false;
 			for each (var el:KefedModelElement in model.kefedElements ) {
 				if( el.uuid == event.uid ) {
 					dx = event.newX;
@@ -51,7 +51,7 @@ package edu.isi.bmkeg.kefed.designer.controller.elementLevel
 
 				service.moveKefedEdgesAndElements( uids, dx, dy );	
 
-			} else {
+			} else {*/
 			
 				var dbRefX:int = 0;
 				var dbRefY:int = 0;
@@ -78,11 +78,16 @@ package edu.isi.bmkeg.kefed.designer.controller.elementLevel
 				var newX:int = event.newX + dxCorrection;
 				var newY:int = event.newY + dyCorrection;
 				
-				uids = new ArrayCollection(); 
-				uids.addItem( event.uid );
-				service.moveKefedEdgesAndElements( uids, newX, newY );	
+				dx = newX - dbX;
+				dy = newY - dbY;
 				
-			}
+				if( dx != 0 && dy != 0 ) {
+					uids = new ArrayCollection(); 
+					uids.addItem( event.uid );
+					service.moveKefedEdgesAndElements( uids, newX, newY );
+				}
+				
+			//}
 			
 		}
 		

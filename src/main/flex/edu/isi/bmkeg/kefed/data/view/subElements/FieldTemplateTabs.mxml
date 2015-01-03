@@ -9,8 +9,6 @@
      -->
 <mx:Script>
 	<![CDATA[
-		import com.kapit.diagram.view.DiagramObject;
-		import com.kapit.diagram.view.DiagramView;
 		
 		import edu.isi.bmkeg.kefed.model.design.VariableInstance;
 		import edu.isi.bmkeg.ooevv.model.ExperimentalVariable;

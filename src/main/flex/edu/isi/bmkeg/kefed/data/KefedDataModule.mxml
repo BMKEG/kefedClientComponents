@@ -680,7 +680,7 @@
 				<s:VerticalLayout/>
 			</s:layout>
 			
-			<diagView:KefedDiagramModule width="100%" height="100%"/>
+			<!--<diagView:KefedDiagramModule width="100%" height="100%"/>-->
 			
 		</s:Panel>				
 			

@@ -5,10 +5,9 @@
 //
 package edu.isi.bmkeg.kefed.model.flare
 {
-	import com.kapit.diagram.IDiagramElement;
 	
 	import edu.isi.bmkeg.kefed.model.design.*;
-	import edu.isi.bmkeg.kefed.diagram.view.kapit.DiagramMappings;
+	import edu.isi.bmkeg.kefed.diagram.view.DiagramMappings;
 	import edu.isi.bmkeg.utils.DataUtil;
 	
 	import flare.analytics.graph.LinkDistance;
@@ -158,11 +157,7 @@ package edu.isi.bmkeg.kefed.model.flare
 			}
 			return clone;
 		}
-	
-		public function getFlareNodeFromDiagramElement(el:IDiagramElement):FlareNode {
-			return this.getFlareNodeFromUID(el.did);
-		}
-		
+			
 		/** Returns the KefedObject in this model that matches
 		 *  the supplied uid.
 		 * 
@@ -200,12 +195,7 @@ package edu.isi.bmkeg.kefed.model.flare
 			}
 			return null;
 		}
-		
-		public function getFlareEdgeFromDiagramElement(el:IDiagramElement):FlareEdge
-		{
-			return this.getFlareEdgeFromUID(el.did);
-		}
-		
+				
 		/** Returns the link object with the given UID.
 		 * 
 		 * @param uid The uid of the link object
@@ -314,7 +304,7 @@ package edu.isi.bmkeg.kefed.model.flare
 			
 				if( n.spriteid == targetId) {
 		        	linkD.calculate(this, new Array(n));
-	        	var depV_dist:Number = measurementVariable.props["distance"];
+	        		var depV_dist:Number = measurementVariable.props["distance"];
 		  			if( depV_dist < 1e6 ) {		  				
         				vbArray.addItem(n);
         				n.pos = depV_dist;
@@ -460,11 +450,11 @@ package edu.isi.bmkeg.kefed.model.flare
 				
 			} else if( k.elementType == "BranchPoint") {
 				
-				spriteid = "BranchPoint";
+				spriteid = "Branch";
 				
 			} else if( k.elementType == "ForkPoint") {
 				
-				spriteid = "ForkPoint";
+				spriteid = "Fork";
 				
 			} else {
 				trace("Can't convert " + k.elementType );

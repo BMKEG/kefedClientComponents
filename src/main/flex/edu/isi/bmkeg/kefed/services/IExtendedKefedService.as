@@ -20,9 +20,9 @@ package edu.isi.bmkeg.kefed.services
 		
 		function createNewKefedModelForFragment(frgId:Number):void;
 	
-		function deleteKefedElement(uid:String, xml:String):void;
+		function deleteKefedElements(uid:ArrayCollection):void;
 
-		function deleteKefedEdge(uid:String, xml:String):void;
+		function deleteKefedEdges(uid:ArrayCollection):void;
 
 		function insertKefedElement(ke:KefedModelElement, xml:String):void;
 		

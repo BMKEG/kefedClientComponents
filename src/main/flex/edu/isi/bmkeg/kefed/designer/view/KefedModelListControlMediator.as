@@ -62,7 +62,7 @@ package edu.isi.bmkeg.kefed.designer.view
 						
 			if( articleIdCookie  != null ) {
 				var ac:ArticleCitation = new ArticleCitation();
-				var acId:Number = Number(articleIdCookie);
+				var acId:Number = Number(articleIdCookie); //44946; 
 				ac.vpdmfId = acId;
 				this.model.articleCitation = ac;
 				dispatch(new RetrieveKefedModelTreeEvent(acId));				
