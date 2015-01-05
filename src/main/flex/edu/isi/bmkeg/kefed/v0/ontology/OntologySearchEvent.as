@@ -3,7 +3,7 @@
 //  $Date: 2010-10-06 15:05:32 -0700 (Wed, 06 Oct 2010) $
 //  $Revision: 1219 $
 //
-package edu.isi.bmkeg.kefed.ontology {
+package edu.isi.bmkeg.kefed.v0.ontology {
 	import flash.events.Event;
 	
 	import mx.collections.ArrayCollection;

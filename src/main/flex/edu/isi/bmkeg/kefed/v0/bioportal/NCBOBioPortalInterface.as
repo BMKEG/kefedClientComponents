@@ -1,10 +1,10 @@
-package edu.isi.bmkeg.kefed.ontology.bioportal
+package edu.isi.bmkeg.kefed.v0.bioportal
 {
 
 	import edu.isi.bmkeg.ooevv.model.OoevvElement;
-	import edu.isi.bmkeg.kefed.ontology.OntologySearchEvent;
-	import edu.isi.bmkeg.kefed.ontology.OntologySearchInterface;
-	import edu.isi.bmkeg.kefed.ontology.OntologyTermReference;
+	import edu.isi.bmkeg.kefed.v0.ontology.OntologySearchEvent;
+	import edu.isi.bmkeg.kefed.v0.ontology.OntologySearchInterface;
+	import edu.isi.bmkeg.kefed.v0.ontology.OntologyTermReference;
 	
 	import flash.xml.XMLDocument;
 	

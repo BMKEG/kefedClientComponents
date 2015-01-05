@@ -4,7 +4,7 @@
 //  $Revision: 1219 $
 //
 
-package edu.isi.bmkeg.kefed.ontology
+package edu.isi.bmkeg.kefed.v0.ontology
 {
 	/** Class that holds references to an ontology term.  We store
 	 *  the name of the ontology, the identifier of the term in that

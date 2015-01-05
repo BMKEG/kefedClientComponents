@@ -1,4 +1,4 @@
-package edu.isi.bmkeg.kefed.ontology {
+package edu.isi.bmkeg.kefed.v0.ontology {
 	
 	import edu.isi.bmkeg.ooevv.model.OoevvElement;
 	

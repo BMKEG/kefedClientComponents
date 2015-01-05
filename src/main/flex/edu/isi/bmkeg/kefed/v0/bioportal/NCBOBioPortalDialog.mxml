@@ -10,7 +10,7 @@
 		<![CDATA[
 			import edu.isi.bmkeg.kefed.data.view.subElements.SimpleInputWindow;
 			import edu.isi.bmkeg.ooevv.model.OoevvElement;
-			import edu.isi.bmkeg.kefed.ontology.OntologyTermReference;
+			import edu.isi.bmkeg.kefed.v0.ontology.OntologyTermReference;
 			import flare.vis.operator.layout.IndentedTreeLayout;
 			import mx.controls.Alert;
 
@@ -21,7 +21,7 @@
 			import mx.rpc.events.ResultEvent;
 			import mx.rpc.events.FaultEvent;
 
-			import edu.isi.bmkeg.kefed.ontology.OntologySearchEvent;
+			import edu.isi.bmkeg.kefed.v0.ontology.OntologySearchEvent;
 			
 			import edu.isi.bmkeg.utils.CheckBoxDataGrid.CheckBoxRenderer;
 
