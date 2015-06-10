@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: DiagramMappings.mxml 38 2011-03-18 05:41:28Z taruss2000@gmail.com $ 
+     $Date: 2011-03-17 22:41:28 -0700 (Thu, 17 Mar 2011) $
+     $Revision: 38 $ -->
+<mx:Box xmlns:mx="http://www.adobe.com/2006/mxml" width="400" height="300">
+         
+    <mx:Script>
+    	<![CDATA[
+    		
+			public static const PARAMETER_SPRITE_ID:String   = "Parameter";
+			public static const CONSTANT_SPRITE_ID:String    = "Constant";
+			public static const MEASUREMENT_SPRITE_ID:String = "Measurement";
+			public static const ACTIVITY_SPRITE_ID:String    = "Process";
+			public static const ENTITY_SPRITE_ID:String      = "Entity";
+			public static const BRANCH_SPRITE_ID:String      = "Branch";
+			public static const FORK_SPRITE_ID:String        = "Fork";
+			public static const COMMENT_SPRITE_ID:String     = "comment";
+			
+			public static var initialized:Boolean = false;
+			// Need to do this to get a static reference to the XML items.
+			public static var self:DiagramMappings = new DiagramMappings();			
+
+		]]>
+    </mx:Script>
+</mx:Box>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: NewKefedTemplateDialog.mxml 2548 2011-07-06 22:59:32Z tom $ 
+     $Date: 2011-07-06 15:59:32 -0700 (Wed, 06 Jul 2011) $
+     $Revision: 2548 $ -->
+<mx:TitleWindow height="100%" width="100%" 
+				xmlns:fx="http://ns.adobe.com/mxml/2009" 
+				xmlns:mx="library://ns.adobe.com/flex/mx"
+				xmlns:s="library://ns.adobe.com/flex/spark" 
+				layout="absolute"	
+			 	title="What is the role of this variable?"
+				initialize="init()"
+				showCloseButton="true">
+
+	<fx:Declarations>
+		
+	</fx:Declarations>
+	
+	<fx:Script>
+		<![CDATA[
+			
+			private var t:String = "";
+			
+			[Bindable]
+			private var vbName:String = "";
+			
+			public function init():void {
+				this.vbNameLabel.setStyle("fontSize", 16);
+			}
+			
+		]]>
+	</fx:Script>
+	
+	
+	<mx:VBox bottom="10" horizontalAlign="center">		
+
+		<s:Label id="vbNameLabel" text="{vbName}" 
+				 paddingLeft="10" paddingRight="10" 
+				 paddingTop="10" paddingBottom="5"/>
+
+		<s:HGroup paddingLeft="10" paddingRight="10">
+			<s:RadioButton groupName="vbType" 
+						   id="measurement"
+						   label="Measurement" 
+						   click="t='Measurement';"/>
+			<s:RadioButton groupName="vbType" 
+						   id="parameter"
+						   label="Parameter" 
+						   click="t='Parameter';"/>
+			<s:RadioButton groupName="vbType" 
+						   id="constant"
+						   label="Constant" 
+						   click="t='Constant';"/>        
+		</s:HGroup>
+
+		<mx:HBox >
+			<mx:Button label="OK" id="OkButton"/>
+			<mx:Button label="Cancel" id="cancelButton"/>
+		</mx:HBox>
+
+	</mx:VBox>
+	
+</mx:TitleWindow>

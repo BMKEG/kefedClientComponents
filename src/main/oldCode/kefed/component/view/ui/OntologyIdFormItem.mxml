@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: OntologyIdFormItem.mxml 2057 2011-03-30 01:12:31Z tom $ 
+     $Date: 2011-03-29 18:12:31 -0700 (Tue, 29 Mar 2011) $
+     $Revision: 2057 $ -->
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" width="100%">
+<!-- A form that is used for entering information about variables.
+     This is the common form used for variables of all types
+     -->
+<mx:Script>
+	<![CDATA[
+		import mx.events.CloseEvent;
+		import flare.vis.data.DataList;
+		import edu.isi.bmkeg.kefed.component.view.ontology.OntologyTermReference;
+		import mx.events.ListEvent;
+		import mx.core.Application;
+	
+	import mx.events.FlexEvent;
+	import mx.managers.PopUpManager;
+	import mx.collections.ArrayCollection;
+	
+	import com.kapit.diagram.view.DiagramObject;
+	import com.kapit.diagram.view.DiagramView;
+	
+	import edu.isi.bmkeg.kefed.component.view.ontology.OntologySearchEvent;
+	import edu.isi.bmkeg.kefed.component.view.ontology.OntologySearchInterface;
+	import edu.isi.bmkeg.kefed.component.view.ontology.OntologyTermLookupDialog;
+	
+	import edu.isi.bmkeg.kefed.component.view.elements.KefedObject;
+	import edu.isi.bmkeg.kefed.component.view.elements.KefedFieldTemplate;
+	import edu.isi.bmkeg.kefed.component.view.elements.IKefedNamedObject;
+	
+	[Bindable]
+	public var termLookupService:OntologySearchInterface;
+	
+	[Bindable]
+	public var myObject:IKefedNamedObject;
+
+	private var dialog:OntologyTermLookupDialog;
+
+	/** Remove all ontology Id terms
+	 */
+	private function clearTerms():void {
+		myObject.ontologyIds.removeAll();
+	}
+	
+	/** Remove selected ontology term from the list of terms.
+	 */
+	private function removeTerm():void {
+		var i:int = termList.selectedIndex;
+		if (i >= 0) {
+			var obj:Object = myObject.ontologyIds.getItemAt(i);
+			myObject.ontologyIds.removeItemAt(i);
+			UiUtil.adjustTileSizeForRemovedItem(termGrid, obj);
+		}
+	}
+	
+	
+	/** Create and popup a dialog to search for terms based on the name of 
+	 *  the current object.  This will cause a pop-up dialog
+	 *  to appear for choosing the ontology search items.  The dialog will
+	 *  allow replacement or addition of terms matching a specified search
+	 *  string, which is initially the name of the object.
+	 */	 
+	private function doSearch():void {
+		termList.selectedIndex = -1;
+		OntologyTermLookupDialog.showDialog(this.parentApplication as Application,
+		                                    myObject,
+		                                    termLookupService);
+	}
+    
+ 
+	]]>
+</mx:Script>
+	<!-- 
+	<mx:List id="termList" height="50" width="100%" 
+		dataProvider="{myObject.ontologyIds}" 
+		change="handleTermChange(event);"
+		verticalScrollPolicy="auto"/>
+		-->
+    <mx:TileList id="termGrid" width="100%"
+    			 dataProvider="{myObject.ontologyIds}"
+    			 valueCommit="UiUtil.adjustTileSizeToFit(termGrid);"
+    			 labelField="displayName" height="30%"
+    			 dataTipField="description" showDataTips="true"/>
+    <!-- TODO: Link up the selection between these.  Perhaps drop the second list entirely
+         and just fill in the fields based on the selected item in the TileList?
+         -->
+	<mx:DataGrid id="termList" height="50%" minHeight="70" width="100%" editable="true"
+		dataProvider="{myObject.ontologyIds}" variableRowHeight="true" wordWrap="true"
+		verticalScrollPolicy="auto">  <!-- itemClick="handleURL(event);" -->
+		<mx:columns>
+			<mx:DataGridColumn dataField="displayName" headerText="Name" editable="false"/>
+			<mx:DataGridColumn dataField="description" headerText="Description" editable="false"/>
+			<mx:DataGridColumn dataField="termId" headerText="ID" editable="false"/>
+			<mx:DataGridColumn dataField="ontologyDisplayName" headerText="Ontology" editable="false"/>
+		</mx:columns>
+	</mx:DataGrid>
+
+	<mx:HBox width="100%">
+		<mx:Button id="searchTermButton" label="Search" click="doSearch();" />
+		<mx:Spacer width="10"/>
+		<mx:Button id="removeTermButton" label="Remove" click="removeTerm();"
+			enabled="{termList.selectedIndex != -1}"/>
+		<mx:Button id="clearTermButton" label="Clear" click="clearTerms();"/>
+		<mx:Spacer width="10"/>
+		<!-- <mx:Button id="addUrlButton" label="Add URL" click="handleAddUrl();"
+			enabled="{termList.selectedIndex != -1}"/>
+			-->
+	</mx:HBox>
+</mx:VBox>

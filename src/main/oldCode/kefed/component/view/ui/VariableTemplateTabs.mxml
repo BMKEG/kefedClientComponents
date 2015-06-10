@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: VariableTemplateTabs.mxml 1594 2011-02-02 01:06:35Z tom $ 
+     $Date: 2011-02-01 17:06:35 -0800 (Tue, 01 Feb 2011) $
+     $Revision: 1594 $ -->
+<ui1:NamedObjectTemplate direction="vertical" width="100%" height="100%"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:ui="edu.isi.bmkeg.kefed.ui.*" xmlns:ui1="edu.isi.bmkeg.kefed.component.view.ui.*">
+	<!-- A tabbed UI element that is used for entering information about variables.
+         This is the common form used for variables of all types
+
+         Inherits myObject, monotonic and diagram fields.
+	     Also method handleObjectNameChanged -->
+	<mx:Label text="{label}" fontWeight="bold"/>
+	<mx:HBox width="100%">
+		<mx:Label text="Name"/>
+		<mx:TextInput id="variableDataNameControl" width="100%" 
+				text="{myObject.nameValue}"
+				editable="{!monotonic}" enabled="{!monotonic}"
+				valueCommit="handleObjectNameChanged(event)"/>
+	</mx:HBox>
+	<mx:TabNavigator id="tn"  width="100%" height="100%">
+		<mx:Form label="Types" width="100%" height="100%">
+			<ui1:TypeTemplateForm label="Types" monotonic="{monotonic}"
+						 myType="{myObject.valueType}"
+						 termLookupService="{termLookupService}"
+						 width="100%" height="100%"/>
+						 			
+		</mx:Form>
+		<mx:Form label="Terms" width="100%" height="100%"  visible="{termLookupService != null}">
+			<ui1:OntologyIdFormItem label="Terms" direction="vertical" width="100%" height="100%"
+				myObject="{myObject}"  termLookupService="{termLookupService}"/>
+		</mx:Form>
+		<ui1:NotesComponent label="Notes" width="100%" height="100%" myObject="{myObject}"/>
+	</mx:TabNavigator>
+</ui1:NamedObjectTemplate>

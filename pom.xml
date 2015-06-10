@@ -15,6 +15,14 @@
 	<packaging>swc</packaging>
 	
 	<dependencies>
+
+		<dependency>
+			<groupId>com.adobe</groupId>
+			<artifactId>as3corelib</artifactId>
+			<version>0.93</version>
+			<type>swc</type>
+		</dependency>
+		
 		<dependency>
 			<groupId>com.adobe.flex.framework</groupId>
 			<artifactId>flex-framework</artifactId>

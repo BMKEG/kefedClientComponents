@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: UnitEditor.mxml 1594 2011-02-02 01:06:35Z tom $ 
+     $Date: 2011-02-01 17:06:35 -0800 (Tue, 01 Feb 2011) $
+     $Revision: 1594 $ -->
+<ui1:StructuredEditorComponent width="100%"
+	xmlns:mx="http://www.adobe.com/2006/mxml"
+	xmlns:ui="edu.isi.bmkeg.kefed.ui.*"
+	horizontalScrollPolicy="off" xmlns:ui1="edu.isi.bmkeg.kefed.component.view.ui.*">
+	<!-- Component for entering numbers with units information.
+	
+	The data field holds a plain Object that has 'value' and 'units' fields to
+	hold the magnitude and units of the object.  Both are string-valued.
+	The allowedUnits collection is an ArrayCollection of strings that
+	provide the list of allowed units.
+	The allowOtherUnits flag controls whether the choice of units is 
+	limited to the ones provided, or if other units can be added.
+	-->
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			public var allowedUnits:ArrayCollection;
+			[Bindable]
+			public var allowOtherUnits:Boolean = true;
+			
+			private function doCommit(event:Event):void {
+				if (dataItem) {
+					dataItem.units = units.value;
+				}
+//				trace("--------------");
+//				trace("selectedIndex = " + units.selectedIndex);
+//				trace("selected = " + units.selectedItem);
+//				trace("text     = " + units.text);
+//				trace("value    = " + units.value);
+			}
+			
+		]]>
+	</mx:Script>
+	<mx:HBox width="100%" horizontalScrollPolicy="off">
+		<mx:TextInput id="magnitude" text="{dataItem.value}" width="50%"
+				valueCommit="dataItem.value = magnitude.text"/>
+		<ui1:DataGridComboBox id="units" dataProvider="{allowedUnits}"
+					 selectedItem="{dataItem.units}"
+					 editable="{allowOtherUnits}"
+					 valueCommit="doCommit(event)"
+					 width="50%"/>
+	</mx:HBox>
+</ui1:StructuredEditorComponent>

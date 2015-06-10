@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Module xmlns:fx="http://ns.adobe.com/mxml/2009"
+		   xmlns:s="library://ns.adobe.com/flex/spark" 
+		   xmlns:mx="library://ns.adobe.com/flex/mx"
+		   xmlns:ui="edu.isi.bmkeg.kefed.editor.ui.*"
+		   xmlns:kapit="edu.isi.bmkeg.kefed.component.view.ui.kapit.*"
+		   preinitialize="DiagramMappings.initializeMappings();"
+		   initialize="init();"
+		   width="400" height="300">
+    
+	<fx:Declarations>
+		<fx:XML id="configuration" source="configuration.xml"/>
+		<fx:Model id="license" source="licenses.xml"/>
+	</fx:Declarations>
+
+	<mx:states>
+	</mx:states>
+	
+	<fx:Script>
+		<![CDATA[
+			import edu.isi.bmkeg.kefed.editor.ui.UiUtil;
+			import mx.managers.IBrowserManager;
+			import mx.managers.BrowserManager;
+			import edu.isi.bmkeg.kefed.editor.store.elasticSearch.ElasticSearchDataStore;
+			import edu.isi.bmkeg.kefed.editor.store.elasticSearch.ElasticSearchModelStore;
+			import edu.isi.bmkeg.kefed.editor.store.IDataStore;
+			import edu.isi.bmkeg.kefed.editor.store.IModelStore;
+			import mx.collections.ArrayCollection;
+			import mx.rpc.events.FaultEvent;
+			import mx.controls.Alert;
+			import mx.core.FlexGlobals;
+			import mx.utils.URLUtil;
+		
+			import edu.isi.bmkeg.kefed.editor.utils.Parameters;
+			import edu.isi.bmkeg.kefed.editor.elements.KefedModel;
+			import edu.isi.bmkeg.kefed.editor.elements.KefedObject;
+			import edu.isi.bmkeg.kefed.editor.ui.kapit.DiagramMappings;    
+        	import com.kapit.diagram.library.SVGAssetLibrary;
+			import edu.isi.bmkeg.kefed.editor.app.KefedAppEvent;
+		
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			// Added elements for RobotLegs.
+			import mx.core.FlexGlobals;
+			import mx.core.IVisualElementContainer;
+			import mx.events.FlexEvent;
+			import mx.managers.PopUpManager;
+			
+			import org.robotlegs.core.IContext;
+			import org.robotlegs.core.IInjector;
+			import org.robotlegs.utilities.modular.core.IModule;
+			import org.robotlegs.utilities.modular.core.IModuleContext;
+			
+			protected var context:IModuleContext;
+			
+			/**
+			 * We need to initialize our context by setting the parent
+			 * injector for the module. This is actually injected by the
+			 * shell, so no need to worry about it!
+			 */
+			[Inject]
+			public function set parentInjector(value:IInjector):void
+			{
+				context = new KefedModelEditorContext(this, value);
+			}
+			
+			public function dispose():void
+			{
+				if(parent && parent.contains(this))
+					IVisualElementContainer(parent).removeElement(this);
+				context.dispose();
+				context = null;    
+			}	
+			
+			// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			
+			[Bindable]
+			public var serverUrl:String;
+			
+			[Bindable]
+			public var modelStore:IModelStore = null;
+			
+			[Bindable]
+			public var dataStore:IDataStore = null;
+			
+			[Bindable]
+			private var jsonFormModelStore:IModelStore = null;
+			
+			[Bindable]
+			private var jsonFormDataStore:IDataStore = null;
+				          			
+			public var config:Parameters;
+			public var model:KefedModel;
+			public var lib:SVGAssetLibrary;
+			
+			private var version:String = "$Revision$";
+			//private var nbco:NCBOBioPortalInterface = new NCBOBioPortalInterface(); 
+			public var ontologyList:ArrayCollection = new ArrayCollection();
+			public var selectedOntologies:Array = new Array();
+
+			private function init():void {
+				
+				UiUtil.agreeToLicense(license.key, license.license);
+				/*if (serverUrl==null) {
+					serverUrl = URLUtil.getProtocol(this.url) + "://"
+				 	         + URLUtil.getServerNameWithPort(this.url) + "/";
+				}*/
+				trace(this.name + " serverURL = " + serverUrl);
+				config = new Parameters(configuration);
+				
+				// Setup the URLs for the various persistent storage mechanisms.
+				// Since the schemaStore is optional, it gets a null default value.
+				var modelStoreUrl:String = config.getValue("modelStoreUrl", "persevere/KefedModel");
+				var dataStoreUrl:String = config.getValue("dataStoreUrl", "persevere/KefedModel");
+				
+				modelStoreUrl = URLUtil.getFullURL(serverUrl, modelStoreUrl);
+				modelStore = new ElasticSearchModelStore(modelStoreUrl);
+				jsonFormModelStore = new ElasticSearchModelStore(modelStoreUrl);
+				dataStoreUrl = URLUtil.getFullURL(serverUrl, dataStoreUrl);
+				dataStore = new ElasticSearchDataStore(dataStoreUrl);
+				jsonFormDataStore = new ElasticSearchDataStore(dataStoreUrl);
+
+				//  Setup up webservice for NCBO ontology lookup
+				//nbco.addEventListener(OntologySearchEvent.LIST_ONTOLOGIES, ncboListOntologiesEventHandler);
+				//nbco.addEventListener(FaultEvent.FAULT, FaultEventHandler);					
+				//nbco.ncboListOntologies();
+				
+				//currentState = "Dashboard_State";
+				FlexGlobals.topLevelApplication.setFocus();
+				
+			}
+					
+			private function FaultEventHandler(event:FaultEvent):void {
+				Alert.show(event.message.toString());				
+			}
+
+		]]>
+	</fx:Script>
+
+	<mx:HDividedBox width="100%" height="100%">
+		<ui:ModelInventoryComponent modelStore="{modelStore}" id="modelList" height="100%" width="25%"/>		
+		<ui:DesignerComponent1 label="Design" id="designer" height="100%" width="75%"/>
+	</mx:HDividedBox>
+			
+</mx:Module>

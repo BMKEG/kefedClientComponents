@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- $Id: ConfirmDeleteDialog.mxml 2057 2011-03-30 01:12:31Z tom $ 
+     $Date: 2011-03-29 18:12:31 -0700 (Tue, 29 Mar 2011) $
+     $Revision: 2057 $ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+	title="Confirm Delete" layout="absolute"	showCloseButton="true" 
+	close="closeWindow(event)" initialize="initializeHandler(event)"			
+	backgroundAlpha="{this.getStyle('borderAlpha')}" 
+	backgroundColor="{this.getStyle('borderColor')}">
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.collections.ArrayCollection;
+			import mx.core.Application;
+			import mx.rpc.events.ResultEvent;
+			
+			import mx.managers.SystemManager;
+			
+			import mx.events.CloseEvent;
+			import mx.managers.PopUpManager;			
+
+			private function initializeHandler(event:Event):void {			
+			}
+					
+			private function closeWindow(event:CloseEvent):void {
+				mx.managers.PopUpManager.removePopUp(this);
+	        }
+
+		]]>
+	</mx:Script>
+
+	<mx:VBox>
+		
+		<mx:Text id="message" text="Are you sure you want to delete this?"/>
+	
+		<mx:HBox >
+			<mx:Button id="okButton" label="OK" />
+			<mx:Button id="cancelButton" label="Cancel" />
+		</mx:HBox>
+
+	</mx:VBox>
+	
+</mx:TitleWindow>

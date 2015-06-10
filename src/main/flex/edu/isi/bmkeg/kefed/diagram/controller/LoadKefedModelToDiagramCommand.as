@@ -2,7 +2,6 @@ package edu.isi.bmkeg.kefed.diagram.controller
 {	
 	import edu.isi.bmkeg.kefed.diagram.controller.events.*;
 	import edu.isi.bmkeg.kefed.diagram.model.KefedDiagramModel;
-	import edu.isi.bmkeg.kefed.events.modelLevel.*;
 	import edu.isi.bmkeg.kefed.model.design.KefedModel;
 	import edu.isi.bmkeg.kefed.model.flare.FlareGraph;
 	
