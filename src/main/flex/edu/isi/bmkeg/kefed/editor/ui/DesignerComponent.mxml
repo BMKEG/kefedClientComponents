@@ -504,10 +504,9 @@
 			</mx:Panel>		
 		</mx:Accordion>
 		
-			<!-- 
-				<mx:Button id="showPlButton" label="Show PowerLoom" click="showPowerLoom(event)" />
-				-->
-
+		 
+			<mx:Button id="showPlButton" label="Show PowerLoom" click="showPowerLoom(event)" />
+			
 			<mx:ControlBar id="controlForm" label="Control Form">
 				<mx:Button label="Save Design" click="doSave(event)" enabled="{saveAllowed}" />
 				<mx:Button label="Cancel" click="cancelSave(event)"/>

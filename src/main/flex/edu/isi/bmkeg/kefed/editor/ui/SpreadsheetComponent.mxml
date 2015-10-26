@@ -984,7 +984,7 @@
 				<mx:TextInput id="modelCitation" text="{model.citeKey}" fontSize="12"
 							  valueCommit="{model.citeKey = modelCitation.text}"/>
 				<mx:Spacer width="100%"/>
-				<!-- <mx:Button label="Show PowerLoom" click="showModelPowerLoom(event)"/> -->
+				<mx:Button label="Show PowerLoom" click="showModelPowerLoom(event)"/>
 				<mx:Button label="Save Data" click="saveCurrentModel(event)" enabled="{saveAllowed}"/>
 				<mx:Button label="Cancel" click="cancelSave(event)"/>
 				<!-- <mx:Button label="Debug" click="doDebug(event)"/> -->

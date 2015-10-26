@@ -10,8 +10,8 @@
 	preinitialize="DiagramMappings.initializeMappings();init();">
     
 	<fx:Declarations>
-		<fx:XML id="configuration" source="configuration.xml"/>
-		<fx:Model id="license" source="licenses.xml"/>
+		<fx:XML id="configuration" source="/configuration.xml"/>
+		<fx:Model id="license" source="/licenses.xml"/>
 	</fx:Declarations>
 	
 	<mx:states>
